@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  bio       String   @default("")
+  avatarUrl String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  works     Work[]
+  likes     Like[]
+  favorites Favorite[]
+}
+
+model Work {
+  id              String   @id @default(cuid())
+  title           String
+  description     String   @default("")
+  productUrl      String   @default("")
+  isVisible       Boolean  @default(true)
+  isPinned        Boolean  @default(false)
+  popularityScore Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id])
+  images    WorkImage[]
+  likes     Like[]
+  favorites Favorite[]
+}
+
+model WorkImage {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String   @default("")
+  sortOrder Int      @default(0)
+
+  workId String
+  work   Work   @relation(fields: [workId], references: [id], onDelete: Cascade)
+}
+
+model Like {
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+  workId String
+  work   Work @relation(fields: [workId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workId])
+}
+
+model Favorite {
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+  workId String
+  work   Work @relation(fields: [workId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workId])
+}
