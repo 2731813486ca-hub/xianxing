@@ -8,11 +8,17 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = request.nextUrl;
     const query = searchParams.get("search") || "";
+    const sort = searchParams.get("sort") || "latest";
     const page = Math.max(1, parseInt(searchParams.get("page") || "1"));
     const limit = Math.min(
       50,
       Math.max(1, parseInt(searchParams.get("limit") || String(ITEMS_PER_PAGE)))
     );
+
+    const orderBy =
+      sort === "popular"
+        ? { popularityScore: "desc" as const }
+        : { createdAt: "desc" as const };
 
     const where = {
       isVisible: true,
@@ -29,7 +35,7 @@ export async function GET(request: NextRequest) {
     const [items, total] = await Promise.all([
       prisma.work.findMany({
         where,
-        orderBy: { createdAt: "desc" },
+        orderBy,
         skip: (page - 1) * limit,
         take: limit,
         include: {

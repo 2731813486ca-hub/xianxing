@@ -11,10 +11,10 @@
 }
 
 :root {
-  --color-background: #faf7f2;
+  --color-background: #f4f0e8;
   --color-foreground: #1a1a1a;
   --color-card: #ffffff;
-  --color-card-hover: #f5f3ef;
+  --color-card-hover: #f0ece2;
   --color-muted: #6b7280;
   --color-border: #e0dbd0;
   --color-border-light: #eae6dc;
