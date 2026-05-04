@@ -61,11 +61,16 @@ export default function UserProfilePage() {
     <div className="mx-auto max-w-6xl px-4 py-8">
       <ProfileHeader profile={profile} />
       <div className="gradient-divider my-8" />
-      <h2 className="mb-6 font-serif text-xl font-semibold text-foreground">
-        作品集
-      </h2>
+      <div className="mb-6">
+        <h2 className="font-serif text-xl font-semibold text-foreground">
+          作品集
+        </h2>
+        <p className="text-xs font-light tracking-[0.15em] text-muted uppercase mt-0.5">
+          Portfolio
+        </p>
+      </div>
       {works.length === 0 ? (
-        <p className="text-center text-muted py-12">暂无作品</p>
+        <p className="text-center text-muted py-12">暂无作品 No works yet</p>
       ) : (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {works.map((work) => (

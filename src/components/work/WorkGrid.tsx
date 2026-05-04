@@ -11,7 +11,7 @@ export function WorkGrid({ items }: { items: WorkListItem[] }) {
       <EmptyState
         icon={<FiGrid size={40} />}
         title="还没有作品"
-        description="成为第一个分享作品的人吧"
+        description="成为第一个分享作品的人吧 — Be the first to share"
       />
     );
   }

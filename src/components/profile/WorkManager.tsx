@@ -57,7 +57,7 @@ export function WorkManager({ works }: { works: ManagedWork[] }) {
   if (localWorks.length === 0) {
     return (
       <div className="py-12 text-center text-muted">
-        还没有作品
+        还没有作品 No works yet
       </div>
     );
   }
@@ -67,9 +67,9 @@ export function WorkManager({ works }: { works: ManagedWork[] }) {
       {localWorks.map((work) => (
         <div
           key={work.id}
-          className="flex items-center gap-4 rounded-xl border border-[#2a2a2a] bg-[#141414] p-4"
+          className="flex items-center gap-4 rounded-xl border border-border bg-card p-4"
         >
-          <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-[#1a1a1a]">
+          <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-card-hover">
             {work.images[0] && (
               <img
                 src={work.images[0].url}

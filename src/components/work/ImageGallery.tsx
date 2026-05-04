@@ -14,7 +14,7 @@ export function ImageGallery({ images }: { images: GalleryImage[] }) {
   if (images.length === 0) return null;
 
   return (
-    <div className="relative overflow-hidden rounded-xl bg-[#1a1a1a]">
+    <div className="relative overflow-hidden rounded-xl bg-card-hover">
       <div className="flex max-h-[70vh] items-center justify-center">
         <img
           src={images[current].url}

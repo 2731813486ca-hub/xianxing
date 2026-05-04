@@ -24,11 +24,16 @@ export default function TopWorksPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
-      <div className="mb-8 text-center">
-        <h1 className="font-serif text-3xl font-bold text-foreground">
-          Top 10 热门作品
-        </h1>
-        <p className="mt-2 text-muted">
+      <div className="mb-10 border-b border-border pb-8">
+        <div className="flex flex-col gap-1">
+          <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+            Top 10 热门作品
+          </h1>
+          <p className="text-sm font-light tracking-[0.15em] text-muted uppercase">
+            Popular Works
+          </p>
+        </div>
+        <p className="mt-4 text-muted">
           根据点赞和收藏综合排名
         </p>
       </div>
@@ -41,7 +46,7 @@ export default function TopWorksPage() {
             <Link
               key={work.id}
               href={`/works/${work.id}`}
-              className="flex items-center gap-4 rounded-xl border border-[#2a2a2a] bg-[#141414] p-4 transition-all hover:border-gold hover:shadow-lg"
+              className="flex items-center gap-4 rounded-xl border border-border bg-card p-4 transition-all hover:border-gold hover:shadow-lg"
             >
               <div className="flex w-10 flex-shrink-0 items-center justify-center">
                 {index < 3 ? (
@@ -52,7 +57,7 @@ export default function TopWorksPage() {
                   </span>
                 )}
               </div>
-              <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-[#1a1a1a]">
+              <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-card-hover">
                 {work.images[0] && (
                   <img
                     src={work.images[0].url}

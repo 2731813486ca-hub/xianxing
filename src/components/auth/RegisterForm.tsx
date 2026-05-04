@@ -30,14 +30,14 @@ export function RegisterForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <Input
-        label="昵称"
-        placeholder="你的昵称"
+        label="昵称 Name"
+        placeholder="你的昵称 Your name"
         value={form.name}
         onChange={(e) => setForm({ ...form, name: e.target.value })}
         required
       />
       <Input
-        label="邮箱"
+        label="邮箱 Email"
         type="email"
         placeholder="your@email.com"
         value={form.email}
@@ -45,21 +45,21 @@ export function RegisterForm() {
         required
       />
       <Input
-        label="密码"
+        label="密码 Password"
         type="password"
-        placeholder="至少6个字符"
+        placeholder="至少6个字符 Min 6 characters"
         value={form.password}
         onChange={(e) => setForm({ ...form, password: e.target.value })}
         required
         minLength={6}
       />
       <Button type="submit" loading={loading} className="w-full">
-        注册
+        注册 Register
       </Button>
       <p className="text-center text-sm text-muted">
         已有账号？{" "}
         <Link href="/login" className="text-gold hover:underline">
-          登录
+          登录 Login
         </Link>
       </p>
     </form>

@@ -85,20 +85,20 @@ export function EditForm({ work }: EditFormProps) {
         />
       </div>
       <Input
-        label="产品链接（可选）"
+        label="产品链接 Product URL（可选）"
         value={form.productUrl}
         onChange={(e) => setForm({ ...form, productUrl: e.target.value })}
       />
       <div className="flex gap-3">
         <Button type="submit" loading={loading}>
-          保存修改
+          保存修改 Save
         </Button>
         <Button
           type="button"
           variant="ghost"
           onClick={() => router.back()}
         >
-          取消
+          取消 Cancel
         </Button>
       </div>
     </form>

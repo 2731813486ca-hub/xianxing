@@ -51,18 +51,18 @@ export function SettingsForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <Input
-        label="昵称"
+        label="昵称 Nickname"
         value={form.name}
         onChange={(e) => setForm({ ...form, name: e.target.value })}
         required
       />
       <div>
         <label className="mb-1.5 block text-sm font-medium text-foreground">
-          个人标语
+          个人标语 Bio
         </label>
         <textarea
           className="input-field min-h-[80px] w-full rounded-lg px-4 py-2.5 text-sm"
-          placeholder="介绍一下自己..."
+          placeholder="介绍一下自己 Introduce yourself..."
           value={form.bio}
           onChange={(e) => setForm({ ...form, bio: e.target.value })}
           maxLength={200}
@@ -70,7 +70,7 @@ export function SettingsForm() {
         <p className="mt-1 text-xs text-muted">{form.bio.length}/200</p>
       </div>
       <Button type="submit" loading={loading}>
-        保存
+        保存 Save
       </Button>
     </form>
   );

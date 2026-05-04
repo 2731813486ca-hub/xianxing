@@ -30,7 +30,7 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative w-full max-w-lg rounded-xl border border-[#2a2a2a] bg-[#141414] p-6 shadow-2xl">
+      <div className="relative w-full max-w-lg rounded-xl border border-border bg-card p-6 shadow-2xl">
         <div className="mb-4 flex items-center justify-between">
           {title && (
             <h2 className="font-serif text-xl font-semibold text-foreground">

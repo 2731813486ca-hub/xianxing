@@ -9,8 +9,8 @@ export function WorkCard({ work }: { work: WorkListItem }) {
 
   return (
     <Link href={`/works/${work.id}`}>
-      <article className="group overflow-hidden rounded-xl border border-[#2a2a2a] bg-[#141414] card-hover">
-        <div className="aspect-[4/3] overflow-hidden bg-[#1a1a1a]">
+      <article className="group overflow-hidden rounded-xl border border-border bg-card card-hover">
+        <div className="aspect-[4/3] overflow-hidden bg-card-hover">
           {imageUrl ? (
             <img
               src={imageUrl}
@@ -19,7 +19,7 @@ export function WorkCard({ work }: { work: WorkListItem }) {
             />
           ) : (
             <div className="flex h-full items-center justify-center text-muted">
-              暂无图片
+              暂无图片 No Image
             </div>
           )}
         </div>

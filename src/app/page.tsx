@@ -40,11 +40,18 @@ export default function HomePage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <div className="mb-8">
-        <h1 className="font-serif text-3xl font-bold text-foreground">
-          发现作品
-        </h1>
-        <p className="mt-2 text-muted">探索创意与灵感的交汇</p>
+      <div className="mb-12 border-b border-border pb-8">
+        <div className="flex flex-col gap-1">
+          <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+            发现作品
+          </h1>
+          <p className="text-sm font-light tracking-[0.15em] text-muted uppercase">
+            Discover Works
+          </p>
+        </div>
+        <p className="mt-4 max-w-xl leading-relaxed text-muted">
+          探索创意与灵感的交汇 &mdash; 汇聚每一位创作者的独特视角
+        </p>
       </div>
 
       <div className="mb-8">

@@ -42,7 +42,7 @@ export function Toaster() {
                 ? "border-emerald-700 bg-emerald-900/80 text-emerald-200"
                 : t.type === "error"
                 ? "border-red-700 bg-red-900/80 text-red-200"
-                : "border-[#2a2a2a] bg-[#141414]/80 text-foreground"
+                : "border-border bg-card/80 text-foreground"
             }`}
           >
             {t.message}

@@ -56,7 +56,7 @@ export function FavoriteButton({
       className={`flex items-center gap-1.5 rounded-lg border px-4 py-2 text-sm transition-all ${
         favorited
           ? "border-gold bg-gold/10 text-gold"
-          : "border-[#2a2a2a] text-muted hover:border-gold hover:text-gold"
+          : "border-border text-muted hover:border-gold hover:text-gold"
       }`}
     >
       <FiBookmark className={favorited ? "fill-current" : ""} size={16} />

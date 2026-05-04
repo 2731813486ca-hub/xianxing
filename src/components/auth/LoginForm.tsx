@@ -32,7 +32,7 @@ export function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <Input
-        label="邮箱"
+        label="邮箱 Email"
         type="email"
         placeholder="your@email.com"
         value={form.email}
@@ -40,7 +40,7 @@ export function LoginForm() {
         required
       />
       <Input
-        label="密码"
+        label="密码 Password"
         type="password"
         placeholder="••••••"
         value={form.password}
@@ -48,12 +48,12 @@ export function LoginForm() {
         required
       />
       <Button type="submit" loading={loading} className="w-full">
-        登录
+        登录 Login
       </Button>
       <p className="text-center text-sm text-muted">
         还没有账号？{" "}
         <Link href="/register" className="text-gold hover:underline">
-          注册
+          注册 Register
         </Link>
       </p>
     </form>

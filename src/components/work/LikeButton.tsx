@@ -54,7 +54,7 @@ export function LikeButton({ workId, initialLiked, initialCount }: LikeButtonPro
       className={`flex items-center gap-1.5 rounded-lg border px-4 py-2 text-sm transition-all ${
         liked
           ? "border-red-800 bg-red-900/20 text-red-400"
-          : "border-[#2a2a2a] text-muted hover:border-red-800 hover:text-red-400"
+          : "border-border text-muted hover:border-red-800 hover:text-red-400"
       }`}
     >
       <FiHeart className={liked ? "fill-current" : ""} size={16} />

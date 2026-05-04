@@ -54,7 +54,7 @@ export function ImageUploader({ images, onChange, max = 5 }: ImageUploaderProps)
     <div className="space-y-3">
       <div className="flex flex-wrap gap-3">
         {images.map((url, i) => (
-          <div key={i} className="group relative h-24 w-24 overflow-hidden rounded-lg border border-[#2a2a2a]">
+          <div key={i} className="group relative h-24 w-24 overflow-hidden rounded-lg border border-border">
             <img
               src={url}
               alt={`图片 ${i + 1}`}
@@ -63,14 +63,14 @@ export function ImageUploader({ images, onChange, max = 5 }: ImageUploaderProps)
             <button
               onClick={() => removeImage(i)}
               className="absolute right-1 top-1 rounded-full bg-black/60 p-1 text-white opacity-0 transition-opacity group-hover:opacity-100"
-              aria-label="删除图片"
+              aria-label="Remove 删除图片"
             >
               <FiX size={12} />
             </button>
           </div>
         ))}
         {images.length < max && (
-          <label className="flex h-24 w-24 cursor-pointer items-center justify-center rounded-lg border border-dashed border-[#2a2a2a] text-muted transition-colors hover:border-gold hover:text-gold">
+          <label className="flex h-24 w-24 cursor-pointer items-center justify-center rounded-lg border border-dashed border-border text-muted transition-colors hover:border-gold hover:text-gold">
             {uploading ? (
               <div className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent" />
             ) : (

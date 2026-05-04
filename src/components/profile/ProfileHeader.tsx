@@ -10,7 +10,7 @@ interface ProfileHeaderProps {
 export function ProfileHeader({ profile }: ProfileHeaderProps) {
   return (
     <div className="flex flex-col items-center gap-4 py-12 text-center sm:flex-row sm:text-left">
-      <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full border-2 border-gold bg-[#141414]">
+      <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full border-2 border-gold bg-card">
         {profile.avatarUrl ? (
           <img
             src={profile.avatarUrl}
@@ -34,7 +34,7 @@ export function ProfileHeader({ profile }: ProfileHeaderProps) {
             {profile.email}
           </span>
           {profile._count && (
-            <span>{profile._count.works} 个作品</span>
+            <span>{profile._count.works} 作品 Works</span>
           )}
         </div>
       </div>

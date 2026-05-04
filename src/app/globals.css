@@ -1,24 +1,67 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 @theme inline {
-  --color-background: #0a0a0a;
-  --color-foreground: #f5f5f5;
   --color-gold: #d4a843;
   --color-gold-light: #e8c56b;
   --color-gold-dark: #b8922e;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+}
+
+:root {
+  --color-background: #faf7f2;
+  --color-foreground: #1a1a1a;
+  --color-card: #ffffff;
+  --color-card-hover: #f5f3ef;
+  --color-muted: #6b7280;
+  --color-border: #e0dbd0;
+  --color-border-light: #eae6dc;
+}
+
+.dark {
+  --color-background: #0a0a0a;
+  --color-foreground: #f5f5f5;
   --color-card: #141414;
   --color-card-hover: #1a1a1a;
   --color-muted: #a3a3a3;
   --color-border: #2a2a2a;
   --color-border-light: #3a3a3a;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+}
+
+@utility bg-background {
+  background-color: var(--color-background);
+}
+@utility bg-background\/80 {
+  background-color: color-mix(in oklab, var(--color-background) 80%, transparent);
+}
+@utility text-foreground {
+  color: var(--color-foreground);
+}
+@utility text-muted {
+  color: var(--color-muted);
+}
+@utility bg-card {
+  background-color: var(--color-card);
+}
+@utility bg-card\/80 {
+  background-color: color-mix(in oklab, var(--color-card) 80%, transparent);
+}
+@utility bg-card-hover {
+  background-color: var(--color-card-hover);
+}
+@utility border-border {
+  border-color: var(--color-border);
+}
+@utility bg-border {
+  background-color: var(--color-border);
 }
 
 @layer base {
   * {
     scrollbar-width: thin;
-    scrollbar-color: #2a2a2a transparent;
+    scrollbar-color: var(--color-border) transparent;
   }
 
   body {
@@ -29,14 +72,14 @@
 
   ::selection {
     background: rgba(212, 168, 67, 0.3);
-    color: #fff;
+    color: var(--color-foreground);
   }
 }
 
 @layer components {
   .gradient-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, #d4a843, transparent);
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
   }
 
   .gold-glow {
@@ -47,7 +90,7 @@
     transition: all 0.3s ease;
   }
   .card-hover:hover {
-    border-color: #d4a843;
+    border-color: var(--color-gold);
     box-shadow: 0 4px 24px rgba(212, 168, 67, 0.1);
     transform: translateY(-2px);
   }
@@ -69,27 +112,27 @@
 
   .btn-ghost {
     background: transparent;
-    color: #f5f5f5;
-    border: 1px solid #2a2a2a;
+    color: var(--color-foreground);
+    border: 1px solid var(--color-border);
     transition: all 0.2s ease;
   }
   .btn-ghost:hover {
-    border-color: #d4a843;
-    color: #d4a843;
+    border-color: var(--color-gold);
+    color: var(--color-gold);
   }
 
   .input-field {
-    background: #141414;
-    border: 1px solid #2a2a2a;
-    color: #f5f5f5;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    color: var(--color-foreground);
     transition: all 0.2s ease;
   }
   .input-field:focus {
-    border-color: #d4a843;
+    border-color: var(--color-gold);
     box-shadow: 0 0 0 2px rgba(212, 168, 67, 0.15);
     outline: none;
   }
   .input-field::placeholder {
-    color: #525252;
+    color: var(--color-muted);
   }
 }
