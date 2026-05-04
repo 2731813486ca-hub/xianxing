@@ -149,7 +149,7 @@ export default function AdminUsersPage() {
         <div className="flex items-center gap-2 mb-3">
           <FiUserCheck size={16} className="text-gold" />
           <h2 className="font-serif text-base font-semibold text-foreground">
-            树林管理员
+            树林
           </h2>
           <span className="rounded-full bg-gold/10 px-2 py-0.5 text-[10px] font-semibold tracking-wider text-gold">
             唯一名额
