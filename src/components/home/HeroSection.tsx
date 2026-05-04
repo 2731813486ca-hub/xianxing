@@ -59,8 +59,8 @@ export function HeroSection() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(550px 380px at 25% 40%, rgba(183,146,46,0.22) 0%, rgba(183,146,46,0.06) 30%, transparent 55%)," +
-            "radial-gradient(280px 420px at 78% 40%, rgba(215,170,69,0.12) 0%, transparent 50%)," +
+            "radial-gradient(ellipse 900px 600px at 15% 90%, rgba(183,146,46,0.25) 0%, rgba(183,146,46,0.08) 20%, transparent 45%)," +
+            "radial-gradient(ellipse 1200px 800px at 10% 100%, rgba(215,170,69,0.05) 0%, transparent 40%)," +
             "linear-gradient(rgba(215,170,69,0.15) 1px, transparent 1px)," +
             "linear-gradient(90deg, rgba(215,170,69,0.15) 1px, transparent 1px)",
           backgroundSize: "auto, auto, 80px 80px, 80px 80px",
@@ -124,10 +124,10 @@ export function HeroSection() {
             </div>
             {/* Text */}
             <div className="flex flex-col">
-              <span className="font-serif text-base font-bold leading-none tracking-[0.12em] text-white/90 md:text-lg">
+              <span className="font-serif text-base font-bold leading-snug tracking-[0.12em] text-white/90 md:text-lg">
                 先行
               </span>
-              <span className="mt-0.5 text-[8px] leading-none tracking-[0.35em] text-white/30 md:text-[9px]">
+              <span className="mt-2 text-[8px] leading-none tracking-[0.35em] text-white/30 md:text-[9px]">
                 XIANXING
               </span>
             </div>
@@ -305,7 +305,7 @@ export function HeroSection() {
           </h1>
 
           {/* 先行 */}
-          <h2 className="mt-1 font-serif text-[clamp(1.2rem,2.5vw,1.8rem)] font-semibold tracking-wide text-gold">
+          <h2 className="mt-2 font-serif text-[clamp(1.6rem,3.5vw,2.5rem)] font-black tracking-[0.15em] text-gold">
             先行
           </h2>
 
