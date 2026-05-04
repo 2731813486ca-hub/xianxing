@@ -76,6 +76,10 @@
   }
 }
 
+@utility bg-hero {
+  background-color: #0e0c08;
+}
+
 @layer components {
   .gradient-divider {
     height: 1px;

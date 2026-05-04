@@ -53,53 +53,72 @@ export function HeroSection() {
     (stats?.totalLikes ?? 0) + (stats?.totalFavorites ?? 0);
 
   return (
-    <section className="relative min-h-[560px] overflow-hidden bg-[#080807] md:min-h-[600px] lg:min-h-[620px]">
+    <section className="relative min-h-[560px] overflow-hidden bg-hero md:min-h-[600px] lg:min-h-[620px]">
       {/* ===== Background layers ===== */}
-      {/* Gold radial glow */}
+      {/* Gold radial glow — primary */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 35% 45%, rgba(215,170,69,0.1) 0%, transparent 60%)",
+            "radial-gradient(ellipse at 30% 50%, rgba(215,170,69,0.22) 0%, rgba(215,170,69,0.06) 30%, transparent 55%)",
+        }}
+      />
+      {/* Gold radial glow — secondary (bottom-right) */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse at 70% 80%, rgba(215,170,69,0.10) 0%, transparent 45%)",
         }}
       />
 
-      {/* Subtle gold grid lines */}
+      {/* Gold grid lines */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.04]"
+        className="pointer-events-none absolute inset-0 opacity-10"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(215,170,69,0.12) 1px, transparent 1px),linear-gradient(90deg, rgba(215,170,69,0.12) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
+            "linear-gradient(rgba(215,170,69,0.20) 1px, transparent 1px),linear-gradient(90deg, rgba(215,170,69,0.20) 1px, transparent 1px)",
+          backgroundSize: "80px 80px",
         }}
       />
 
       {/* Decorative arcs — top-right */}
       <svg
-        className="pointer-events-none absolute -right-16 -top-16 h-[360px] w-[360px] opacity-[0.04] md:-right-20 md:-top-20 md:h-[420px] md:w-[420px]"
-        viewBox="0 0 420 420"
+        className="pointer-events-none absolute -right-10 -top-10 h-[420px] w-[420px] opacity-15 md:h-[520px] md:w-[520px]"
+        viewBox="0 0 520 520"
         fill="none"
       >
         <path
-          d="M 400 60 C 400 250, 260 400, 60 400"
+          d="M 500 80 C 500 310, 320 500, 80 500"
+          stroke="#D7AA45"
+          strokeWidth="0.6"
+        />
+        <path
+          d="M 440 120 C 440 310, 260 460, 120 460"
+          stroke="#D7AA45"
+          strokeWidth="0.4"
+        />
+        <path
+          d="M 380 160 C 380 290, 220 400, 160 400"
           stroke="#D7AA45"
           strokeWidth="0.3"
         />
-        <path
-          d="M 350 80 C 350 220, 230 350, 80 350"
-          stroke="#D7AA45"
-          strokeWidth="0.2"
-        />
-        <circle cx="300" cy="140" r="1.5" fill="#D7AA45" fillOpacity="0.3" />
-        <circle cx="180" cy="280" r="1" fill="#D7AA45" fillOpacity="0.2" />
+        <circle cx="360" cy="220" r="2" fill="#D7AA45" fillOpacity="0.4" />
+        <circle cx="240" cy="360" r="1.5" fill="#D7AA45" fillOpacity="0.3" />
+        <circle cx="200" cy="320" r="1" fill="#D7AA45" fillOpacity="0.2" />
       </svg>
 
       {/* Giant X watermark — bottom-right */}
       <div className="pointer-events-none absolute bottom-0 right-[8%] select-none">
-        <span className="font-serif text-[min(45vw,380px)] font-bold tracking-tighter text-white/[0.015]">
+        <span className="font-serif text-[min(45vw,380px)] font-bold tracking-tighter text-white/[0.035]">
           X
         </span>
       </div>
+
+      {/* Decorative geo frame — right side */}
+      <div className="pointer-events-none absolute bottom-[15%] right-[4%] h-40 w-32 border border-gold/10 md:bottom-[18%] md:right-[3%]" />
+      <div className="pointer-events-none absolute bottom-[18%] right-[5%] h-24 w-20 border border-gold/[0.06] md:bottom-[21%]" />
+      <div className="pointer-events-none absolute bottom-[45%] right-[2%] h-px w-16 bg-gradient-to-r from-gold/20 to-transparent" />
 
       {/* ===== Logo — top-left ===== */}
       <Link href="/" className="absolute left-6 top-6 z-20 md:left-8 md:top-8">
