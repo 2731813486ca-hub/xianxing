@@ -55,7 +55,9 @@ export default function HomePage() {
 
   return (
     <>
-      <HeroSection />
+      <div className="-mt-14 md:-mt-16">
+        <HeroSection />
+      </div>
 
       {/* ===== Works Archive Section ===== */}
       <section id="works" className="bg-background">
