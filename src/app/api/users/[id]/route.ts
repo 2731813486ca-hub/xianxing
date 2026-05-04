@@ -17,6 +17,8 @@ export async function GET(
         name: true,
         bio: true,
         avatarUrl: true,
+        wechatName: true,
+        wechatAccount: true,
         _count: { select: { works: true } },
       },
     });
@@ -60,6 +62,8 @@ export async function PUT(
         name: true,
         bio: true,
         avatarUrl: true,
+        wechatName: true,
+        wechatAccount: true,
       },
     });
 

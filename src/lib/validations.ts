@@ -23,8 +23,10 @@ export const workSchema = z.object({
 
 export const profileSchema = z.object({
   name: z.string().min(1, "请输入昵称").max(30, "昵称最多30个字符"),
-  bio: z.string().max(200, "个人标语最多200个字符").default(""),
+  bio: z.string().max(200, "个人简介最多200个字符").default(""),
   avatarUrl: z.string().max(500, "头像链接最多500个字符").default(""),
+  wechatName: z.string().max(50, "微信昵称最多50个字符").default(""),
+  wechatAccount: z.string().max(50, "微信账号最多50个字符").default(""),
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { WorkCard } from "@/components/work/WorkCard";
@@ -13,6 +14,8 @@ interface ProfileData {
   name: string;
   bio: string;
   avatarUrl: string;
+  wechatName: string;
+  wechatAccount: string;
   _count: { works: number };
 }
 
@@ -29,6 +32,7 @@ interface WorkItem {
 
 export default function UserProfilePage() {
   const { userId } = useParams<{ userId: string }>();
+  const { user } = useAuth();
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [works, setWorks] = useState<WorkItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -59,7 +63,11 @@ export default function UserProfilePage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <ProfileHeader profile={profile} />
+      <ProfileHeader
+        profile={profile}
+        isOwner={!!user && user.id === profile.id}
+        onUpdate={({ bio }) => setProfile((prev) => prev ? { ...prev, bio } : prev)}
+      />
       <div className="gradient-divider my-8" />
       <div className="mb-6">
         <h2 className="font-serif text-xl font-semibold text-foreground">

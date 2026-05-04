@@ -153,45 +153,42 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* ——— Right: stats & visual panel ——— */}
+        {/* ——— Right: info group embedded in background ——— */}
         <div className="hidden w-[260px] flex-shrink-0 flex-col justify-center lg:flex">
-          <div className="relative border border-gold/15 p-4 md:p-5">
-            {/* Corner decorations */}
-            <div className="absolute -left-[1px] -top-[1px] h-6 w-6 border-l-2 border-t-2 border-gold/40" />
-            <div className="absolute -bottom-[1px] -right-[1px] h-6 w-6 border-b-2 border-r-2 border-gold/40" />
+          {/* Motto — floating text */}
+          <p className="text-sm font-light tracking-wider text-white/60">
+            独立思考
+          </p>
+          <p className="mt-0.5 text-sm font-light tracking-wider text-white/60">
+            创造未来
+          </p>
 
-            {/* Motto */}
-            <p className="text-sm font-light tracking-wider text-white/60">
-              独立思考
-            </p>
-            <p className="mt-0.5 text-sm font-light tracking-wider text-white/60">
-              创造未来
-            </p>
+          {/* Subtle divider */}
+          <div className="my-4 h-px bg-gradient-to-r from-gold/20 via-gold/8 to-transparent" />
 
-            {/* Divider */}
-            <div className="my-3 h-px bg-gradient-to-r from-gold/30 to-transparent md:my-4" />
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-3 md:gap-4">
-              <StatItem
-                value={stats ? formatNumber(stats.totalWorks) : "—"}
-                label="作品总数"
-              />
-              <StatItem
-                value={stats ? formatNumber(stats.totalUsers) : "—"}
-                label="创作者"
-              />
-              <StatItem
-                value={stats ? formatNumber(totalLikesFavorites) : "—"}
-                label="点赞收藏"
-              />
-            </div>
-
-            {/* Footer */}
-            <p className="mt-3 text-center text-[8px] tracking-[0.35em] text-white/20 md:mt-4 md:text-[9px]">
-              CURATE · DISCOVER · INSPIRE
-            </p>
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-4">
+            <StatItem
+              value={stats ? formatNumber(stats.totalWorks) : "—"}
+              label="作品总数"
+            />
+            <StatItem
+              value={stats ? formatNumber(stats.totalUsers) : "—"}
+              label="创作者"
+            />
+            <StatItem
+              value={stats ? formatNumber(totalLikesFavorites) : "—"}
+              label="点赞收藏"
+            />
           </div>
+
+          {/* Footer */}
+          <p className="mt-4 text-center text-[8px] tracking-[0.35em] text-white/15">
+            CURATE · DISCOVER · INSPIRE
+          </p>
+
+          {/* Embedded geo line frame */}
+          <div className="mt-5 h-px bg-gradient-to-r from-transparent via-gold/10 to-transparent" />
         </div>
       </div>
     </section>

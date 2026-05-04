@@ -4,6 +4,8 @@ export interface UserProfile {
   name: string;
   bio: string;
   avatarUrl: string;
+  wechatName: string;
+  wechatAccount: string;
 }
 
 export interface WorkListItem {

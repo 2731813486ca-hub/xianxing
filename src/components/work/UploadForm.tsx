@@ -75,7 +75,7 @@ export function UploadForm() {
       </div>
       <Input
         label="产品链接（可选）"
-        placeholder="https://"
+        placeholder="放入网页、小程序等产品的链接或文档的下载链接"
         value={form.productUrl}
         onChange={(e) => setForm({ ...form, productUrl: e.target.value })}
       />

@@ -11,13 +11,13 @@ export function SettingsForm() {
   const { user, refreshUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [avatarUploading, setAvatarUploading] = useState(false);
-  const [form, setForm] = useState({ name: "", bio: "" });
+  const [form, setForm] = useState({ name: "", bio: "", wechatName: "", wechatAccount: "" });
   const [avatarUrl, setAvatarUrl] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (user) {
-      setForm({ name: user.name, bio: user.bio });
+      setForm({ name: user.name, bio: user.bio, wechatName: user.wechatName || "", wechatAccount: user.wechatAccount || "" });
       setAvatarUrl(user.avatarUrl);
     }
   }, [user]);
@@ -133,7 +133,7 @@ export function SettingsForm() {
       />
       <div>
         <label className="mb-1.5 block text-sm font-medium text-foreground">
-          个人标语
+          个人简介
         </label>
         <textarea
           className="input-field min-h-[80px] w-full rounded-lg px-4 py-2.5 text-sm"
@@ -144,6 +144,28 @@ export function SettingsForm() {
         />
         <p className="mt-1 text-xs text-muted">{form.bio.length}/200</p>
       </div>
+
+      {/* WeChat identity */}
+      <div className="border-t border-border pt-4">
+        <p className="mb-3 text-xs font-semibold tracking-wider text-foreground/60 uppercase">
+          群身份
+        </p>
+        <Input
+          label="微信昵称"
+          placeholder="输入微信昵称"
+          value={form.wechatName}
+          onChange={(e) => setForm({ ...form, wechatName: e.target.value })}
+        />
+        <div className="mt-3">
+          <Input
+            label="微信账号"
+            placeholder="输入微信号"
+            value={form.wechatAccount}
+            onChange={(e) => setForm({ ...form, wechatAccount: e.target.value })}
+          />
+        </div>
+      </div>
+
       <Button type="submit" loading={loading}>
         保存
       </Button>
