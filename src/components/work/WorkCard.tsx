@@ -19,7 +19,7 @@ export function WorkCard({ work }: { work: WorkListItem }) {
             />
           ) : (
             <div className="flex h-full items-center justify-center text-muted">
-              暂无图片 No Image
+              暂无图片
             </div>
           )}
         </div>

@@ -63,7 +63,7 @@ export function ImageUploader({ images, onChange, max = 5 }: ImageUploaderProps)
             <button
               onClick={() => removeImage(i)}
               className="absolute right-1 top-1 rounded-full bg-black/60 p-1 text-white opacity-0 transition-opacity group-hover:opacity-100"
-              aria-label="Remove 删除图片"
+              aria-label="删除图片"
             >
               <FiX size={12} />
             </button>

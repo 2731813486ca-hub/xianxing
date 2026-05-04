@@ -29,13 +29,8 @@ export default function TopWorksPage() {
           <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
             Top 10 热门作品
           </h1>
-          <p className="text-sm font-light tracking-[0.15em] text-muted uppercase">
-            Popular Works
-          </p>
+          <p className="text-sm text-muted">根据点赞和收藏综合排名</p>
         </div>
-        <p className="mt-4 text-muted">
-          根据点赞和收藏综合排名
-        </p>
       </div>
 
       {loading ? (

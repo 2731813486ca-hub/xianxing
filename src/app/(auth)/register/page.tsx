@@ -9,11 +9,8 @@ export default function RegisterPage() {
             <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground">
               创建账号
             </h1>
-            <p className="text-sm font-light tracking-[0.15em] text-muted uppercase">
-              Create Account
-            </p>
+            <p className="text-sm text-muted">加入先行，分享你的作品</p>
           </div>
-          <p className="mt-4 text-sm text-muted">加入先行，分享你的作品</p>
         </div>
         <div className="rounded-xl border border-border bg-card p-6">
           <RegisterForm />

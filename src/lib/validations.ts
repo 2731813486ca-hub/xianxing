@@ -24,6 +24,7 @@ export const workSchema = z.object({
 export const profileSchema = z.object({
   name: z.string().min(1, "请输入昵称").max(30, "昵称最多30个字符"),
   bio: z.string().max(200, "个人标语最多200个字符").default(""),
+  avatarUrl: z.string().max(500, "头像链接最多500个字符").default(""),
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;

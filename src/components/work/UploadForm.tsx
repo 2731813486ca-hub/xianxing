@@ -52,35 +52,35 @@ export function UploadForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label className="mb-2 block text-sm font-medium">作品图片 Images</label>
+        <label className="mb-2 block text-sm font-medium">作品图片</label>
         <ImageUploader images={images} onChange={setImages} />
       </div>
       <Input
-        label="作品标题 Title"
-        placeholder="给你的作品起个名字 Name your work"
+        label="作品标题"
+        placeholder="给你的作品起个名字"
         value={form.title}
         onChange={(e) => setForm({ ...form, title: e.target.value })}
         required
       />
       <div>
         <label className="mb-1.5 block text-sm font-medium text-foreground">
-          作品描述 Description
+          作品描述
         </label>
         <textarea
           className="input-field min-h-[100px] w-full rounded-lg px-4 py-2.5 text-sm"
-          placeholder="描述你的作品 Describe your work..."
+          placeholder="描述你的作品..."
           value={form.description}
           onChange={(e) => setForm({ ...form, description: e.target.value })}
         />
       </div>
       <Input
-        label="产品链接 Product URL（可选）"
+        label="产品链接（可选）"
         placeholder="https://"
         value={form.productUrl}
         onChange={(e) => setForm({ ...form, productUrl: e.target.value })}
       />
       <Button type="submit" loading={loading} className="w-full">
-        发布作品 Publish
+        发布作品
       </Button>
     </form>
   );

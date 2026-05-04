@@ -46,11 +46,11 @@ export default function HomePage() {
             发现作品
           </h1>
           <p className="text-sm font-light tracking-[0.15em] text-muted uppercase">
-            Discover Works
+            作品画廊
           </p>
         </div>
         <p className="mt-4 max-w-xl leading-relaxed text-muted">
-          探索创意与灵感的交汇 &mdash; 汇聚每一位创作者的独特视角
+          探索创意与灵感的交汇
         </p>
       </div>
 

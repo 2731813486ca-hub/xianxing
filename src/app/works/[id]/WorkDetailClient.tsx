@@ -32,9 +32,8 @@ export function WorkDetailClient() {
     return (
       <div className="mx-auto max-w-2xl px-4 py-16 text-center">
         <h2 className="font-serif text-2xl font-bold">作品不存在</h2>
-        <p className="mt-2 text-sm text-muted">Work not found</p>
         <Link href="/" className="mt-4 inline-block text-gold hover:underline">
-          返回首页 Home
+          返回首页
         </Link>
       </div>
     );
@@ -77,7 +76,7 @@ export function WorkDetailClient() {
               className="btn-ghost flex items-center gap-2 rounded-lg px-4 py-2 text-sm"
             >
               <FiEdit2 size={14} />
-              编辑 Edit
+              编辑
             </Link>
           )}
         </div>
@@ -94,7 +93,7 @@ export function WorkDetailClient() {
             className="mt-4 flex items-center gap-2 text-sm text-gold transition-colors hover:text-gold-light"
           >
             <FiExternalLink size={14} />
-            查看产品 View Product
+            查看产品
           </a>
         )}
 

@@ -39,9 +39,8 @@ export function EditWorkClient() {
     return (
       <div className="mx-auto max-w-2xl px-4 py-16 text-center">
         <h2 className="font-serif text-2xl font-bold">作品不存在</h2>
-        <p className="mt-2 text-sm text-muted">Work not found</p>
         <Link href="/" className="mt-4 inline-block text-gold hover:underline">
-          返回首页 Home
+          返回首页
         </Link>
       </div>
     );
@@ -60,7 +59,7 @@ export function EditWorkClient() {
             编辑作品
           </h1>
           <p className="text-sm font-light tracking-[0.15em] text-muted uppercase">
-            Edit Work
+            修改作品
           </p>
         </div>
       </div>

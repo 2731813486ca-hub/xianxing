@@ -34,7 +34,7 @@ export function ProfileHeader({ profile }: ProfileHeaderProps) {
             {profile.email}
           </span>
           {profile._count && (
-            <span>{profile._count.works} 作品 Works</span>
+            <span>{profile._count.works} 个作品</span>
           )}
         </div>
       </div>

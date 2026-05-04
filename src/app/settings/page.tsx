@@ -10,11 +10,8 @@ export default function SettingsPage() {
             <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground">
               设置
             </h1>
-            <p className="text-sm font-light tracking-[0.15em] text-muted uppercase">
-              Settings
-            </p>
+            <p className="text-sm text-muted">编辑个人资料</p>
           </div>
-          <p className="mt-3 text-sm text-muted">编辑个人资料</p>
         </div>
         <div className="rounded-xl border border-border bg-card p-6">
           <SettingsForm />

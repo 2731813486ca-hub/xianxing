@@ -55,7 +55,7 @@ export function Navbar() {
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="text-foreground md:hidden"
-          aria-label="Menu 菜单"
+          aria-label="菜单"
         >
           {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
@@ -71,9 +71,9 @@ export function Navbar() {
               className="flex items-center gap-2 text-sm text-muted transition-colors hover:text-gold"
             >
               {theme === "dark" ? (
-                <><FiSun size={16} /> 亮色 Light</>
+                <><FiSun size={16} /> 亮色</>
               ) : (
-                <><FiMoon size={16} /> 暗色 Dark</>
+                <><FiMoon size={16} /> 暗色</>
               )}
             </button>
           </div>
@@ -94,18 +94,18 @@ function NavLinks({
 }) {
   return (
     <>
-      <NavItem href="/" icon={<FiGrid size={16} />} label="发现 Discover" />
-      <NavItem href="/works/top" icon={<FiTrendingUp size={16} />} label="热门 Trending" />
+      <NavItem href="/" icon={<FiGrid size={16} />} label="发现" />
+      <NavItem href="/works/top" icon={<FiTrendingUp size={16} />} label="热门" />
       {!loading && user ? (
         <>
-          <NavItem href="/upload" icon={<FiUpload size={16} />} label="上传 Upload" />
+          <NavItem href="/upload" icon={<FiUpload size={16} />} label="上传" />
           <NavItem href="/profile/me" icon={<FiUser size={16} />} label={user.name} />
           <button
             onClick={logout}
             className="flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-gold"
           >
             <FiLogOut size={16} />
-            退出 Logout
+            退出
           </button>
         </>
       ) : !loading ? (
@@ -113,7 +113,7 @@ function NavLinks({
           href="/login"
           className="btn-gold rounded-lg px-4 py-2 text-sm"
         >
-          登录 Login
+          登录
         </Link>
       ) : null}
     </>
@@ -131,18 +131,18 @@ function MobileNavLinks({
 }) {
   return (
     <>
-      <MobileNavItem href="/" label="发现 Discover" />
-      <MobileNavItem href="/works/top" label="热门 Trending" />
+      <MobileNavItem href="/" label="发现" />
+      <MobileNavItem href="/works/top" label="热门" />
       {!loading && user ? (
         <>
-          <MobileNavItem href="/upload" label="上传 Upload" />
+          <MobileNavItem href="/upload" label="上传" />
           <MobileNavItem href="/profile/me" label={user.name} />
           <button
             onClick={logout}
             className="flex items-center gap-2 text-sm text-muted transition-colors hover:text-gold"
           >
             <FiLogOut size={16} />
-            退出 Logout
+            退出
           </button>
         </>
       ) : !loading ? (
@@ -150,7 +150,7 @@ function MobileNavLinks({
           href="/login"
           className="btn-gold rounded-lg px-4 py-2 text-center text-sm"
         >
-          登录 Login
+          登录
         </Link>
       ) : null}
     </>

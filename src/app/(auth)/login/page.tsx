@@ -11,11 +11,8 @@ export default function LoginPage() {
             <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground">
               欢迎回来
             </h1>
-            <p className="text-sm font-light tracking-[0.15em] text-muted uppercase">
-              Welcome Back
-            </p>
+            <p className="text-sm text-muted">登录你的账号</p>
           </div>
-          <p className="mt-4 text-sm text-muted">登录你的账号</p>
         </div>
         <div className="rounded-xl border border-border bg-card p-6">
           <Suspense fallback={<LoadingSpinner size="sm" />}>

@@ -12,7 +12,7 @@ interface SearchBarProps {
 export function SearchBar({
   value,
   onChange,
-  placeholder = "搜索作品 Search...",
+  placeholder = "搜索作品...",
 }: SearchBarProps) {
   const [local, setLocal] = useState(value);
 

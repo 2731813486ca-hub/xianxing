@@ -1,21 +1,50 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { toast } from "@/components/ui/Toaster";
+import { FiUser, FiUpload } from "react-icons/fi";
 
 export function SettingsForm() {
   const { user, refreshUser } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [avatarUploading, setAvatarUploading] = useState(false);
   const [form, setForm] = useState({ name: "", bio: "" });
+  const [avatarUrl, setAvatarUrl] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (user) {
       setForm({ name: user.name, bio: user.bio });
+      setAvatarUrl(user.avatarUrl);
     }
   }, [user]);
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setAvatarUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    try {
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const data = await res.json();
+      if (res.ok) {
+        setAvatarUrl(data.url);
+        toast("头像上传成功", "success");
+      } else {
+        toast(data.error || "上传失败", "error");
+      }
+    } catch {
+      toast("网络错误", "error");
+    } finally {
+      setAvatarUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +59,7 @@ export function SettingsForm() {
       const res = await fetch(`/api/users/${user.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, avatarUrl }),
       });
       if (res.ok) {
         await refreshUser();
@@ -49,20 +78,66 @@ export function SettingsForm() {
   if (!user) return null;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Avatar */}
+      <div className="flex items-center gap-4">
+        <div className="relative flex h-20 w-20 flex-shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-gold bg-card">
+          {avatarUrl ? (
+            <img
+              src={avatarUrl}
+              alt={form.name}
+              className="h-full w-full rounded-full object-cover"
+            />
+          ) : (
+            <FiUser size={32} className="text-gold" />
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={handleAvatarUpload}
+            className="hidden"
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={avatarUploading}
+            className="btn-ghost flex items-center gap-2 rounded-lg px-4 py-2 text-sm"
+          >
+            {avatarUploading ? (
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+            ) : (
+              <FiUpload size={14} />
+            )}
+            {avatarUrl ? "更换头像" : "上传头像"}
+          </button>
+          {avatarUrl && (
+            <button
+              type="button"
+              onClick={() => setAvatarUrl("")}
+              className="text-xs text-muted transition-colors hover:text-red-400"
+            >
+              清除头像
+            </button>
+          )}
+        </div>
+      </div>
+
       <Input
-        label="昵称 Nickname"
+        label="昵称"
         value={form.name}
         onChange={(e) => setForm({ ...form, name: e.target.value })}
         required
       />
       <div>
         <label className="mb-1.5 block text-sm font-medium text-foreground">
-          个人标语 Bio
+          个人标语
         </label>
         <textarea
           className="input-field min-h-[80px] w-full rounded-lg px-4 py-2.5 text-sm"
-          placeholder="介绍一下自己 Introduce yourself..."
+          placeholder="介绍一下自己..."
           value={form.bio}
           onChange={(e) => setForm({ ...form, bio: e.target.value })}
           maxLength={200}
@@ -70,7 +145,7 @@ export function SettingsForm() {
         <p className="mt-1 text-xs text-muted">{form.bio.length}/200</p>
       </div>
       <Button type="submit" loading={loading}>
-        保存 Save
+        保存
       </Button>
     </form>
   );

@@ -11,7 +11,7 @@ export default function UploadPage() {
               上传作品
             </h1>
             <p className="text-sm font-light tracking-[0.15em] text-muted uppercase">
-              Upload Artwork
+              分享你的创作
             </p>
           </div>
           <p className="mt-3 text-sm text-muted">
