@@ -6,7 +6,7 @@
   --color-gold: #d7aa45;
   --color-gold-light: #e8c56b;
   --color-gold-dark: #b8922e;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", var(--font-noto-sans-sc), "PingFang SC", "Microsoft YaHei UI", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Playfair Display", ui-serif, Georgia, serif;
   --font-cinzel: "Cinzel", ui-serif, Georgia, serif;
 }

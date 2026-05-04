@@ -29,7 +29,7 @@ export default function TopWorksPage() {
           <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
             Top 10 热门作品
           </h1>
-          <p className="text-sm text-muted">根据点赞和收藏综合排名</p>
+          <p className="font-serif text-sm text-muted">根据点赞和收藏综合排名</p>
         </div>
       </div>
 

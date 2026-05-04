@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
+import { put } from "@vercel/blob";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { getSessionUserId } from "@/lib/auth";
-import { UPLOAD_DIR, MAX_FILE_SIZE, ALLOWED_FILE_TYPES } from "@/lib/constants";
+import { MAX_FILE_SIZE, ALLOWED_FILE_TYPES } from "@/lib/constants";
 
 export async function POST(request: Request) {
   try {
@@ -29,17 +30,29 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "文件大小不能超过 5MB" }, { status: 400 });
     }
 
-    const ext = path.extname(file.name) || ".jpg";
-    const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`;
-    const uploadPath = path.join(process.cwd(), UPLOAD_DIR);
+    // Use Vercel Blob on production, local filesystem for development
+    if (process.env.VERCEL) {
+      const ext = path.extname(file.name) || ".jpg";
+      const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`;
 
-    await mkdir(uploadPath, { recursive: true });
+      const blob = await put(filename, file, {
+        access: "public",
+      });
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    await writeFile(path.join(uploadPath, filename), buffer);
+      return NextResponse.json({ url: blob.url });
+    } else {
+      const ext = path.extname(file.name) || ".jpg";
+      const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`;
+      const uploadPath = path.join(process.cwd(), "public/uploads");
 
-    return NextResponse.json({ url: `/uploads/${filename}` });
+      await mkdir(uploadPath, { recursive: true });
+
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      await writeFile(path.join(uploadPath, filename), buffer);
+
+      return NextResponse.json({ url: `/uploads/${filename}` });
+    }
   } catch {
     return NextResponse.json({ error: "上传失败" }, { status: 500 });
   }

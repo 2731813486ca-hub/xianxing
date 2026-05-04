@@ -162,17 +162,17 @@ export function HeroSection() {
         {/* ——— Center: brand ——— */}
         <div className="flex flex-1 flex-col justify-center pt-14 md:pr-6 lg:pt-10">
           {/* Eyebrow */}
-          <p className="mb-3 text-[10px] tracking-[0.45em] text-gold md:mb-4 md:text-xs">
+          <p className="mb-3 font-serif text-[10px] tracking-[0.45em] text-gold md:mb-4 md:text-xs">
             INDEPENDENT WORKS ARCHIVE
           </p>
 
           {/* XIANXING — structured geometric font */}
-          <h1 className="font-cinzel text-[clamp(2.5rem,8vw,8rem)] font-bold leading-[0.9] tracking-[0.02em] text-white">
+          <h1 className="font-cinzel text-[clamp(2rem,6.5vw,6.5rem)] font-bold leading-[0.9] tracking-[0.02em] text-white">
             XIANXING
           </h1>
 
           {/* 先行 — same size as English, angular sans-serif */}
-          <h2 className="mt-2 font-sans text-[clamp(2.5rem,8vw,8rem)] font-black leading-[0.9] tracking-[0.08em] text-gold md:mt-3">
+          <h2 className="mt-2 font-sans text-[clamp(2rem,6.5vw,6.5rem)] font-black leading-[0.9] tracking-[0.08em] text-gold md:mt-3">
             先行
           </h2>
 
@@ -229,7 +229,7 @@ export function HeroSection() {
           </div>
 
           {/* Footer */}
-          <p className="mt-4 text-center text-[8px] tracking-[0.35em] text-white/15">
+          <p className="mt-4 text-center font-serif text-[8px] tracking-[0.35em] text-white/15">
             CURATE · DISCOVER · INSPIRE
           </p>
 

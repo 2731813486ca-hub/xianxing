@@ -90,7 +90,7 @@ export function ProfileHeader({ profile, isOwner, onUpdate }: ProfileHeaderProps
             </div>
           ) : (
             <>
-              <p className={`text-sm ${profile.bio ? "text-muted" : "text-muted/50 italic"}`}>
+              <p className={`font-serif text-sm ${profile.bio ? "text-muted" : "text-muted/50 italic"}`}>
                 {profile.bio || (isOwner ? "添加个人简介..." : "")}
               </p>
               {isOwner && (

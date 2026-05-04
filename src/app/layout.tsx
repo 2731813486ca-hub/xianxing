@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Cinzel } from "next/font/google";
+import { Inter, Playfair_Display, Cinzel, Noto_Sans_SC } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { AuthProvider } from "@/context/AuthContext";
@@ -21,6 +21,12 @@ const cinzel = Cinzel({
   variable: "--font-cinzel",
 });
 
+const notoSansSC = Noto_Sans_SC({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-noto-sans-sc",
+});
+
 export const metadata: Metadata = {
   title: "先行 | 作品展示平台",
   description: "发现和分享创意作品",
@@ -35,7 +41,7 @@ export default function RootLayout({
   return (
     <html
       lang="zh-CN"
-      className={`${inter.variable} ${playfair.variable} ${cinzel.variable} h-full antialiased`}
+      className={`${inter.variable} ${playfair.variable} ${cinzel.variable} ${notoSansSC.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
