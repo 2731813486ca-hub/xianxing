@@ -8,3 +8,5 @@ export const POPULARITY_WEIGHTS = {
   LIKE: 1,
   FAVORITE: 3,
 } as const;
+
+export const ADMIN_EMAILS = ["admin@xianxing.app"];

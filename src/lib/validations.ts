@@ -29,7 +29,12 @@ export const profileSchema = z.object({
   wechatAccount: z.string().max(50, "微信账号最多50个字符").default(""),
 });
 
+export const commentSchema = z.object({
+  content: z.string().min(1, "请输入评论内容").max(500, "评论最多500个字符"),
+});
+
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type WorkInput = z.infer<typeof workSchema>;
 export type ProfileInput = z.infer<typeof profileSchema>;
+export type CommentInput = z.infer<typeof commentSchema>;

@@ -15,12 +15,14 @@ model User {
   avatarUrl String   @default("")
   wechatName    String @default("")
   wechatAccount String @default("")
+  role      String @default("user")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   works     Work[]
   likes     Like[]
   favorites Favorite[]
+  comments  Comment[]
 }
 
 model Work {
@@ -39,6 +41,7 @@ model Work {
   images    WorkImage[]
   likes     Like[]
   favorites Favorite[]
+  comments  Comment[]
 }
 
 model WorkImage {
@@ -71,4 +74,19 @@ model Favorite {
   work   Work @relation(fields: [workId], references: [id], onDelete: Cascade)
 
   @@unique([userId, workId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  isReview  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+  workId String
+  work   Work @relation(fields: [workId], references: [id], onDelete: Cascade)
+
+  @@index([workId, createdAt])
 }

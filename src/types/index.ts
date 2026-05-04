@@ -2,10 +2,23 @@ export interface UserProfile {
   id: string;
   email: string;
   name: string;
+  role: string;
   bio: string;
   avatarUrl: string;
   wechatName: string;
   wechatAccount: string;
+}
+
+export interface CommentItem {
+  id: string;
+  content: string;
+  isReview: boolean;
+  createdAt: string;
+  user: {
+    id: string;
+    name: string;
+    avatarUrl: string;
+  };
 }
 
 export interface WorkListItem {

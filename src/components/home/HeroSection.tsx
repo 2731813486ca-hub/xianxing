@@ -126,16 +126,12 @@ export function HeroSection() {
         </span>
       </div>
 
-      {/* ===== Spatial frame boxes — right side, layered ===== */}
-      {/* Right side — column of nested frames at decreasing opacity */}
-      <div className="pointer-events-none absolute bottom-[12%] right-[4%] h-48 w-36 border border-gold/12 md:bottom-[14%] md:right-[3%]" />
-      <div className="pointer-events-none absolute bottom-[16%] right-[5.5%] h-36 w-28 border border-gold/[0.07] md:bottom-[18%]" />
-      <div className="pointer-events-none absolute bottom-[21%] right-[7%] h-24 w-20 border border-gold/[0.04] md:bottom-[23%]" />
-      {/* Horizontal section lines */}
-      <div className="pointer-events-none absolute bottom-[48%] right-[2%] h-px w-20 bg-gradient-to-r from-gold/15 to-transparent" />
-      <div className="pointer-events-none absolute bottom-[35%] right-[3%] h-px w-12 bg-gradient-to-r from-gold/10 to-transparent" />
-      {/* Top-right small frame */}
-      <div className="pointer-events-none absolute top-[22%] right-[4%] h-20 w-16 border border-gold/[0.05]" />
+      {/* ===== Framed info panel area — bottom-right ===== */}
+      <div className="pointer-events-none absolute bottom-[10%] right-[2%] h-52 w-[280px] border border-gold/12 rounded-sm md:bottom-[12%] md:right-[1.5%]" />
+      <div className="pointer-events-none absolute bottom-[13%] right-[3.2%] h-[168px] w-[252px] border border-gold/[0.07] rounded-sm md:bottom-[15%]" />
+      {/* Corner accent lines */}
+      <div className="pointer-events-none absolute bottom-[7%] right-[1%] h-px w-12 bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
+      <div className="pointer-events-none absolute bottom-[5%] right-[0.5%] h-8 w-px bg-gradient-to-b from-gold/20 to-transparent" />
 
       {/* ===== Main content container ===== */}
       <div className="relative z-10 mx-auto flex h-[60vh] max-w-[1180px] items-stretch px-4 lg:h-[70vh]">
@@ -200,7 +196,7 @@ export function HeroSection() {
         </div>
 
         {/* ——— Right: info group embedded in background ——— */}
-        <div className="hidden w-[260px] flex-shrink-0 flex-col justify-center lg:flex">
+        <div className="hidden w-[260px] flex-shrink-0 flex-col justify-end pb-16 lg:flex">
           {/* Motto — floating text */}
           <p className="text-sm font-light tracking-wider text-white/60">
             独立思考

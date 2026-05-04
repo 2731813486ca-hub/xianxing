@@ -14,6 +14,7 @@ import {
   FiX,
   FiSun,
   FiMoon,
+  FiBookmark,
 } from "react-icons/fi";
 import { useState, useEffect } from "react";
 
@@ -161,6 +162,9 @@ function NavLinks({
       <Link href="/works/top" className={linkClass(pathname === "/works/top")}>
         <FiTrendingUp size={14} /> 热门
       </Link>
+      <Link href="/forest-zone" className={linkClass(pathname === "/forest-zone")}>
+        <FiBookmark size={14} /> 树林专区
+      </Link>
       {!loading && user ? (
         <>
           <Link href="/upload" className={linkClass(pathname === "/upload")}>
@@ -217,6 +221,12 @@ function MobileNavLinks({
         className="flex items-center gap-2 text-xs text-muted transition-colors hover:text-gold"
       >
         <FiTrendingUp size={14} /> 热门
+      </Link>
+      <Link
+        href="/forest-zone"
+        className="flex items-center gap-2 text-xs text-muted transition-colors hover:text-gold"
+      >
+        <FiBookmark size={14} /> 树林专区
       </Link>
       {!loading && user ? (
         <>

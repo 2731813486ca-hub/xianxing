@@ -12,6 +12,7 @@ interface ProfileData {
   id: string;
   email: string;
   name: string;
+  role: string;
   bio: string;
   avatarUrl: string;
   wechatName: string;

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { hashPassword, setSessionCookie } from "@/lib/auth";
 import { registerSchema } from "@/lib/validations";
+import { ADMIN_EMAILS } from "@/lib/constants";
 
 export async function POST(request: Request) {
   try {
@@ -21,9 +22,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "该邮箱已被注册" }, { status: 409 });
     }
 
+    const role = ADMIN_EMAILS.includes(email) ? "admin" : "user";
     const hashed = await hashPassword(password);
     const user = await prisma.user.create({
-      data: { email, password: hashed, name },
+      data: { email, password: hashed, name, role },
     });
 
     await setSessionCookie(user.id);
@@ -34,6 +36,7 @@ export async function POST(request: Request) {
           id: user.id,
           email: user.email,
           name: user.name,
+          role: user.role,
           bio: user.bio,
           avatarUrl: user.avatarUrl,
         },

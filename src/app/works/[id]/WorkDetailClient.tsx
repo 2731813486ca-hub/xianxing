@@ -1,21 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import { ImageGallery } from "@/components/work/ImageGallery";
 import { LikeButton } from "@/components/work/LikeButton";
 import { FavoriteButton } from "@/components/work/FavoriteButton";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { CommentForm } from "@/components/comment/CommentForm";
+import { CommentCard } from "@/components/comment/CommentCard";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { FiEdit2, FiExternalLink, FiUser } from "react-icons/fi";
-import type { WorkDetail } from "@/types";
+import type { WorkDetail, CommentItem } from "@/types";
 
 export function WorkDetailClient() {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
   const [work, setWork] = useState<WorkDetail | null>(null);
   const [loading, setLoading] = useState(true);
+  const [comments, setComments] = useState<CommentItem[]>([]);
+  const [commentsLoading, setCommentsLoading] = useState(true);
 
   useEffect(() => {
     fetch(`/api/works/${id}`)
@@ -26,6 +30,20 @@ export function WorkDetailClient() {
       })
       .catch(() => setLoading(false));
   }, [id]);
+
+  const fetchComments = useCallback(() => {
+    fetch(`/api/works/${id}/comments`)
+      .then((res) => res.json())
+      .then((data) => {
+        setComments(data.comments || []);
+        setCommentsLoading(false);
+      })
+      .catch(() => setCommentsLoading(false));
+  }, [id]);
+
+  useEffect(() => {
+    fetchComments();
+  }, [fetchComments]);
 
   if (loading) return <LoadingSpinner />;
   if (!work)
@@ -110,6 +128,60 @@ export function WorkDetailClient() {
             initialFavorited={work.userFavorited || false}
             initialCount={work._count.favorites}
           />
+        </div>
+
+        {/* Comment Section */}
+        <div className="mt-10">
+          <div className="gradient-divider" />
+          <h2 className="mt-6 font-serif text-xl font-semibold text-foreground">
+            评论 ({comments.length})
+          </h2>
+
+          {/* Admin review form — only visible to admins */}
+          {user && user.role === "admin" && (
+            <div className="mt-6 rounded-xl border border-gold/20 bg-gold/[0.03] p-4">
+              <p className="mb-1 text-xs font-semibold tracking-wider text-gold">
+                管理员点评
+              </p>
+              <p className="mb-2 text-[11px] text-muted">
+                点评会置顶显示，被点评的作品将出现在「树林专区」
+              </p>
+              <CommentForm
+                workId={id}
+                onCommentAdded={fetchComments}
+                isReview
+              />
+            </div>
+          )}
+
+          {/* User comment form */}
+          {user ? (
+            !user.role || user.role !== "admin" ? (
+              <CommentForm workId={id} onCommentAdded={fetchComments} />
+            ) : null
+          ) : (
+            <p className="mt-4 text-sm text-muted">
+              <Link href="/login" className="text-gold hover:underline">
+                登录
+              </Link>{" "}
+              后发表评论
+            </p>
+          )}
+
+          {/* Comments list */}
+          {commentsLoading ? (
+            <div className="mt-6 flex justify-center py-8">
+              <LoadingSpinner />
+            </div>
+          ) : comments.length === 0 ? (
+            <p className="mt-6 text-sm text-muted">暂无评论</p>
+          ) : (
+            <div className="mt-6 space-y-4">
+              {comments.map((comment) => (
+                <CommentCard key={comment.id} comment={comment} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

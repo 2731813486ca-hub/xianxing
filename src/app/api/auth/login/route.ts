@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifyPassword, setSessionCookie } from "@/lib/auth";
 import { loginSchema } from "@/lib/validations";
+import { ADMIN_EMAILS } from "@/lib/constants";
 
 export async function POST(request: Request) {
   try {
@@ -26,6 +27,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "邮箱或密码错误" }, { status: 401 });
     }
 
+    // Auto-promote admin emails
+    let role = user.role;
+    if (ADMIN_EMAILS.includes(email) && role !== "admin") {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { role: "admin" },
+      });
+      role = "admin";
+    }
+
     await setSessionCookie(user.id);
 
     return NextResponse.json({
@@ -33,6 +44,7 @@ export async function POST(request: Request) {
         id: user.id,
         email: user.email,
         name: user.name,
+        role,
         bio: user.bio,
         avatarUrl: user.avatarUrl,
       },
