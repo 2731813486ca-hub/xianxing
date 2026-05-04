@@ -79,20 +79,19 @@ export async function PUT(
 
     await prisma.workImage.deleteMany({ where: { workId: id } });
 
-    const updated = await prisma.work.update({
+    await prisma.work.update({
       where: { id },
-      data: {
-        title,
-        description,
-        productUrl,
-        images: {
-          create: imageUrls.map((url, i) => ({
-            url,
-            alt: title,
-            sortOrder: i,
-          })),
-        },
-      },
+      data: { title, description, productUrl },
+    });
+
+    for (let i = 0; i < imageUrls.length; i++) {
+      await prisma.workImage.create({
+        data: { url: imageUrls[i], alt: title, sortOrder: i, workId: id },
+      });
+    }
+
+    const updated = await prisma.work.findUnique({
+      where: { id },
       include: {
         images: { orderBy: { sortOrder: "asc" } },
         author: {
@@ -102,8 +101,9 @@ export async function PUT(
     });
 
     return NextResponse.json(updated);
-  } catch {
-    return NextResponse.json({ error: "服务器错误" }, { status: 500 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "服务器错误";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -127,6 +127,43 @@ export async function DELETE(
     }
 
     await prisma.work.delete({ where: { id } });
+
+    return NextResponse.json({ ok: true });
+  } catch {
+    return NextResponse.json({ error: "服务器错误" }, { status: 500 });
+  }
+}
+
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const userId = await getSessionUserId();
+    if (!userId) {
+      return NextResponse.json({ error: "请先登录" }, { status: 401 });
+    }
+
+    const work = await prisma.work.findUnique({ where: { id } });
+    if (!work) {
+      return NextResponse.json({ error: "作品不存在" }, { status: 404 });
+    }
+    if (work.authorId !== userId) {
+      return NextResponse.json({ error: "无权操作" }, { status: 403 });
+    }
+
+    const body = await request.json();
+    const { isVisible } = body;
+
+    if (typeof isVisible !== "boolean") {
+      return NextResponse.json({ error: "无效请求" }, { status: 400 });
+    }
+
+    await prisma.work.update({
+      where: { id },
+      data: { isVisible },
+    });
 
     return NextResponse.json({ ok: true });
   } catch {

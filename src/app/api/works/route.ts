@@ -83,20 +83,19 @@ export async function POST(request: Request) {
 
     const { title, description, productUrl, imageUrls } = parsed.data;
 
+    // Create work and images separately to avoid Neon HTTP transaction issues
     const work = await prisma.work.create({
-      data: {
-        title,
-        description,
-        productUrl,
-        authorId: userId,
-        images: {
-          create: imageUrls.map((url, i) => ({
-            url,
-            alt: title,
-            sortOrder: i,
-          })),
-        },
-      },
+      data: { title, description, productUrl, authorId: userId },
+    });
+
+    for (let i = 0; i < imageUrls.length; i++) {
+      await prisma.workImage.create({
+        data: { url: imageUrls[i], alt: title, sortOrder: i, workId: work.id },
+      });
+    }
+
+    const result = await prisma.work.findUnique({
+      where: { id: work.id },
       include: {
         images: { orderBy: { sortOrder: "asc" } },
         author: {
@@ -105,8 +104,9 @@ export async function POST(request: Request) {
       },
     });
 
-    return NextResponse.json(work, { status: 201 });
-  } catch {
-    return NextResponse.json({ error: "服务器错误" }, { status: 500 });
+    return NextResponse.json(result, { status: 201 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "服务器错误";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

@@ -18,6 +18,9 @@ export async function GET(
       },
       orderBy: [{ isPinned: "desc" }, { popularityScore: "desc" }, { createdAt: "desc" }],
       include: {
+        author: {
+          select: { id: true, name: true, avatarUrl: true },
+        },
         images: { orderBy: { sortOrder: "asc" } },
         _count: { select: { likes: true, favorites: true } },
       },

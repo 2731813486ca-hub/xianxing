@@ -48,18 +48,18 @@ export function Navbar() {
       <div className="mx-auto flex h-14 items-center justify-between px-4 md:h-16 md:px-6 lg:max-w-[1180px] lg:px-0">
         {/* Brand */}
         <Link href="/" className="flex items-center gap-2.5 md:gap-3 group">
-          <div className="flex h-7 w-7 items-center justify-center md:h-8 md:w-8">
+          <div className="flex h-9 w-9 items-center justify-center overflow-hidden md:h-[44px] md:w-[44px]">
             <img
               src="/logo-brand.png"
               alt="先行"
-              className={`h-full w-full object-contain transition-all duration-500 ${
+              className={`h-full w-full object-cover scale-[1.8] transition-all duration-500 ${
                 isTransparent ? "mix-blend-screen" : ""
               }`}
             />
           </div>
           <div className="flex flex-col">
             <span
-              className={`font-serif text-sm font-bold leading-snug tracking-[0.12em] transition-colors duration-500 md:text-base ${
+              className={`text-sm font-bold leading-snug tracking-[0.12em] transition-colors duration-500 md:text-base ${
                 isTransparent ? "text-white/90" : "text-foreground"
               }`}
             >
