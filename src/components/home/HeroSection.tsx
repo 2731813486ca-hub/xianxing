@@ -54,31 +54,17 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-[55vh] overflow-hidden bg-hero lg:min-h-[60vh]">
-      {/* ===== Focused amber-glow layers ===== */}
-      {/* Layer 1: warm focus behind XIANXING title */}
+      {/* ===== Amber-glow layers + gold grid, composited in one layer ===== */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(500px 350px at 25% 42%, rgba(183,146,46,0.10) 0%, rgba(183,146,46,0.03) 30%, transparent 55%)",
-        }}
-      />
-      {/* Layer 2: soft vertical light near right panel */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(200px 400px at 78% 40%, rgba(215,170,69,0.04) 0%, transparent 50%)",
-        }}
-      />
-
-      {/* Gold grid lines — subdued */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(215,170,69,0.20) 1px, transparent 1px),linear-gradient(90deg, rgba(215,170,69,0.20) 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
+            "radial-gradient(550px 380px at 25% 40%, rgba(183,146,46,0.22) 0%, rgba(183,146,46,0.06) 30%, transparent 55%)," +
+            "radial-gradient(280px 420px at 78% 40%, rgba(215,170,69,0.12) 0%, transparent 50%)," +
+            "linear-gradient(rgba(215,170,69,0.15) 1px, transparent 1px)," +
+            "linear-gradient(90deg, rgba(215,170,69,0.15) 1px, transparent 1px)",
+          backgroundSize: "auto, auto, 80px 80px, 80px 80px",
+          backgroundColor: "#0e0c08",
         }}
       />
 
