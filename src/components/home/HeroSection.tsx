@@ -16,14 +16,40 @@ function formatNumber(n: number): string {
   return String(n);
 }
 
+const slogans = [
+  "让美好不止被想象，也被创造",
+  "“献给以 AI 开路的创造者”",
+  "让每一次创造，都成为未来的入口",
+  "在想象抵达之前，先行创造",
+  "每一个作品，都是未来的预告",
+  "为创意的先行者留下坐标",
+  "为尚未命名的未来，留下第一批作品",
+  "创意先行，未来有迹",
+  "先行者，创造未来",
+];
+
 export function HeroSection() {
   const [stats, setStats] = useState<Stats | null>(null);
+  const [sloganIndex, setSloganIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     fetch("/api/stats")
       .then((res) => res.json())
       .then(setStats)
       .catch(() => {});
+  }, []);
+
+  // Slogan carousel
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setSloganIndex((prev) => (prev + 1) % slogans.length);
+        setVisible(true);
+      }, 600);
+    }, 4500);
+    return () => clearInterval(timer);
   }, []);
 
   const totalLikesFavorites =
@@ -172,9 +198,12 @@ export function HeroSection() {
             先行
           </h2>
 
-          {/* Description */}
-          <p className="mt-4 max-w-md text-xs leading-relaxed tracking-wider text-white/45 md:mt-5 md:text-sm">
-            发现独立开发者正在创造的产品、工具与实验项目
+          {/* Slogan carousel */}
+          <p
+            className="mt-4 max-w-md text-xs leading-relaxed tracking-wider text-white/45 transition-opacity duration-500 md:mt-5 md:text-sm"
+            style={{ opacity: visible ? 1 : 0 }}
+          >
+            {slogans[sloganIndex]}
           </p>
 
           {/* CTAs */}
