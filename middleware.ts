@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyToken } from "@/lib/auth-edge";
 
-const protectedRoutes = ["/upload", "/settings", "/profile/me"];
+const protectedRoutes = ["/upload", "/settings", "/profile/me", "/admin"];
 const authRoutes = ["/login", "/register"];
 
 export async function middleware(request: NextRequest) {
@@ -37,6 +37,7 @@ export const config = {
     "/upload/:path*",
     "/settings/:path*",
     "/profile/me/:path*",
+    "/admin/:path*",
     "/login",
     "/register",
   ],

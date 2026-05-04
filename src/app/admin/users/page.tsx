@@ -39,9 +39,9 @@ export default function AdminUsersPage() {
       const data = await res.json();
       setUsers(data.users || []);
     } catch {
-      router.replace("/");
+      setUsers([]);
     }
-  }, [router]);
+  }, []);
 
   const fetchForestAdmin = useCallback(async () => {
     try {
@@ -60,9 +60,8 @@ export default function AdminUsersPage() {
       return;
     }
     setAuthorized(true);
-    fetchUsers("");
-    fetchForestAdmin();
-  }, [user, authLoading, router, fetchUsers, fetchForestAdmin]);
+    Promise.all([fetchUsers(""), fetchForestAdmin()]).then(() => setLoading(false));
+  }, [user, authLoading, router]);
 
   useEffect(() => {
     if (authorized) {
