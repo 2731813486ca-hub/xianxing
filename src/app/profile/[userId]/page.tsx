@@ -6,7 +6,9 @@ import { useAuth } from "@/context/AuthContext";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { WorkCard } from "@/components/work/WorkCard";
+import { SUPER_ADMIN_EMAIL } from "@/lib/constants";
 import Link from "next/link";
+import { FiShield } from "react-icons/fi";
 
 interface ProfileData {
   id: string;
@@ -69,6 +71,17 @@ export default function UserProfilePage() {
         isOwner={!!user && user.id === profile.id}
         onUpdate={({ bio }) => setProfile((prev) => prev ? { ...prev, bio } : prev)}
       />
+      {!!user && user.email === SUPER_ADMIN_EMAIL && (
+        <div className="mt-4 flex justify-center sm:justify-start">
+          <Link
+            href="/admin/users"
+            className="inline-flex items-center gap-2 rounded-lg border border-gold/25 px-4 py-2 text-xs tracking-wider text-gold transition-all hover:bg-gold/10 hover:border-gold/40"
+          >
+            <FiShield size={14} />
+            管理后台
+          </Link>
+        </div>
+      )}
       <div className="gradient-divider my-8" />
       <div className="mb-6">
         <h2 className="font-serif text-xl font-semibold text-foreground">

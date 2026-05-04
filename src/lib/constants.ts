@@ -9,4 +9,5 @@ export const POPULARITY_WEIGHTS = {
   FAVORITE: 3,
 } as const;
 
-export const ADMIN_EMAILS = ["admin@xianxing.app"];
+export const ADMIN_EMAILS = ["admin@xianxing.app", "2731813486@qq.com"];
+export const SUPER_ADMIN_EMAIL = "2731813486@qq.com";

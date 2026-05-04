@@ -4,7 +4,7 @@
 
 - **全栈已搭建完成**：Next.js 16 + Prisma 7 + Tailwind v4 + Neon PostgreSQL
 - **Vercel 部署地址**：https://xianxing.vercel.app
-- **Neon 数据库**：已创建并 seeded（演示账号见 README.md）
+- **Neon 数据库**：已创建（schema 已 push，seed 因 Neon HTTP 事务限制未完全成功）
 - **GitHub**: github.com/2731813486ca-hub/xianxing
 
 ## ✅ 当前状态 — 所有 API 正常工作
