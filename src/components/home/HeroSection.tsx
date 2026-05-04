@@ -31,65 +31,111 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-[60vh] overflow-hidden bg-hero lg:min-h-[70vh]">
-      {/* ===== Multi-layer glow ===== */}
-      {/* Layer 1: center-left warm focus behind XIANXING title */}
-      {/* Layer 2: right panel vertical soft light */}
-      {/* Layer 3: large ambient fill — very subtle */}
-      {/* Bottom: gold grid lines — subdued */}
+      {/* ===== Subtle gold grid lines ===== */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 600px 400px at 30% 42%, rgba(183,146,46,0.20) 0%, rgba(183,146,46,0.06) 25%, transparent 50%)," +
-            "radial-gradient(ellipse 200px 500px at 82% 40%, rgba(215,170,69,0.10) 0%, transparent 50%)," +
-            "radial-gradient(ellipse 1000px 600px at 50% 55%, rgba(215,170,69,0.04) 0%, transparent 50%)," +
-            "linear-gradient(rgba(215,170,69,0.10) 1px, transparent 1px)," +
-            "linear-gradient(90deg, rgba(215,170,69,0.10) 1px, transparent 1px)",
-          backgroundSize: "auto, auto, auto, 80px 80px, 80px 80px",
+            "linear-gradient(rgba(215,170,69,0.08) 1px, transparent 1px)," +
+            "linear-gradient(90deg, rgba(215,170,69,0.08) 1px, transparent 1px)",
+          backgroundSize: "80px 80px",
           backgroundColor: "#0e0c08",
         }}
       />
 
-      {/* Vertical divider between center content and right panel */}
+      {/* ===== Noise / grain texture ===== */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.035] mix-blend-screen"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+          backgroundRepeat: "repeat",
+          backgroundSize: "512px 512px",
+        }}
+      />
+
+      {/* ===== Large logo mark — left side (CSS luminance mask) ===== */}
+      <div
+        className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 hidden lg:block select-none"
+        style={{
+          width: "clamp(200px, 22vw, 340px)",
+          height: "clamp(200px, 22vw, 340px)",
+          marginLeft: "clamp(-30px, -1vw, 0px)",
+        }}
+      >
+        <div
+          className="h-full w-full"
+          style={{
+            maskImage: "url(/logo-brand.png)",
+            maskMode: "luminance",
+            maskSize: "contain",
+            maskRepeat: "no-repeat",
+            WebkitMaskImage: "url(/logo-brand.png)",
+            WebkitMaskSize: "contain",
+            WebkitMaskRepeat: "no-repeat",
+            backgroundColor: "rgba(215,170,69,0.08)",
+          }}
+        />
+      </div>
+
+      {/* ===== Vertical divider between center and right panel ===== */}
       <div className="pointer-events-none absolute right-[280px] top-[15%] z-0 hidden h-[70%] w-px bg-gradient-to-b from-transparent via-gold/8 to-transparent lg:block" />
 
-      {/* Decorative arcs — top-right */}
+      {/* ===== Decorative arcs — top-right & right-center ===== */}
       <svg
-        className="pointer-events-none absolute -right-10 -top-10 h-[420px] w-[420px] opacity-10 md:h-[520px] md:w-[520px]"
-        viewBox="0 0 520 520"
+        className="pointer-events-none absolute right-0 top-0 h-full w-[60%] max-w-[700px] opacity-15"
+        viewBox="0 0 700 700"
         fill="none"
+        preserveAspectRatio="xMaxYMin meet"
       >
+        {/* Large outer arc — top right */}
         <path
-          d="M 500 80 C 500 310, 320 500, 80 500"
+          d="M 680 50 C 680 420, 480 670, 50 670"
           stroke="#D7AA45"
-          strokeWidth="0.6"
+          strokeWidth="0.5"
         />
+        {/* Medium arc */}
         <path
-          d="M 440 120 C 440 310, 260 460, 120 460"
+          d="M 620 100 C 620 380, 420 580, 100 580"
           stroke="#D7AA45"
-          strokeWidth="0.4"
+          strokeWidth="0.35"
         />
+        {/* Inner arc */}
         <path
-          d="M 380 160 C 380 290, 220 400, 160 400"
+          d="M 550 160 C 550 320, 360 480, 160 480"
+          stroke="#D7AA45"
+          strokeWidth="0.25"
+        />
+        {/* Right-center large arc */}
+        <path
+          d="M 680 300 C 680 520, 520 620, 300 620"
           stroke="#D7AA45"
           strokeWidth="0.3"
         />
-        <circle cx="360" cy="220" r="2" fill="#D7AA45" fillOpacity="0.4" />
-        <circle cx="240" cy="360" r="1.5" fill="#D7AA45" fillOpacity="0.3" />
-        <circle cx="200" cy="320" r="1" fill="#D7AA45" fillOpacity="0.2" />
+        {/* Floating dots */}
+        <circle cx="520" cy="240" r="1.8" fill="#D7AA45" fillOpacity="0.35" />
+        <circle cx="380" cy="420" r="1.3" fill="#D7AA45" fillOpacity="0.25" />
+        <circle cx="300" cy="360" r="0.8" fill="#D7AA45" fillOpacity="0.15" />
+        <circle cx="480" cy="480" r="1" fill="#D7AA45" fillOpacity="0.2" />
       </svg>
 
-      {/* Giant X watermark — bottom-right */}
+      {/* ===== Giant X watermark — bottom-right ===== */}
       <div className="pointer-events-none absolute bottom-0 right-[8%] select-none">
         <span className="font-serif text-[min(45vw,380px)] font-bold tracking-tighter text-white/[0.025]">
           X
         </span>
       </div>
 
-      {/* Decorative geo frame — right side */}
-      <div className="pointer-events-none absolute bottom-[15%] right-[4%] h-40 w-32 border border-gold/10 md:bottom-[18%] md:right-[3%]" />
-      <div className="pointer-events-none absolute bottom-[18%] right-[5%] h-24 w-20 border border-gold/[0.06] md:bottom-[21%]" />
-      <div className="pointer-events-none absolute bottom-[45%] right-[2%] h-px w-16 bg-gradient-to-r from-gold/20 to-transparent" />
+      {/* ===== Spatial frame boxes — right side, layered ===== */}
+      {/* Right side — column of nested frames at decreasing opacity */}
+      <div className="pointer-events-none absolute bottom-[12%] right-[4%] h-48 w-36 border border-gold/12 md:bottom-[14%] md:right-[3%]" />
+      <div className="pointer-events-none absolute bottom-[16%] right-[5.5%] h-36 w-28 border border-gold/[0.07] md:bottom-[18%]" />
+      <div className="pointer-events-none absolute bottom-[21%] right-[7%] h-24 w-20 border border-gold/[0.04] md:bottom-[23%]" />
+      {/* Horizontal section lines */}
+      <div className="pointer-events-none absolute bottom-[48%] right-[2%] h-px w-20 bg-gradient-to-r from-gold/15 to-transparent" />
+      <div className="pointer-events-none absolute bottom-[35%] right-[3%] h-px w-12 bg-gradient-to-r from-gold/10 to-transparent" />
+      {/* Top-right small frame */}
+      <div className="pointer-events-none absolute top-[22%] right-[4%] h-20 w-16 border border-gold/[0.05]" />
 
       {/* ===== Main content container ===== */}
       <div className="relative z-10 mx-auto flex h-[60vh] max-w-[1180px] items-stretch px-4 lg:h-[70vh]">
@@ -120,18 +166,18 @@ export function HeroSection() {
             INDEPENDENT WORKS ARCHIVE
           </p>
 
-          {/* XIANXING — exhibition-scale serif */}
-          <h1 className="font-serif text-[clamp(2.5rem,8vw,8rem)] font-bold leading-[0.9] tracking-[-0.04em] text-white">
+          {/* XIANXING — structured geometric font */}
+          <h1 className="font-cinzel text-[clamp(2.5rem,8vw,8rem)] font-bold leading-[0.9] tracking-[0.02em] text-white">
             XIANXING
           </h1>
 
-          {/* 先行 — brand hammer */}
-          <h2 className="mt-2 font-serif text-[clamp(2rem,5vw,4.25rem)] font-black leading-[1.1] tracking-[0.12em] text-gold md:mt-3">
+          {/* 先行 — same size as English, angular sans-serif */}
+          <h2 className="mt-2 font-sans text-[clamp(2.5rem,8vw,8rem)] font-black leading-[0.9] tracking-[0.08em] text-gold md:mt-3">
             先行
           </h2>
 
           {/* Description */}
-          <p className="mt-3 max-w-md text-xs leading-relaxed tracking-wider text-white/45 md:mt-4 md:text-sm">
+          <p className="mt-4 max-w-md text-xs leading-relaxed tracking-wider text-white/45 md:mt-5 md:text-sm">
             发现独立开发者正在创造的产品、工具与实验项目
           </p>
 
@@ -187,7 +233,7 @@ export function HeroSection() {
             CURATE · DISCOVER · INSPIRE
           </p>
 
-          {/* Embedded geo line frame */}
+          {/* Embedded geo line */}
           <div className="mt-5 h-px bg-gradient-to-r from-transparent via-gold/10 to-transparent" />
         </div>
       </div>

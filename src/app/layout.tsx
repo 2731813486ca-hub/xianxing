@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display, Cinzel } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { AuthProvider } from "@/context/AuthContext";
@@ -16,6 +16,11 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
 });
 
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  variable: "--font-cinzel",
+});
+
 export const metadata: Metadata = {
   title: "先行 | 作品展示平台",
   description: "发现和分享创意作品",
@@ -30,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="zh-CN"
-      className={`${inter.variable} ${playfair.variable} h-full antialiased`}
+      className={`${inter.variable} ${playfair.variable} ${cinzel.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
