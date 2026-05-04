@@ -173,7 +173,7 @@ export function HeroSection() {
           <div className="pb-10 flex flex-col items-center gap-2">
             <div className="h-8 w-px bg-gradient-to-b from-transparent to-gold/20" />
             <span className="font-cinzel text-[9px] tracking-[0.35em] text-gold/40 [writing-mode:vertical-rl]">
-              SILVA
+              FOREST
             </span>
           </div>
         </div>
