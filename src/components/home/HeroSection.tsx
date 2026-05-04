@@ -128,11 +128,13 @@ export function HeroSection() {
           className="absolute left-4 top-6 z-20 md:left-0 md:top-8"
         >
           <div className="group flex items-center gap-3">
-            {/* Geometric mark */}
-            <div className="relative flex h-9 w-9 items-center justify-center md:h-10 md:w-10">
-              <div className="absolute h-7 w-7 border border-gold/50 transition-colors duration-300 group-hover:border-gold/80 md:h-8 md:w-8" />
-              <div className="absolute h-3 w-3 rotate-45 border border-gold/30 md:h-3.5 md:w-3.5" />
-              <div className="h-1.5 w-1.5 rounded-full bg-gold md:h-2 md:w-2" />
+            {/* Logo mark — black bg screened out to blend with amber-gold background */}
+            <div className="flex h-9 w-9 items-center justify-center md:h-10 md:w-10">
+              <img
+                src="/logo-brand.png"
+                alt="先行"
+                className="h-full w-full object-contain mix-blend-screen"
+              />
             </div>
             {/* Text */}
             <div className="flex flex-col">
