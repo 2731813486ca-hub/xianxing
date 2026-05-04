@@ -53,28 +53,28 @@ export function HeroSection() {
     (stats?.totalLikes ?? 0) + (stats?.totalFavorites ?? 0);
 
   return (
-    <section className="relative min-h-[560px] overflow-hidden bg-hero md:min-h-[600px] lg:min-h-[620px]">
-      {/* ===== Background layers ===== */}
-      {/* Gold radial glow — primary */}
+    <section className="relative min-h-[55vh] overflow-hidden bg-hero lg:min-h-[60vh]">
+      {/* ===== Focused amber-glow layers ===== */}
+      {/* Layer 1: warm focus behind XIANXING title */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 30% 50%, rgba(215,170,69,0.22) 0%, rgba(215,170,69,0.06) 30%, transparent 55%)",
+            "radial-gradient(500px 350px at 25% 42%, rgba(183,146,46,0.10) 0%, rgba(183,146,46,0.03) 30%, transparent 55%)",
         }}
       />
-      {/* Gold radial glow — secondary (bottom-right) */}
+      {/* Layer 2: soft vertical light near right panel */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 70% 80%, rgba(215,170,69,0.10) 0%, transparent 45%)",
+            "radial-gradient(200px 400px at 78% 40%, rgba(215,170,69,0.04) 0%, transparent 50%)",
         }}
       />
 
-      {/* Gold grid lines */}
+      {/* Gold grid lines — subdued */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-10"
+        className="pointer-events-none absolute inset-0 opacity-[0.06]"
         style={{
           backgroundImage:
             "linear-gradient(rgba(215,170,69,0.20) 1px, transparent 1px),linear-gradient(90deg, rgba(215,170,69,0.20) 1px, transparent 1px)",
@@ -84,7 +84,7 @@ export function HeroSection() {
 
       {/* Decorative arcs — top-right */}
       <svg
-        className="pointer-events-none absolute -right-10 -top-10 h-[420px] w-[420px] opacity-15 md:h-[520px] md:w-[520px]"
+        className="pointer-events-none absolute -right-10 -top-10 h-[420px] w-[420px] opacity-10 md:h-[520px] md:w-[520px]"
         viewBox="0 0 520 520"
         fill="none"
       >
@@ -110,7 +110,7 @@ export function HeroSection() {
 
       {/* Giant X watermark — bottom-right */}
       <div className="pointer-events-none absolute bottom-0 right-[8%] select-none">
-        <span className="font-serif text-[min(45vw,380px)] font-bold tracking-tighter text-white/[0.035]">
+        <span className="font-serif text-[min(45vw,380px)] font-bold tracking-tighter text-white/[0.025]">
           X
         </span>
       </div>
@@ -120,125 +120,76 @@ export function HeroSection() {
       <div className="pointer-events-none absolute bottom-[18%] right-[5%] h-24 w-20 border border-gold/[0.06] md:bottom-[21%]" />
       <div className="pointer-events-none absolute bottom-[45%] right-[2%] h-px w-16 bg-gradient-to-r from-gold/20 to-transparent" />
 
-      {/* ===== Logo — top-left ===== */}
-      <Link href="/" className="absolute left-6 top-6 z-20 md:left-8 md:top-8">
-        <img src="/logo.png" alt="先行" className="h-7 w-7 md:h-8 md:w-8" />
-      </Link>
-
-      {/* ===== Navigation — top-right ===== */}
-      <nav className="absolute right-4 top-4 z-20 md:right-6 md:top-6 lg:right-8 lg:top-8">
-        {/* Desktop */}
-        <div className="hidden items-center gap-4 md:flex lg:gap-5">
-          <NavItem
-            href="/"
-            icon={<FiGrid size={14} />}
-            label="发现"
-            active={pathname === "/"}
-          />
-          <NavItem
-            href="/works/top"
-            icon={<FiTrendingUp size={14} />}
-            label="热门"
-            active={pathname === "/works/top"}
-          />
-          {!loading && user && (
-            <NavItem
-              href="/upload"
-              icon={<FiUpload size={14} />}
-              label="上传"
-              active={pathname === "/upload"}
-            />
-          )}
-          {!loading && user ? (
-            <>
-              <NavItem
-                href="/profile/me"
-                icon={<FiUser size={14} />}
-                label={user.name}
-                active={pathname.startsWith("/profile")}
-              />
-              <button
-                onClick={logout}
-                className="flex items-center gap-1 text-[11px] tracking-wider text-white/40 transition-colors hover:text-gold"
-              >
-                <FiLogOut size={13} />
-                退出
-              </button>
-            </>
-          ) : !loading ? (
-            <Link
-              href="/login"
-              className="rounded border border-gold/30 px-3 py-1 text-[11px] tracking-wider text-gold transition-colors hover:bg-gold/10"
-            >
-              登录
-            </Link>
-          ) : null}
-          {mounted && (
-            <button
-              onClick={toggleTheme}
-              className="text-white/35 transition-colors hover:text-gold"
-              aria-label={theme === "dark" ? "亮色模式" : "暗色模式"}
-            >
-              {theme === "dark" ? <FiSun size={14} /> : <FiMoon size={14} />}
-            </button>
-          )}
-        </div>
-
-        {/* Mobile hamburger */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="flex text-white/60 md:hidden"
-          aria-label="菜单"
+      {/* ===== Main content container ===== */}
+      <div className="relative z-10 mx-auto flex h-[55vh] max-w-[1180px] items-stretch px-4 lg:h-[60vh]">
+        {/* ——— Brand module (replaces logo) ——— */}
+        <Link
+          href="/"
+          className="absolute left-4 top-6 z-20 md:left-0 md:top-8"
         >
-          {mobileMenuOpen ? <FiX size={20} /> : <FiMenu size={20} />}
-        </button>
-      </nav>
+          <div className="group flex items-center gap-3">
+            {/* Geometric mark */}
+            <div className="relative flex h-9 w-9 items-center justify-center md:h-10 md:w-10">
+              <div className="absolute h-7 w-7 border border-gold/50 transition-colors duration-300 group-hover:border-gold/80 md:h-8 md:w-8" />
+              <div className="absolute h-3 w-3 rotate-45 border border-gold/30 md:h-3.5 md:w-3.5" />
+              <div className="h-1.5 w-1.5 rounded-full bg-gold md:h-2 md:w-2" />
+            </div>
+            {/* Text */}
+            <div className="flex flex-col">
+              <span className="font-serif text-base font-bold leading-none tracking-[0.12em] text-white/90 md:text-lg">
+                先行
+              </span>
+              <span className="mt-0.5 text-[8px] leading-none tracking-[0.35em] text-white/30 md:text-[9px]">
+                XIANXING
+              </span>
+            </div>
+          </div>
+        </Link>
 
-      {/* Mobile menu */}
-      {mobileMenuOpen && (
-        <div className="absolute left-0 right-0 top-0 z-10 border-t border-white/10 bg-[#080807]/95 px-5 pb-6 pt-16 backdrop-blur-lg md:hidden">
-          <div className="flex flex-col gap-3">
-            <MobileNavItem
+        {/* ——— Navigation — top-right (inside content bounds) ——— */}
+        <nav className="absolute right-4 top-6 z-20 md:right-0 md:top-8">
+          {/* Desktop */}
+          <div className="hidden items-center gap-6 md:flex lg:gap-8">
+            <NavItem
               href="/"
               icon={<FiGrid size={14} />}
               label="发现"
-              onClick={() => setMobileMenuOpen(false)}
+              active={pathname === "/"}
             />
-            <MobileNavItem
+            <NavItem
               href="/works/top"
               icon={<FiTrendingUp size={14} />}
               label="热门"
-              onClick={() => setMobileMenuOpen(false)}
+              active={pathname === "/works/top"}
             />
+            {!loading && user && (
+              <NavItem
+                href="/upload"
+                icon={<FiUpload size={14} />}
+                label="上传"
+                active={pathname === "/upload"}
+              />
+            )}
             {!loading && user ? (
               <>
-                <MobileNavItem
-                  href="/upload"
-                  icon={<FiUpload size={14} />}
-                  label="上传"
-                  onClick={() => setMobileMenuOpen(false)}
-                />
-                <MobileNavItem
+                <NavItem
                   href="/profile/me"
                   icon={<FiUser size={14} />}
                   label={user.name}
-                  onClick={() => setMobileMenuOpen(false)}
+                  active={pathname.startsWith("/profile")}
                 />
                 <button
-                  onClick={() => {
-                    logout();
-                    setMobileMenuOpen(false);
-                  }}
-                  className="flex items-center gap-2 text-left text-xs text-white/50"
+                  onClick={logout}
+                  className="flex items-center gap-1 text-[11px] tracking-wider text-white/70 transition-colors hover:text-gold"
                 >
-                  <FiLogOut size={13} /> 退出
+                  <FiLogOut size={13} />
+                  退出
                 </button>
               </>
             ) : !loading ? (
               <Link
                 href="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-xs text-gold"
+                className="rounded border border-gold/30 px-3 py-1 text-[11px] tracking-wider text-gold transition-colors hover:bg-gold/10"
               >
                 登录
               </Link>
@@ -246,25 +197,93 @@ export function HeroSection() {
             {mounted && (
               <button
                 onClick={toggleTheme}
-                className="flex items-center gap-2 text-xs text-white/50"
+                className="text-white/70 transition-colors hover:text-gold"
+                aria-label={theme === "dark" ? "亮色模式" : "暗色模式"}
               >
-                {theme === "dark" ? (
-                  <>
-                    <FiSun size={13} /> 亮色
-                  </>
-                ) : (
-                  <>
-                    <FiMoon size={13} /> 暗色
-                  </>
-                )}
+                {theme === "dark" ? <FiSun size={14} /> : <FiMoon size={14} />}
               </button>
             )}
           </div>
-        </div>
-      )}
 
-      {/* ===== Main content ===== */}
-      <div className="relative z-10 mx-auto flex h-[560px] max-w-[1180px] items-stretch px-4 md:h-[600px] lg:h-[620px]">
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="flex text-white/60 md:hidden"
+            aria-label="菜单"
+          >
+            {mobileMenuOpen ? <FiX size={20} /> : <FiMenu size={20} />}
+          </button>
+        </nav>
+
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="absolute left-0 right-0 top-0 z-10 border-t border-white/10 bg-[#080807]/95 px-5 pb-6 pt-16 backdrop-blur-lg md:hidden">
+            <div className="flex flex-col gap-3">
+              <MobileNavItem
+                href="/"
+                icon={<FiGrid size={14} />}
+                label="发现"
+                onClick={() => setMobileMenuOpen(false)}
+              />
+              <MobileNavItem
+                href="/works/top"
+                icon={<FiTrendingUp size={14} />}
+                label="热门"
+                onClick={() => setMobileMenuOpen(false)}
+              />
+              {!loading && user ? (
+                <>
+                  <MobileNavItem
+                    href="/upload"
+                    icon={<FiUpload size={14} />}
+                    label="上传"
+                    onClick={() => setMobileMenuOpen(false)}
+                  />
+                  <MobileNavItem
+                    href="/profile/me"
+                    icon={<FiUser size={14} />}
+                    label={user.name}
+                    onClick={() => setMobileMenuOpen(false)}
+                  />
+                  <button
+                    onClick={() => {
+                      logout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="flex items-center gap-2 text-left text-xs text-white/50"
+                  >
+                    <FiLogOut size={13} /> 退出
+                  </button>
+                </>
+              ) : !loading ? (
+                <Link
+                  href="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-xs text-gold"
+                >
+                  登录
+                </Link>
+              ) : null}
+              {mounted && (
+                <button
+                  onClick={toggleTheme}
+                  className="flex items-center gap-2 text-xs text-white/50"
+                >
+                  {theme === "dark" ? (
+                    <>
+                      <FiSun size={13} /> 亮色
+                    </>
+                  ) : (
+                    <>
+                      <FiMoon size={13} /> 暗色
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* ——— Left: vertical info column ——— */}
         <div className="hidden w-14 flex-shrink-0 flex-col items-center pt-20 lg:flex">
           <div className="flex flex-1 flex-col items-center justify-center gap-3">
@@ -286,29 +305,29 @@ export function HeroSection() {
         </div>
 
         {/* ——— Center: brand ——— */}
-        <div className="flex flex-1 flex-col justify-center pr-0 pt-14 md:pr-6 lg:pt-12">
+        <div className="flex flex-1 flex-col justify-center pr-0 pt-14 md:pr-6 lg:pt-10">
           {/* Eyebrow */}
-          <p className="mb-4 text-[10px] tracking-[0.45em] text-gold md:mb-5 md:text-xs">
+          <p className="mb-3 text-[10px] tracking-[0.45em] text-gold md:mb-4 md:text-xs">
             INDEPENDENT WORKS ARCHIVE
           </p>
 
           {/* XIANXING */}
-          <h1 className="font-serif text-[clamp(2.6rem,6vw,5rem)] font-bold leading-none tracking-tight text-white md:text-[clamp(3rem,7vw,6rem)] lg:text-[clamp(3.5rem,8vw,7.5rem)]">
+          <h1 className="font-serif text-[clamp(2rem,5vw,3.5rem)] font-bold leading-none tracking-tight text-white">
             XIANXING
           </h1>
 
           {/* 先行 */}
-          <h2 className="mt-1 font-serif text-[clamp(1.5rem,3vw,2.8rem)] font-semibold tracking-wide text-gold md:text-[clamp(1.8rem,3.5vw,3.2rem)] lg:text-[clamp(2rem,4vw,4rem)]">
+          <h2 className="mt-1 font-serif text-[clamp(1.2rem,2.5vw,1.8rem)] font-semibold tracking-wide text-gold">
             先行
           </h2>
 
           {/* Description */}
-          <p className="mt-3 max-w-md text-xs leading-relaxed tracking-wider text-white/45 md:mt-4 md:text-sm">
+          <p className="mt-2 max-w-md text-xs leading-relaxed tracking-wider text-white/45 md:mt-3 md:text-sm">
             发现独立开发者正在创造的产品、工具与实验项目
           </p>
 
           {/* CTAs */}
-          <div className="mt-6 flex flex-wrap gap-3 md:mt-7 lg:mt-8">
+          <div className="mt-4 flex flex-wrap gap-3 md:mt-5">
             <a
               href="#works"
               className="inline-flex items-center gap-2 rounded bg-gold px-5 py-2.5 text-xs font-semibold tracking-wider text-[#080807] transition-all hover:bg-gold-light md:px-6 md:py-3 md:text-sm"
@@ -328,8 +347,8 @@ export function HeroSection() {
         </div>
 
         {/* ——— Right: stats & visual panel ——— */}
-        <div className="hidden w-[280px] flex-shrink-0 flex-col justify-center md:w-[300px] lg:flex">
-          <div className="relative border border-gold/15 p-5 md:p-6">
+        <div className="hidden w-[260px] flex-shrink-0 flex-col justify-center lg:flex">
+          <div className="relative border border-gold/15 p-4 md:p-5">
             {/* Corner decorations */}
             <div className="absolute -left-[1px] -top-[1px] h-6 w-6 border-l-2 border-t-2 border-gold/40" />
             <div className="absolute -bottom-[1px] -right-[1px] h-6 w-6 border-b-2 border-r-2 border-gold/40" />
@@ -343,7 +362,7 @@ export function HeroSection() {
             </p>
 
             {/* Divider */}
-            <div className="my-4 h-px bg-gradient-to-r from-gold/30 to-transparent md:my-5" />
+            <div className="my-3 h-px bg-gradient-to-r from-gold/30 to-transparent md:my-4" />
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-3 md:gap-4">
@@ -361,11 +380,8 @@ export function HeroSection() {
               />
             </div>
 
-            {/* Divider */}
-            <div className="my-4 h-px bg-gradient-to-r from-gold/30 to-transparent md:my-5" />
-
             {/* Footer */}
-            <p className="text-center text-[8px] tracking-[0.35em] text-white/20 md:text-[9px]">
+            <p className="mt-3 text-center text-[8px] tracking-[0.35em] text-white/20 md:mt-4 md:text-[9px]">
               CURATE · DISCOVER · INSPIRE
             </p>
           </div>
@@ -392,7 +408,7 @@ function NavItem({
     <Link
       href={href}
       className={`flex items-center gap-1 text-[11px] tracking-wider transition-colors ${
-        active ? "text-gold" : "text-white/40 hover:text-gold"
+        active ? "text-gold" : "text-white/70 hover:text-gold"
       }`}
     >
       {icon}
