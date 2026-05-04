@@ -1,51 +1,58 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { ITEMS_PER_PAGE } from "@/lib/constants";
 
-export async function GET(request: NextRequest) {
+const workInclude = {
+  author: {
+    select: { id: true, name: true, avatarUrl: true },
+  },
+  images: {
+    orderBy: { sortOrder: "asc" as const },
+    take: 1,
+  },
+  _count: {
+    select: { likes: true, favorites: true },
+  },
+};
+
+export async function GET() {
   try {
-    const { searchParams } = request.nextUrl;
-    const page = Math.max(1, parseInt(searchParams.get("page") || "1"));
-    const limit = Math.min(
-      50,
-      Math.max(1, parseInt(searchParams.get("limit") || String(ITEMS_PER_PAGE)))
-    );
+    const forestAdmin = await prisma.user.findFirst({
+      where: { isForestAdmin: true },
+      select: { id: true },
+    });
 
-    const where = {
-      isVisible: true,
-      comments: {
-        some: { isReview: true },
-      },
-    };
+    if (!forestAdmin) {
+      return NextResponse.json({ reviewedWorks: [], favoritedWorks: [] });
+    }
 
-    const [items, total] = await Promise.all([
+    const forestAdminId = forestAdmin.id;
+
+    const [reviewedWorks, favoritedWorks] = await Promise.all([
+      // Works reviewed by the forest admin
       prisma.work.findMany({
-        where,
-        orderBy: { createdAt: "desc" },
-        skip: (page - 1) * limit,
-        take: limit,
-        include: {
-          author: {
-            select: { id: true, name: true, avatarUrl: true },
-          },
-          images: {
-            orderBy: { sortOrder: "asc" },
-            take: 1,
-          },
-          _count: {
-            select: { likes: true, favorites: true, comments: { where: { isReview: true } } },
+        where: {
+          isVisible: true,
+          comments: {
+            some: { isReview: true, userId: forestAdminId },
           },
         },
+        orderBy: { createdAt: "desc" },
+        include: workInclude,
       }),
-      prisma.work.count({ where }),
+      // Works favorited by the forest admin
+      prisma.work.findMany({
+        where: {
+          isVisible: true,
+          favorites: {
+            some: { userId: forestAdminId },
+          },
+        },
+        orderBy: { createdAt: "desc" },
+        include: workInclude,
+      }),
     ]);
 
-    return NextResponse.json({
-      items,
-      total,
-      page,
-      totalPages: Math.ceil(total / limit),
-    });
+    return NextResponse.json({ reviewedWorks, favoritedWorks });
   } catch {
     return NextResponse.json({ error: "服务器错误" }, { status: 500 });
   }

@@ -15,7 +15,8 @@ model User {
   avatarUrl String   @default("")
   wechatName    String @default("")
   wechatAccount String @default("")
-  role      String @default("user")
+  role           String  @default("user")
+  isForestAdmin  Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

@@ -1,30 +1,39 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { WorkCard } from "@/components/work/WorkCard";
-import type { WorkListItem, PaginatedResponse } from "@/types";
-import { FiMessageCircle, FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import type { WorkListItem } from "@/types";
+import {
+  FiMessageCircle,
+  FiBookmark,
+} from "react-icons/fi";
+
+interface ForestZoneData {
+  reviewedWorks: WorkListItem[];
+  favoritedWorks: WorkListItem[];
+}
 
 export default function ForestZonePage() {
-  const [works, setWorks] = useState<WorkListItem[]>([]);
+  const [data, setData] = useState<ForestZoneData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    setLoading(true);
-    fetch(`/api/works/forest-zone?page=${page}&limit=12`)
+    fetch("/api/works/forest-zone")
       .then((res) => res.json())
-      .then((data: PaginatedResponse<WorkListItem>) => {
-        setWorks(data.items);
-        setTotalPages(data.totalPages);
+      .then((d) => {
+        setData(d);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, [page]);
+  }, []);
+
+  if (loading) return <LoadingSpinner />;
+
+  const hasReviewed = data && data.reviewedWorks.length > 0;
+  const hasFavorited = data && data.favoritedWorks.length > 0;
+  const empty = !hasReviewed && !hasFavorited;
 
   return (
     <div className="mx-auto max-w-[1180px] px-4 py-8">
@@ -38,47 +47,62 @@ export default function ForestZonePage() {
         </p>
       </div>
 
-      {loading ? (
-        <LoadingSpinner />
-      ) : works.length === 0 ? (
+      {empty ? (
         <EmptyState
           icon={<FiMessageCircle size={40} />}
           title="暂无作品"
-          description="还没有作品被管理员点评过"
+          description="还没有作品被树林管理员点评或精选"
         />
       ) : (
-        <>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {works.map((work) => (
-              <WorkCard key={work.id} work={work} />
-            ))}
-          </div>
-
-          {totalPages > 1 && (
-            <div className="mt-14 flex items-center justify-center gap-5">
-              <button
-                onClick={() => setPage((p) => Math.max(1, p - 1))}
-                disabled={page === 1}
-                className="btn-ghost rounded-lg p-2 disabled:opacity-30"
-                aria-label="上一页"
-              >
-                <FiArrowLeft size={18} />
-              </button>
-              <span className="font-serif text-sm tracking-wider text-muted">
-                {String(page).padStart(2, "0")} /{" "}
-                {String(totalPages).padStart(2, "0")}
-              </span>
-              <button
-                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                disabled={page === totalPages}
-                className="btn-ghost rounded-lg p-2 disabled:opacity-30"
-                aria-label="下一页"
-              >
-                <FiArrowRight size={18} />
-              </button>
-            </div>
+        <div className="space-y-14">
+          {/* 锐评区 */}
+          {hasReviewed && (
+            <section>
+              <div className="mb-6 flex items-center gap-2">
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gold/10">
+                  <FiMessageCircle size={14} className="text-gold" />
+                </div>
+                <div>
+                  <h2 className="font-serif text-lg font-semibold text-foreground">
+                    锐评区
+                  </h2>
+                  <p className="text-[11px] tracking-wider text-muted">
+                    FOREST REVIEW
+                  </p>
+                </div>
+              </div>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {data!.reviewedWorks.map((work) => (
+                  <WorkCard key={work.id} work={work} />
+                ))}
+              </div>
+            </section>
           )}
-        </>
+
+          {/* 精选区 */}
+          {hasFavorited && (
+            <section>
+              <div className="mb-6 flex items-center gap-2">
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gold/10">
+                  <FiBookmark size={14} className="text-gold" />
+                </div>
+                <div>
+                  <h2 className="font-serif text-lg font-semibold text-foreground">
+                    精选区
+                  </h2>
+                  <p className="text-[11px] tracking-wider text-muted">
+                    FOREST PICK
+                  </p>
+                </div>
+              </div>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {data!.favoritedWorks.map((work) => (
+                  <WorkCard key={work.id} work={work} />
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
       )}
     </div>
   );
