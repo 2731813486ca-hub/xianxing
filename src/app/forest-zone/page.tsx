@@ -30,16 +30,12 @@ export default function ForestZonePage() {
     <div className="mx-auto max-w-[1180px] px-4 py-8">
       {/* Header */}
       <div className="mb-10 border-b border-border pb-8">
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-3">
-            <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-              树林专区
-            </h1>
-          </div>
-          <p className="font-serif text-sm text-muted">
-            管理员精挑细选的优质作品
-          </p>
-        </div>
+        <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+          树林专区
+        </h1>
+        <p className="mt-2 font-serif text-sm text-muted">
+          树林锐评和精选的作品集
+        </p>
       </div>
 
       {loading ? (
