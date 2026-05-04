@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import Link from "next/link";
 import { HeroSection } from "@/components/home/HeroSection";
 import { WorkCard } from "@/components/work/WorkCard";
 import { SearchBar } from "@/components/ui/SearchBar";
@@ -60,23 +59,7 @@ export default function HomePage() {
         id="works"
         className="bg-background"
       >
-        <div className="mx-auto max-w-6xl px-4 pb-20 pt-16">
-          {/* Section Header */}
-          <div className="mb-10 flex items-center">
-            <span className="mr-3 h-3 w-3 rounded-full bg-gold" />
-            <h2 className="font-serif text-2xl font-bold text-foreground">
-              最新作品
-            </h2>
-            <span className="mx-5 h-px flex-1 bg-border" />
-            <Link
-              href="/works/top"
-              className="hidden flex-shrink-0 items-center gap-1 text-sm text-muted transition-colors hover:text-gold sm:flex"
-            >
-              查看全部
-              <span className="text-base leading-none">→</span>
-            </Link>
-          </div>
-
+        <div className="mx-auto max-w-6xl px-4 pb-20 pt-0">
           {/* Controls Row */}
           <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
