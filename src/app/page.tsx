@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { HeroSection } from "@/components/home/HeroSection";
 import { WorkCard } from "@/components/work/WorkCard";
 import { SearchBar } from "@/components/ui/SearchBar";
@@ -9,6 +10,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import type { WorkListItem, PaginatedResponse } from "@/types";
 import {
   FiGrid,
+  FiList,
   FiArrowLeft,
   FiArrowRight,
   FiSearch,
@@ -21,6 +23,7 @@ export default function HomePage() {
   const [sort, setSort] = useState<"latest" | "popular">("latest");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   const fetchWorks = useCallback(async () => {
     setLoading(true);
@@ -54,41 +57,80 @@ export default function HomePage() {
     <>
       <HeroSection />
 
-      {/* ===== Works Index Section ===== */}
-      <section
-        id="works"
-        className="bg-background"
-      >
-        <div className="mx-auto max-w-6xl px-4 pb-20 pt-0">
-          {/* Controls Row */}
-          <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <SearchBar
-                value={search}
-                onChange={setSearch}
-                placeholder="搜索作品..."
-              />
-            </div>
-            <div className="flex items-center gap-3">
+      {/* ===== Works Archive Section ===== */}
+      <section id="works" className="bg-background">
+        <div className="mx-auto max-w-[1180px] px-4 pb-20 pt-10 md:pt-12 lg:pt-14">
+          {/* Section Header */}
+          <div className="mb-8 flex items-center">
+            <span className="mr-3 h-2.5 w-2.5 rounded-full bg-gold" />
+            <h2 className="font-serif text-xl font-bold tracking-tight text-foreground md:text-2xl">
+              最新作品
+            </h2>
+            <span className="mx-5 h-px flex-1 bg-border" />
+            <Link
+              href="/works/top"
+              className="hidden flex-shrink-0 items-center gap-1 text-sm text-muted transition-colors hover:text-gold sm:flex"
+            >
+              查看全部
+              <span className="text-base leading-none">→</span>
+            </Link>
+          </div>
+
+          {/* Toolbar */}
+          <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+            <SearchBar
+              value={search}
+              onChange={setSearch}
+              placeholder="搜索作品、创作者或关键词..."
+            />
+            <div className="flex items-center gap-2 md:gap-3">
+              {/* Category — visual only */}
+              <select
+                className="input-field rounded-lg border border-border bg-card px-3 py-2.5 text-xs text-foreground md:text-sm"
+                disabled
+              >
+                <option>全部分类</option>
+              </select>
+              {/* Sort */}
               <select
                 value={sort}
                 onChange={(e) =>
                   setSort(e.target.value as "latest" | "popular")
                 }
-                className="input-field rounded-lg border border-border bg-card px-3 py-2.5 text-sm text-foreground"
+                className="input-field rounded-lg border border-border bg-card px-3 py-2.5 text-xs text-foreground md:text-sm"
               >
                 <option value="latest">最新发布</option>
                 <option value="popular">最多喜欢</option>
               </select>
+              {/* View toggle */}
               <div className="flex rounded-lg border border-border">
-                <span className="flex items-center gap-1.5 bg-card px-3 py-2.5 text-sm text-gold">
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={`p-2.5 transition-colors ${
+                    viewMode === "grid"
+                      ? "bg-gold/10 text-gold"
+                      : "bg-card text-muted hover:text-foreground"
+                  }`}
+                  aria-label="宫格视图"
+                >
                   <FiGrid size={16} />
-                </span>
+                </button>
+                <button
+                  onClick={() => setViewMode("list")}
+                  className={`p-2.5 transition-colors ${
+                    viewMode === "list"
+                      ? "bg-gold/10 text-gold"
+                      : "bg-card text-muted hover:text-foreground"
+                  }`}
+                  aria-label="列表视图"
+                >
+                  <FiList size={16} />
+                </button>
               </div>
             </div>
           </div>
 
-          {/* Works Grid */}
+          {/* Works Grid / List */}
           {loading ? (
             <div className="flex justify-center py-20">
               <LoadingSpinner />
@@ -101,9 +143,15 @@ export default function HomePage() {
             />
           ) : (
             <>
-              <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div
+                className={`grid gap-6 ${
+                  viewMode === "grid"
+                    ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                    : "grid-cols-1"
+                }`}
+              >
                 {works.map((work) => (
-                  <WorkCard key={work.id} work={work} />
+                  <WorkCard key={work.id} work={work} viewMode={viewMode} />
                 ))}
               </div>
 

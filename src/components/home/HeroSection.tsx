@@ -2,9 +2,15 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
 import {
+  FiGrid,
+  FiTrendingUp,
+  FiUpload,
+  FiUser,
+  FiLogOut,
   FiSun,
   FiMoon,
   FiMenu,
@@ -25,6 +31,7 @@ function formatNumber(n: number): string {
 }
 
 export function HeroSection() {
+  const pathname = usePathname();
   const { user, loading, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [stats, setStats] = useState<Stats | null>(null);
@@ -42,108 +49,107 @@ export function HeroSection() {
       .catch(() => {});
   }, []);
 
+  const totalLikesFavorites =
+    (stats?.totalLikes ?? 0) + (stats?.totalFavorites ?? 0);
+
   return (
-    <section className="relative min-h-[55vh] overflow-hidden bg-[#0A0A0A] lg:min-h-[60vh]">
-      {/* Grid pattern */}
+    <section className="relative min-h-[560px] overflow-hidden bg-[#080807] md:min-h-[600px] lg:min-h-[620px]">
+      {/* ===== Background layers ===== */}
+      {/* Gold radial glow */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.06]"
+        className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
+          background:
+            "radial-gradient(ellipse at 35% 45%, rgba(215,170,69,0.1) 0%, transparent 60%)",
         }}
       />
 
-      {/* Decorative arcs */}
+      {/* Subtle gold grid lines */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(215,170,69,0.12) 1px, transparent 1px),linear-gradient(90deg, rgba(215,170,69,0.12) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
+
+      {/* Decorative arcs — top-right */}
       <svg
-        className="pointer-events-none absolute -right-24 -top-24 h-[500px] w-[500px] opacity-[0.04] lg:h-[600px] lg:w-[600px]"
-        viewBox="0 0 600 600"
+        className="pointer-events-none absolute -right-16 -top-16 h-[360px] w-[360px] opacity-[0.04] md:-right-20 md:-top-20 md:h-[420px] md:w-[420px]"
+        viewBox="0 0 420 420"
         fill="none"
-        xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M 580 80 C 580 300, 380 500, 80 500"
-          stroke="#d4a843"
-          strokeWidth="0.4"
-        />
-        <path
-          d="M 520 120 C 520 310, 340 480, 120 480"
-          stroke="#d4a843"
+          d="M 400 60 C 400 250, 260 400, 60 400"
+          stroke="#D7AA45"
           strokeWidth="0.3"
         />
         <path
-          d="M 460 160 C 460 320, 300 460, 160 460"
-          stroke="#d4a843"
+          d="M 350 80 C 350 220, 230 350, 80 350"
+          stroke="#D7AA45"
           strokeWidth="0.2"
         />
-        <circle cx="420" cy="180" r="2" fill="#d4a843" fillOpacity="0.3" />
-        <circle cx="320" cy="380" r="1.5" fill="#d4a843" fillOpacity="0.2" />
-        <circle cx="180" cy="380" r="1" fill="#d4a843" fillOpacity="0.15" />
+        <circle cx="300" cy="140" r="1.5" fill="#D7AA45" fillOpacity="0.3" />
+        <circle cx="180" cy="280" r="1" fill="#D7AA45" fillOpacity="0.2" />
       </svg>
 
-      {/* Second arc bottom-left */}
-      <svg
-        className="pointer-events-none absolute -bottom-24 -left-24 h-[400px] w-[400px] opacity-[0.03] lg:h-[450px] lg:w-[450px]"
-        viewBox="0 0 500 500"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M 50 450 C 50 250, 200 80, 450 50"
-          stroke="#d4a843"
-          strokeWidth="0.3"
-        />
-        <path
-          d="M 100 400 C 100 230, 230 130, 400 100"
-          stroke="#d4a843"
-          strokeWidth="0.2"
-        />
-      </svg>
-
-      {/* Watermark X */}
-      <div className="pointer-events-none absolute right-[12%] top-1/2 -translate-y-1/2 select-none">
-        <span className="font-serif text-[min(25vw,200px)] font-bold tracking-tighter text-white/[0.03]">
+      {/* Giant X watermark — bottom-right */}
+      <div className="pointer-events-none absolute bottom-0 right-[8%] select-none">
+        <span className="font-serif text-[min(45vw,380px)] font-bold tracking-tighter text-white/[0.015]">
           X
         </span>
       </div>
 
-      {/* Vertical text — desktop only */}
-      <div className="pointer-events-none absolute bottom-24 right-8 hidden select-none lg:block">
-        <span className="text-[9px] font-light tracking-[0.45em] text-white/[0.06] [writing-mode:vertical-rl]">
-          INDEPENDENT WORKS ARCHIVE
-        </span>
-      </div>
+      {/* ===== Logo — top-left ===== */}
+      <Link href="/" className="absolute left-6 top-6 z-20 md:left-8 md:top-8">
+        <img src="/logo.png" alt="先行" className="h-7 w-7 md:h-8 md:w-8" />
+      </Link>
 
-      {/* ===== Floating Navigation ===== */}
-      <nav className="relative z-20 mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        {/* Brand */}
-        <Link href="/" className="flex items-center gap-2">
-          <img
-            src="/logo.png"
-            alt="先行"
-            className="h-7 w-7 object-contain"
+      {/* ===== Navigation — top-right ===== */}
+      <nav className="absolute right-4 top-4 z-20 md:right-6 md:top-6 lg:right-8 lg:top-8">
+        {/* Desktop */}
+        <div className="hidden items-center gap-4 md:flex lg:gap-5">
+          <NavItem
+            href="/"
+            icon={<FiGrid size={14} />}
+            label="发现"
+            active={pathname === "/"}
           />
-        </Link>
-
-        {/* Desktop nav */}
-        <div className="hidden items-center gap-6 md:flex">
-          <NavLink href="/" label="发现" />
-          <NavLink href="/works/top" label="热门" />
+          <NavItem
+            href="/works/top"
+            icon={<FiTrendingUp size={14} />}
+            label="热门"
+            active={pathname === "/works/top"}
+          />
+          {!loading && user && (
+            <NavItem
+              href="/upload"
+              icon={<FiUpload size={14} />}
+              label="上传"
+              active={pathname === "/upload"}
+            />
+          )}
           {!loading && user ? (
             <>
-              <NavLink href="/upload" label="上传" />
-              <NavLink href="/profile/me" label={user.name} />
+              <NavItem
+                href="/profile/me"
+                icon={<FiUser size={14} />}
+                label={user.name}
+                active={pathname.startsWith("/profile")}
+              />
               <button
                 onClick={logout}
-                className="text-xs tracking-wider text-white/50 transition-colors hover:text-gold"
+                className="flex items-center gap-1 text-[11px] tracking-wider text-white/40 transition-colors hover:text-gold"
               >
+                <FiLogOut size={13} />
                 退出
               </button>
             </>
           ) : !loading ? (
             <Link
               href="/login"
-              className="rounded-md border border-gold/30 px-4 py-1.5 text-xs tracking-wider text-gold transition-all hover:border-gold/60 hover:bg-gold/10"
+              className="rounded border border-gold/30 px-3 py-1 text-[11px] tracking-wider text-gold transition-colors hover:bg-gold/10"
             >
               登录
             </Link>
@@ -151,7 +157,7 @@ export function HeroSection() {
           {mounted && (
             <button
               onClick={toggleTheme}
-              className="text-white/40 transition-colors hover:text-gold"
+              className="text-white/35 transition-colors hover:text-gold"
               aria-label={theme === "dark" ? "亮色模式" : "暗色模式"}
             >
               {theme === "dark" ? <FiSun size={14} /> : <FiMoon size={14} />}
@@ -159,10 +165,10 @@ export function HeroSection() {
           )}
         </div>
 
-        {/* Mobile menu button */}
+        {/* Mobile hamburger */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="text-white/60 md:hidden"
+          className="flex text-white/60 md:hidden"
           aria-label="菜单"
         >
           {mobileMenuOpen ? <FiX size={20} /> : <FiMenu size={20} />}
@@ -171,27 +177,31 @@ export function HeroSection() {
 
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="relative z-20 border-t border-white/10 bg-[#0A0A0A]/95 px-4 py-4 backdrop-blur-lg md:hidden">
+        <div className="absolute left-0 right-0 top-0 z-10 border-t border-white/10 bg-[#080807]/95 px-5 pb-6 pt-16 backdrop-blur-lg md:hidden">
           <div className="flex flex-col gap-3">
-            <MobileNavLink
+            <MobileNavItem
               href="/"
+              icon={<FiGrid size={14} />}
               label="发现"
               onClick={() => setMobileMenuOpen(false)}
             />
-            <MobileNavLink
+            <MobileNavItem
               href="/works/top"
+              icon={<FiTrendingUp size={14} />}
               label="热门"
               onClick={() => setMobileMenuOpen(false)}
             />
             {!loading && user ? (
               <>
-                <MobileNavLink
+                <MobileNavItem
                   href="/upload"
+                  icon={<FiUpload size={14} />}
                   label="上传"
                   onClick={() => setMobileMenuOpen(false)}
                 />
-                <MobileNavLink
+                <MobileNavItem
                   href="/profile/me"
+                  icon={<FiUser size={14} />}
                   label={user.name}
                   onClick={() => setMobileMenuOpen(false)}
                 />
@@ -200,9 +210,9 @@ export function HeroSection() {
                     logout();
                     setMobileMenuOpen(false);
                   }}
-                  className="text-left text-xs text-white/50"
+                  className="flex items-center gap-2 text-left text-xs text-white/50"
                 >
-                  退出
+                  <FiLogOut size={13} /> 退出
                 </button>
               </>
             ) : !loading ? (
@@ -234,118 +244,152 @@ export function HeroSection() {
         </div>
       )}
 
-      {/* ===== Hero Content ===== */}
-      <div className="relative z-10 mx-auto max-w-6xl px-4 pb-6 pt-2">
-        <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
-          {/* ——— Left: Brand ——— */}
-          <div className="max-w-xl">
-            <h1 className="font-serif text-[clamp(2rem,5vw,3.5rem)] font-bold leading-none tracking-tight text-white">
-              XIANXING
-            </h1>
-            <div className="mt-3 flex items-center gap-3">
-              <span className="h-px w-7 bg-gold/60" />
-              <span className="font-serif text-[clamp(1.2rem,2.5vw,1.8rem)] font-semibold tracking-[0.08em] text-gold">
-                先行
-              </span>
-              <span className="h-px w-7 bg-gold/60" />
-            </div>
-            <p className="mt-4 max-w-lg text-xs leading-relaxed tracking-wider text-white/45 md:text-sm">
-              发现独立开发者正在创造的产品、工具与实验项目
+      {/* ===== Main content ===== */}
+      <div className="relative z-10 mx-auto flex h-[560px] max-w-[1180px] items-stretch px-4 md:h-[600px] lg:h-[620px]">
+        {/* ——— Left: vertical info column ——— */}
+        <div className="hidden w-14 flex-shrink-0 flex-col items-center pt-20 lg:flex">
+          <div className="flex flex-1 flex-col items-center justify-center gap-3">
+            <div className="h-16 w-px bg-gradient-to-b from-gold/30 to-transparent" />
+            <span className="py-2 text-[7px] tracking-[0.35em] text-white/25 [writing-mode:vertical-rl]">
+              INDEPENDENT WORKS ARCHIVE
+            </span>
+            <div className="h-10 w-px bg-gradient-to-b from-transparent to-gold/20" />
+          </div>
+          <div className="pb-10">
+            <span className="text-[11px] font-light tracking-wider text-white/40">
+              01
+            </span>
+            <span className="mx-1 text-[8px] text-white/20">/</span>
+            <span className="text-[11px] font-light tracking-wider text-white/20">
+              10
+            </span>
+          </div>
+        </div>
+
+        {/* ——— Center: brand ——— */}
+        <div className="flex flex-1 flex-col justify-center pr-0 pt-14 md:pr-6 lg:pt-12">
+          {/* Eyebrow */}
+          <p className="mb-4 text-[10px] tracking-[0.45em] text-gold md:mb-5 md:text-xs">
+            INDEPENDENT WORKS ARCHIVE
+          </p>
+
+          {/* XIANXING */}
+          <h1 className="font-serif text-[clamp(2.6rem,6vw,5rem)] font-bold leading-none tracking-tight text-white md:text-[clamp(3rem,7vw,6rem)] lg:text-[clamp(3.5rem,8vw,7.5rem)]">
+            XIANXING
+          </h1>
+
+          {/* 先行 */}
+          <h2 className="mt-1 font-serif text-[clamp(1.5rem,3vw,2.8rem)] font-semibold tracking-wide text-gold md:text-[clamp(1.8rem,3.5vw,3.2rem)] lg:text-[clamp(2rem,4vw,4rem)]">
+            先行
+          </h2>
+
+          {/* Description */}
+          <p className="mt-3 max-w-md text-xs leading-relaxed tracking-wider text-white/45 md:mt-4 md:text-sm">
+            发现独立开发者正在创造的产品、工具与实验项目
+          </p>
+
+          {/* CTAs */}
+          <div className="mt-6 flex flex-wrap gap-3 md:mt-7 lg:mt-8">
+            <a
+              href="#works"
+              className="inline-flex items-center gap-2 rounded bg-gold px-5 py-2.5 text-xs font-semibold tracking-wider text-[#080807] transition-all hover:bg-gold-light md:px-6 md:py-3 md:text-sm"
+            >
+              发现作品
+              <span className="text-sm leading-none md:text-base">→</span>
+            </a>
+            {!loading && user && (
+              <Link
+                href="/upload"
+                className="inline-flex items-center gap-2 rounded border border-white/15 px-5 py-2.5 text-xs tracking-wider text-white/60 transition-all hover:border-white/30 hover:text-white md:px-6 md:py-3 md:text-sm"
+              >
+                提交作品
+              </Link>
+            )}
+          </div>
+        </div>
+
+        {/* ——— Right: stats & visual panel ——— */}
+        <div className="hidden w-[280px] flex-shrink-0 flex-col justify-center md:w-[300px] lg:flex">
+          <div className="relative border border-gold/15 p-5 md:p-6">
+            {/* Corner decorations */}
+            <div className="absolute -left-[1px] -top-[1px] h-6 w-6 border-l-2 border-t-2 border-gold/40" />
+            <div className="absolute -bottom-[1px] -right-[1px] h-6 w-6 border-b-2 border-r-2 border-gold/40" />
+
+            {/* Motto */}
+            <p className="text-sm font-light tracking-wider text-white/60">
+              独立思考
+            </p>
+            <p className="mt-0.5 text-sm font-light tracking-wider text-white/60">
+              创造未来
             </p>
 
-            {/* CTAs */}
-            <div className="mt-6 flex flex-wrap gap-3">
-              <a
-                href="#works"
-                className="inline-flex items-center gap-2 rounded-md bg-gold px-5 py-2.5 text-xs font-semibold tracking-wider text-[#0A0A0A] transition-all hover:bg-gold-light"
-              >
-                发现作品
-                <span className="text-sm leading-none">→</span>
-              </a>
-              {user && (
-                <Link
-                  href="/upload"
-                  className="inline-flex items-center gap-2 rounded-md border border-white/15 px-5 py-2.5 text-xs tracking-wider text-white/60 transition-all hover:border-white/30 hover:text-white"
-                >
-                  提交作品
-                </Link>
-              )}
-            </div>
-          </div>
+            {/* Divider */}
+            <div className="my-4 h-px bg-gradient-to-r from-gold/30 to-transparent md:my-5" />
 
-          {/* ——— Right: Stats Panel ——— */}
-          <div className="hidden flex-shrink-0 lg:block">
-            <div className="border border-gold/15 bg-white/[0.02] p-4 backdrop-blur-sm md:p-5">
-              <div className="space-y-2 md:space-y-3">
-                <StatItem
-                  label="作品总数"
-                  value={stats ? formatNumber(stats.totalWorks) : "—"}
-                />
-                <div className="h-px bg-gradient-to-r from-gold/15 to-transparent" />
-                <StatItem
-                  label="创作者"
-                  value={stats ? formatNumber(stats.totalUsers) : "—"}
-                />
-                <div className="h-px bg-gradient-to-r from-gold/15 to-transparent" />
-                <StatItem
-                  label="累计点赞"
-                  value={stats ? formatNumber(stats.totalLikes) : "—"}
-                />
-                <div className="h-px bg-gradient-to-r from-gold/15 to-transparent" />
-                <StatItem
-                  label="收藏次数"
-                  value={stats ? formatNumber(stats.totalFavorites) : "—"}
-                />
-              </div>
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-3 md:gap-4">
+              <StatItem
+                value={stats ? formatNumber(stats.totalWorks) : "—"}
+                label="作品总数"
+              />
+              <StatItem
+                value={stats ? formatNumber(stats.totalUsers) : "—"}
+                label="创作者"
+              />
+              <StatItem
+                value={stats ? formatNumber(totalLikesFavorites) : "—"}
+                label="点赞收藏"
+              />
             </div>
-          </div>
 
-          {/* Mobile mini-stats */}
-          <div className="flex flex-wrap gap-5 lg:hidden">
-            <MiniStat label="作品" value={stats ? formatNumber(stats.totalWorks) : "—"} />
-            <MiniStat label="创作者" value={stats ? formatNumber(stats.totalUsers) : "—"} />
-            <MiniStat label="点赞" value={stats ? formatNumber(stats.totalLikes) : "—"} />
+            {/* Divider */}
+            <div className="my-4 h-px bg-gradient-to-r from-gold/30 to-transparent md:my-5" />
+
+            {/* Footer */}
+            <p className="text-center text-[8px] tracking-[0.35em] text-white/20 md:text-[9px]">
+              CURATE · DISCOVER · INSPIRE
+            </p>
           </div>
         </div>
       </div>
-
-      {/* ===== Bridge: section title on dark background ===== */}
-      <div className="relative z-10 mx-auto max-w-6xl px-4 pb-4 pt-6">
-        <div className="flex items-center">
-          <span className="mr-3 h-2.5 w-2.5 rounded-full bg-gold shadow-[0_0_8px_rgba(212,168,67,0.4)]" />
-          <h2 className="font-serif text-lg font-bold tracking-wide text-white/80">
-            最新作品
-          </h2>
-          <span className="ml-5 h-px flex-1 bg-gradient-to-r from-white/20 to-transparent" />
-        </div>
-      </div>
-
-      {/* Dark-to-warm gradient transition */}
-      <div
-        className="pointer-events-none h-20"
-        style={{ background: "linear-gradient(to bottom, #0A0A0A, var(--color-background))" }}
-      />
     </section>
   );
 }
 
-function NavLink({ href, label }: { href: string; label: string }) {
+/* ─── Sub-components ─── */
+
+function NavItem({
+  href,
+  icon,
+  label,
+  active,
+}: {
+  href: string;
+  icon: React.ReactNode;
+  label: string;
+  active?: boolean;
+}) {
   return (
     <Link
       href={href}
-      className="text-xs tracking-wider text-white/50 transition-colors hover:text-gold"
+      className={`flex items-center gap-1 text-[11px] tracking-wider transition-colors ${
+        active ? "text-gold" : "text-white/40 hover:text-gold"
+      }`}
     >
+      {icon}
       {label}
     </Link>
   );
 }
 
-function MobileNavLink({
+function MobileNavItem({
   href,
+  icon,
   label,
   onClick,
 }: {
   href: string;
+  icon: React.ReactNode;
   label: string;
   onClick: () => void;
 }) {
@@ -353,31 +397,23 @@ function MobileNavLink({
     <Link
       href={href}
       onClick={onClick}
-      className="text-xs text-white/50 transition-colors hover:text-gold"
+      className="flex items-center gap-2 text-xs text-white/50 transition-colors hover:text-gold"
     >
+      {icon}
       {label}
     </Link>
   );
 }
 
-function StatItem({ label, value }: { label: string; value: string }) {
+function StatItem({ value, label }: { value: string; label: string }) {
   return (
-    <div className="flex items-center justify-between gap-8">
-      <span className="text-[10px] tracking-wider text-white/35 md:text-xs">
-        {label}
-      </span>
-      <span className="font-serif text-base font-semibold text-gold md:text-lg">
+    <div>
+      <p className="font-serif text-base font-semibold text-gold md:text-lg">
         {value}
-      </span>
-    </div>
-  );
-}
-
-function MiniStat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-center gap-2">
-      <span className="font-serif text-base font-bold text-gold">{value}</span>
-      <span className="text-xs tracking-wider text-white/35">{label}</span>
+      </p>
+      <p className="text-[9px] tracking-wider text-white/35 md:text-[10px]">
+        {label}
+      </p>
     </div>
   );
 }
