@@ -170,13 +170,10 @@ export function HeroSection() {
             </span>
             <div className="h-10 w-px bg-gradient-to-b from-transparent to-gold/20" />
           </div>
-          <div className="pb-10">
-            <span className="text-[11px] font-light tracking-wider text-white/40">
-              01
-            </span>
-            <span className="mx-1 text-[8px] text-white/20">/</span>
-            <span className="text-[11px] font-light tracking-wider text-white/20">
-              10
+          <div className="pb-10 flex flex-col items-center gap-2">
+            <div className="h-8 w-px bg-gradient-to-b from-transparent to-gold/20" />
+            <span className="font-cinzel text-[9px] tracking-[0.35em] text-gold/40 [writing-mode:vertical-rl]">
+              SILVA
             </span>
           </div>
         </div>
