@@ -29,19 +29,12 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link href="/" className="group flex items-center gap-3">
-          <span className="relative flex h-8 w-8 items-center justify-center">
-            <span className="absolute h-3 w-3 rounded-full bg-gold transition-all duration-500 group-hover:scale-150 group-hover:opacity-60" />
-            <span className="absolute h-2 w-2 rounded-full bg-gold" />
-          </span>
-          <div className="flex flex-col">
-            <span className="font-serif text-2xl font-bold leading-none tracking-[0.12em] text-gold uppercase">
-              先行
-            </span>
-            <span className="mt-0.5 text-[10px] font-light tracking-[0.3em] text-muted uppercase">
-              Xianxing
-            </span>
-          </div>
+        <Link href="/" className="flex items-center gap-2">
+          <img
+            src="/logo.png"
+            alt="先行"
+            className="h-8 w-8 object-contain"
+          />
         </Link>
 
         {/* Desktop Nav */}

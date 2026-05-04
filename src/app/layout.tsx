@@ -19,6 +19,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "先行 | 作品展示平台",
   description: "发现和分享创意作品",
+  icons: [{ rel: "icon", url: "/logo.png" }],
 };
 
 export default function RootLayout({

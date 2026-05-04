@@ -118,12 +118,11 @@ export function HeroSection() {
       <nav className="relative z-20 mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
         {/* Brand */}
         <Link href="/" className="flex items-center gap-2">
-          <span className="relative flex h-6 w-6 items-center justify-center">
-            <span className="absolute h-2 w-2 rounded-full bg-gold" />
-          </span>
-          <span className="font-serif text-base font-bold tracking-[0.15em] text-white/90">
-            先行
-          </span>
+          <img
+            src="/logo.png"
+            alt="先行"
+            className="h-7 w-7 object-contain"
+          />
         </Link>
 
         {/* Desktop nav */}
