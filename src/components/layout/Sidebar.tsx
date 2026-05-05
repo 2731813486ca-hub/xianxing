@@ -157,7 +157,7 @@ export function Sidebar() {
 
       {/* Bottom section */}
       <div className="space-y-1 px-3 py-4">
-        {bottomBtn(toggleTheme, isDark ? <FiSun size={15} /> : <FiMoon size={15} />, isDark ? "亮色模式" : "暗色模式")}
+        {bottomBtn(toggleTheme, isDark ? <FiMoon size={15} /> : <FiSun size={15} />, isDark ? "暗色模式" : "亮色模式")}
 
         {!loading && user ? (
           <>
