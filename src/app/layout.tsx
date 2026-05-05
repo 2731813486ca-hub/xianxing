@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display, Cinzel, Noto_Sans_SC } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
+import { Sidebar } from "@/components/layout/Sidebar";
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { Toaster } from "@/components/ui/Toaster";
@@ -53,12 +53,14 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="flex min-h-full flex-col bg-background text-foreground transition-colors">
+      <body className="flex min-h-full bg-background text-foreground transition-colors">
         <ThemeProvider>
           <AuthProvider>
             <PageTitle />
-            <Navbar />
-            <PageTransition>{children}</PageTransition>
+            <Sidebar />
+            <main className="flex-1 pt-14 md:ml-56 md:pt-0">
+              <PageTransition>{children}</PageTransition>
+            </main>
             <Toaster />
           </AuthProvider>
         </ThemeProvider>

@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { HeroSection } from "@/components/home/HeroSection";
-import { LeftSidebar } from "@/components/home/LeftSidebar";
 import { FeedList } from "@/components/home/FeedList";
 import { WorkCard } from "@/components/work/WorkCard";
 import { SearchBar } from "@/components/ui/SearchBar";
@@ -85,11 +84,7 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="-mt-14 md:-mt-16">
-        <HeroSection />
-      </div>
-
-      <LeftSidebar />
+      <HeroSection />
 
       {/* ===== Works Archive Section ===== */}
       <section id="works" className="bg-background">

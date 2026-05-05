@@ -17,7 +17,6 @@ export function PageTransition({ children }: { children: ReactNode }) {
 
   return (
     <div
-      className="flex-1 pt-14 md:pt-16"
       style={{
         opacity: visible ? 1 : 0,
         transform: `translateY(${visible ? 0 : "12px"})`,
