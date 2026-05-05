@@ -15,6 +15,7 @@ interface ProfileData {
   email: string;
   name: string;
   role: string;
+  memberStatus: string;
   bio: string;
   avatarUrl: string;
   wechatName: string;
@@ -153,7 +154,7 @@ export default function UserProfilePage() {
                   {/* Visibility toggle */}
                   <button
                     onClick={() => handleToggleVisibility(work.id, work.isVisible)}
-                    className="rounded-lg bg-black/60 p-2 text-white/90 backdrop-blur-sm transition-colors hover:bg-black/80 hover:text-gold"
+                    className="rounded-lg bg-white/70 p-2 text-foreground backdrop-blur-sm transition-colors hover:bg-white/90 hover:text-gold dark:bg-black/60 dark:text-white/90 dark:hover:bg-black/80"
                     aria-label={work.isVisible ? "隐藏" : "显示"}
                     title={work.isVisible ? "隐藏作品" : "显示作品"}
                   >
@@ -162,7 +163,7 @@ export default function UserProfilePage() {
                   {/* Edit */}
                   <Link
                     href={`/works/${work.id}/edit`}
-                    className="rounded-lg bg-black/60 p-2 text-white/90 backdrop-blur-sm transition-colors hover:bg-black/80 hover:text-gold"
+                    className="rounded-lg bg-white/70 p-2 text-foreground backdrop-blur-sm transition-colors hover:bg-white/90 hover:text-gold dark:bg-black/60 dark:text-white/90 dark:hover:bg-black/80"
                     aria-label="编辑"
                     title="编辑作品"
                   >
@@ -172,7 +173,7 @@ export default function UserProfilePage() {
                   <button
                     onClick={() => handleDelete(work.id)}
                     disabled={deleting === work.id}
-                    className="rounded-lg bg-black/60 p-2 text-white/90 backdrop-blur-sm transition-colors hover:bg-black/80 hover:text-red-400"
+                    className="rounded-lg bg-white/70 p-2 text-foreground backdrop-blur-sm transition-colors hover:bg-white/90 hover:text-red-500 dark:bg-black/60 dark:text-white/90 dark:hover:bg-black/80 dark:hover:text-red-400"
                     aria-label="删除"
                     title="删除作品"
                   >
@@ -181,7 +182,7 @@ export default function UserProfilePage() {
                 </div>
               )}
               {!work.isVisible && isOwner && (
-                <div className="pointer-events-none absolute left-2 top-2 rounded-md bg-black/60 px-2 py-0.5 text-[11px] text-white/80 backdrop-blur-sm">
+                <div className="pointer-events-none absolute left-2 top-2 rounded-md bg-white/70 px-2 py-0.5 text-[11px] text-foreground/80 backdrop-blur-sm dark:bg-black/60 dark:text-white/80">
                   已隐藏
                 </div>
               )}

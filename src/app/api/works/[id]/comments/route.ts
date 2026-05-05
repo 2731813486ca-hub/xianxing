@@ -33,6 +33,17 @@ export async function POST(
       return NextResponse.json({ error: "请先登录" }, { status: 401 });
     }
 
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { memberStatus: true },
+    });
+    if (!user || user.memberStatus !== "approved") {
+      return NextResponse.json(
+        { error: "请先在设置中填写群身份，等待管理员审核通过后才能评论" },
+        { status: 403 }
+      );
+    }
+
     const body = await request.json();
     const parsed = commentSchema.safeParse(body);
     if (!parsed.success) {

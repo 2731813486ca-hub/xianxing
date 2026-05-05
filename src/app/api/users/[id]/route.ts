@@ -16,6 +16,7 @@ export async function GET(
         email: true,
         name: true,
         role: true,
+        memberStatus: true,
         bio: true,
         avatarUrl: true,
         wechatName: true,
@@ -54,14 +55,35 @@ export async function PUT(
       );
     }
 
+    // Determine memberStatus: if wechat fields filled and currently unfilled, submit for review
+    const currentUser = await prisma.user.findUnique({
+      where: { id },
+      select: { memberStatus: true },
+    });
+
+    let memberStatus = undefined;
+    const { wechatName, wechatAccount } = parsed.data;
+    if (
+      currentUser?.memberStatus === "unfilled" &&
+      (wechatName || wechatAccount)
+    ) {
+      memberStatus = "pending";
+    }
+
+    const updateData: Record<string, unknown> = { ...parsed.data };
+    if (memberStatus) {
+      updateData.memberStatus = memberStatus;
+    }
+
     const updated = await prisma.user.update({
       where: { id },
-      data: parsed.data,
+      data: updateData,
       select: {
         id: true,
         email: true,
         name: true,
         role: true,
+        memberStatus: true,
         bio: true,
         avatarUrl: true,
         wechatName: true,

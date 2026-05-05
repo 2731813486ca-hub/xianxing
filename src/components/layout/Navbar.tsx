@@ -4,19 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
-import {
-  FiGrid,
-  FiTrendingUp,
-  FiUpload,
-  FiUser,
-  FiLogOut,
-  FiMenu,
-  FiX,
-  FiSun,
-  FiMoon,
-  FiBookmark,
-} from "react-icons/fi";
-import { useState, useEffect } from "react";
+import { FiGrid, FiTrendingUp, FiUpload, FiUser, FiLogOut, FiMenu, FiX, FiSun, FiMoon, FiBookmark, FiActivity } from "react-icons/fi";
+import { useState, useEffect, useRef } from "react";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -35,6 +24,25 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close mobile menu on route change, back gesture, or Escape
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    const handlePopState = () => setMenuOpen(false);
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
+
   const isTransparent = isHome && !scrolled;
 
   return (
@@ -42,7 +50,7 @@ export function Navbar() {
       className={`fixed top-0 left-0 z-50 w-full transition-all duration-500 ${
         isTransparent
           ? "bg-transparent"
-          : "border-b border-gold/10 bg-background/80 backdrop-blur-lg"
+          : "bg-background backdrop-blur-lg after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-gold/10"
       }`}
     >
       <div className="mx-auto flex h-14 items-center justify-between px-4 md:h-16 md:px-6 lg:max-w-[1180px] lg:px-0">
@@ -88,7 +96,7 @@ export function Navbar() {
             className={`flex items-center gap-1 text-[11px] tracking-wider transition-colors ${
               isTransparent
                 ? "text-white/70 hover:text-gold"
-                : "text-muted hover:text-gold"
+                : "text-foreground/70 hover:text-gold"
             }`}
             aria-label={theme === "dark" ? "亮色模式" : "暗色模式"}
           >
@@ -110,19 +118,18 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="border-t border-gold/10 bg-background/95 px-4 py-4 backdrop-blur-lg md:hidden">
-          <div className="flex flex-col gap-3">
+        <div className="border-t border-gold/10 bg-background/80 backdrop-blur-xl px-4 py-6 md:hidden">
+          <div className="mx-auto flex max-w-[200px] flex-col items-center gap-2">
             <MobileNavLinks user={user} loading={loading} logout={logout} />
-            <button
-              onClick={toggleTheme}
-              className="flex items-center gap-2 text-xs text-muted transition-colors hover:text-gold"
-            >
-              {theme === "dark" ? (
-                <><FiSun size={16} /> 亮色</>
-              ) : (
-                <><FiMoon size={16} /> 暗色</>
-              )}
-            </button>
+            <div className="mt-2 w-full border-t border-border/30 pt-3 text-center">
+              <button
+                onClick={toggleTheme}
+                className="inline-flex items-center gap-2 text-xs text-foreground/60 transition-colors hover:text-gold"
+              >
+                {theme === "dark" ? <FiSun size={15} /> : <FiMoon size={15} />}
+                {theme === "dark" ? "亮色模式" : "暗色模式"}
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -144,21 +151,69 @@ function NavLinks({
   isTransparent: boolean;
 }) {
   const pathname = usePathname();
+  const [showDiscover, setShowDiscover] = useState(false);
+  const discoverRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (discoverRef.current && !discoverRef.current.contains(e.target as Node)) {
+        setShowDiscover(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
 
   const linkClass = (active: boolean) =>
-    `flex items-center gap-1 text-[11px] tracking-wider transition-colors ${
+    `group flex items-center gap-1 text-[11px] tracking-wider transition-colors relative after:absolute after:-bottom-[3px] after:left-0 after:h-px after:bg-current after:transition-all after:duration-300 ${
       active
-        ? "text-gold"
+        ? "text-gold after:w-full"
         : isTransparent
-          ? "text-white/70 hover:text-gold"
-          : "text-muted hover:text-gold"
+          ? "text-white/70 hover:text-gold after:w-0 hover:after:w-full"
+          : "text-foreground/70 hover:text-gold after:w-0 hover:after:w-full"
     }`;
 
   return (
     <>
-      <Link href="/" className={linkClass(pathname === "/")}>
-        <FiGrid size={14} /> 发现
-      </Link>
+      <div className="relative" ref={discoverRef}>
+        <button
+          onClick={() => setShowDiscover((p) => !p)}
+          className={linkClass(pathname === "/")}
+        >
+          <FiGrid size={14} /> 发现
+        </button>
+        {showDiscover && (
+          <div className={`absolute left-0 top-full z-50 mt-2 w-40 overflow-hidden rounded-lg border shadow-xl ${
+            isTransparent ? "border-white/10 bg-[#12120f]" : "border-border bg-card"
+          }`}>
+            <Link
+              href="/"
+              onClick={() => setShowDiscover(false)}
+              className={`flex items-center gap-2.5 px-4 py-2.5 text-left text-xs transition-colors md:text-sm ${
+                isTransparent
+                  ? "text-white/70 hover:bg-white/[0.04] hover:text-gold"
+                  : "text-foreground/70 hover:bg-gold/5 hover:text-gold"
+              }`}
+            >
+              <FiGrid size={13} className={isTransparent ? "text-white/30" : "text-muted"} />
+              <span>最新作品</span>
+            </Link>
+            <div className={`mx-3 h-px ${isTransparent ? "bg-white/[0.06]" : "bg-border"}`} />
+            <Link
+              href="/"
+              onClick={() => setShowDiscover(false)}
+              className={`flex items-center gap-2.5 px-4 py-2.5 text-left text-xs transition-colors md:text-sm ${
+                isTransparent
+                  ? "text-white/70 hover:bg-white/[0.04] hover:text-gold"
+                  : "text-foreground/70 hover:bg-gold/5 hover:text-gold"
+              }`}
+            >
+              <FiActivity size={13} className={isTransparent ? "text-white/30" : "text-muted"} />
+              <span>社群动态</span>
+            </Link>
+          </div>
+        )}
+      </div>
       <Link href="/works/top" className={linkClass(pathname === "/works/top")}>
         <FiTrendingUp size={14} /> 热门
       </Link>
@@ -181,7 +236,7 @@ function NavLinks({
             className={`flex items-center gap-1 text-[11px] tracking-wider transition-colors ${
               isTransparent
                 ? "text-white/70 hover:text-gold"
-                : "text-muted hover:text-gold"
+                : "text-foreground/70 hover:text-gold"
             }`}
           >
             <FiLogOut size={13} /> 退出
@@ -190,7 +245,7 @@ function NavLinks({
       ) : !loading ? (
         <Link
           href="/login"
-          className="rounded border border-gold/30 px-3 py-1 text-[11px] tracking-wider text-gold transition-colors hover:bg-gold/10"
+          className="rounded border border-gold/30 px-3 py-1 text-[11px] tracking-wider text-gold transition-all duration-300 hover:bg-gold/10 hover:shadow-[0_0_16px_rgba(215,170,69,0.15)]"
         >
           登录
         </Link>
@@ -212,19 +267,19 @@ function MobileNavLinks({
     <>
       <Link
         href="/"
-        className="flex items-center gap-2 text-xs text-muted transition-colors hover:text-gold"
+        className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm text-foreground/70 transition-colors hover:bg-gold/5 hover:text-gold"
       >
         <FiGrid size={14} /> 发现
       </Link>
       <Link
         href="/works/top"
-        className="flex items-center gap-2 text-xs text-muted transition-colors hover:text-gold"
+        className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm text-foreground/70 transition-colors hover:bg-gold/5 hover:text-gold"
       >
         <FiTrendingUp size={14} /> 热门
       </Link>
       <Link
         href="/forest-zone"
-        className="flex items-center gap-2 text-xs text-muted transition-colors hover:text-gold"
+        className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm text-foreground/70 transition-colors hover:bg-gold/5 hover:text-gold"
       >
         <FiBookmark size={14} /> 树林专区
       </Link>
@@ -232,19 +287,19 @@ function MobileNavLinks({
         <>
           <Link
             href="/upload"
-            className="flex items-center gap-2 text-xs text-muted transition-colors hover:text-gold"
+            className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm text-foreground/70 transition-colors hover:bg-gold/5 hover:text-gold"
           >
             <FiUpload size={14} /> 上传
           </Link>
           <Link
             href="/profile/me"
-            className="flex items-center gap-2 text-xs text-muted transition-colors hover:text-gold"
+            className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm text-foreground/70 transition-colors hover:bg-gold/5 hover:text-gold"
           >
             <FiUser size={14} /> {user.name}
           </Link>
           <button
             onClick={logout}
-            className="flex items-center gap-2 text-xs text-muted transition-colors hover:text-gold"
+            className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm text-foreground/70 transition-colors hover:bg-gold/5 hover:text-gold"
           >
             <FiLogOut size={14} /> 退出
           </button>
@@ -252,7 +307,7 @@ function MobileNavLinks({
       ) : !loading ? (
         <Link
           href="/login"
-          className="inline-block rounded border border-gold/30 px-4 py-1.5 text-xs tracking-wider text-gold"
+          className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm text-gold transition-colors hover:bg-gold/10"
         >
           登录
         </Link>

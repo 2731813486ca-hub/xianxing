@@ -3,6 +3,7 @@ export interface UserProfile {
   email: string;
   name: string;
   role: string;
+  memberStatus: string;
   bio: string;
   avatarUrl: string;
   wechatName: string;
@@ -25,6 +26,7 @@ export interface WorkListItem {
   id: string;
   title: string;
   description: string;
+  category: string;
   popularityScore: number;
   createdAt: Date;
   author: {
@@ -54,6 +56,17 @@ export interface WorkDetail extends WorkListItem {
   };
   userLiked?: boolean;
   userFavorited?: boolean;
+}
+
+export interface FeedItem {
+  id: string;
+  title: string;
+  createdAt: string;
+  author: {
+    id: string;
+    name: string;
+    avatarUrl: string;
+  };
 }
 
 export interface PaginatedResponse<T> {

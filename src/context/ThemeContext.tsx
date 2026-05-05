@@ -19,7 +19,7 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("light");
+  const [theme, setThemeState] = useState<Theme>("dark");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // Avoid hydration mismatch: render children only after mounted
   return (
     <ThemeContext.Provider
-      value={{ theme: mounted ? theme : "light", toggleTheme }}
+      value={{ theme: mounted ? theme : "dark", toggleTheme }}
     >
       {children}
     </ThemeContext.Provider>

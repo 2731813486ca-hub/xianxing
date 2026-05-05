@@ -75,13 +75,13 @@ export async function PUT(
       );
     }
 
-    const { title, description, productUrl, imageUrls } = parsed.data;
+    const { title, description, productUrl, category, imageUrls } = parsed.data;
 
     await prisma.workImage.deleteMany({ where: { workId: id } });
 
     await prisma.work.update({
       where: { id },
-      data: { title, description, productUrl },
+      data: { title, description, productUrl, category },
     });
 
     for (let i = 0; i < imageUrls.length; i++) {

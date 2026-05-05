@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FiCompass, FiUpload } from "react-icons/fi";
+import { useTheme } from "@/context/ThemeContext";
 
 interface Stats {
   totalWorks: number;
@@ -29,6 +32,9 @@ const slogans = [
 ];
 
 export function HeroSection() {
+  const router = useRouter();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const [stats, setStats] = useState<Stats | null>(null);
   const [sloganIndex, setSloganIndex] = useState(0);
   const [visible, setVisible] = useState(true);
@@ -56,22 +62,28 @@ export function HeroSection() {
     (stats?.totalLikes ?? 0) + (stats?.totalFavorites ?? 0);
 
   return (
-    <section className="relative min-h-[60vh] overflow-hidden bg-hero lg:min-h-[70vh]">
+    <section
+      className={`relative min-h-[60vh] overflow-hidden transition-colors duration-500 lg:min-h-[70vh] ${
+        isDark ? "bg-hero" : "bg-[#f2ede4]"
+      }`}
+    >
       {/* ===== Subtle gold grid lines ===== */}
       <div
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute inset-0 transition-colors duration-500"
         style={{
           background:
-            "linear-gradient(rgba(215,170,69,0.08) 1px, transparent 1px)," +
-            "linear-gradient(90deg, rgba(215,170,69,0.08) 1px, transparent 1px)",
+            `linear-gradient(rgba(215,170,69,${isDark ? "0.08" : "0.04"}) 1px, transparent 1px),` +
+            `linear-gradient(90deg, rgba(215,170,69,${isDark ? "0.08" : "0.04"}) 1px, transparent 1px)`,
           backgroundSize: "80px 80px",
-          backgroundColor: "#0e0c08",
+          backgroundColor: isDark ? "#0e0c08" : "#f2ede4",
         }}
       />
 
       {/* ===== Noise / grain texture ===== */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.035] mix-blend-screen"
+        className={`pointer-events-none absolute inset-0 transition-opacity duration-500 ${
+          isDark ? "opacity-[0.035] mix-blend-screen" : "opacity-0"
+        }`}
         style={{
           backgroundImage:
             "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
@@ -99,7 +111,7 @@ export function HeroSection() {
             WebkitMaskImage: "url(/logo-brand.png)",
             WebkitMaskSize: "contain",
             WebkitMaskRepeat: "no-repeat",
-            backgroundColor: "rgba(215,170,69,0.08)",
+            backgroundColor: `rgba(215,170,69,${isDark ? "0.08" : "0.035"})`,
           }}
         />
       </div>
@@ -205,18 +217,29 @@ export function HeroSection() {
 
           {/* CTAs */}
           <div className="mt-5 flex flex-wrap gap-3 md:mt-6">
-            <a
-              href="#works"
-              className="inline-flex items-center gap-2 rounded bg-gold px-5 py-2.5 text-xs font-semibold tracking-wider text-[#080807] transition-all hover:bg-gold-light md:px-6 md:py-3 md:text-sm"
+            <button
+              onClick={() => router.push("/works/top")}
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded border border-gold/50 px-5 py-2.5 text-xs font-semibold tracking-wider text-gold transition-all duration-300 hover:border-gold md:px-6 md:py-3 md:text-sm"
             >
-              发现作品
-              <span className="text-sm leading-none md:text-base">→</span>
-            </a>
+              {/* Fill layer — slides in from left */}
+              <span className="absolute inset-0 -translate-x-full rounded transition-transform duration-300 group-hover:translate-x-0 bg-gold" />
+              {/* Content above fill */}
+              <span className="relative z-10 inline-flex items-center gap-2 transition-colors duration-300 group-hover:text-[#080807]">
+                全部作品
+                <FiCompass className="inline-block text-sm leading-none transition-transform duration-300 group-hover:translate-x-1 md:text-base" />
+              </span>
+            </button>
             <Link
               href="/upload"
-              className="inline-flex items-center gap-2 rounded border border-white/15 px-5 py-2.5 text-xs tracking-wider text-white/60 transition-all hover:border-white/30 hover:text-white md:px-6 md:py-3 md:text-sm"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded border-2 border-white/45 px-5 py-[9px] text-xs font-semibold tracking-wider text-white transition-all duration-300 hover:border-white md:px-6 md:py-[11px] md:text-sm"
             >
-              提交作品
+              {/* Fill layer — slides in from left on hover */}
+              <span className="absolute inset-0 -translate-x-full rounded transition-transform duration-300 group-hover:translate-x-0 bg-white" />
+              {/* Content above fill */}
+              <span className="relative z-10 inline-flex items-center gap-2 transition-colors duration-300 group-hover:text-[#080807]">
+                提交作品
+                <FiUpload className="inline-block text-sm leading-none transition-transform duration-300 group-hover:translate-x-1 md:text-base" />
+              </span>
             </Link>
           </div>
         </div>

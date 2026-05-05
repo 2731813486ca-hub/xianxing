@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { HeroSection } from "@/components/home/HeroSection";
+import { LeftSidebar } from "@/components/home/LeftSidebar";
+import { FeedList } from "@/components/home/FeedList";
 import { WorkCard } from "@/components/work/WorkCard";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -24,16 +26,22 @@ export default function HomePage() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [showSort, setShowSort] = useState(false);
+  const sortRef = useRef<HTMLDivElement>(null);
+  const [category, setCategory] = useState("");
+  const [showCategory, setShowCategory] = useState(false);
+  const categoryRef = useRef<HTMLDivElement>(null);
 
   const fetchWorks = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams({
         page: String(page),
-        limit: "12",
+        limit: "16",
         sort,
       });
       if (search) params.set("search", search);
+      if (category) params.set("category", category);
       const res = await fetch(`/api/works?${params}`);
       const data: PaginatedResponse<WorkListItem> = await res.json();
       setWorks(data.items);
@@ -43,7 +51,7 @@ export default function HomePage() {
     } finally {
       setLoading(false);
     }
-  }, [search, page, sort]);
+  }, [search, page, sort, category]);
 
   useEffect(() => {
     fetchWorks();
@@ -51,7 +59,29 @@ export default function HomePage() {
 
   useEffect(() => {
     setPage(1);
-  }, [search, sort]);
+  }, [search, sort, category]);
+
+  // Close sort dropdown on click outside
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (sortRef.current && !sortRef.current.contains(e.target as Node)) {
+        setShowSort(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  // Close category dropdown on click outside
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (categoryRef.current && !categoryRef.current.contains(e.target as Node)) {
+        setShowCategory(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
 
   return (
     <>
@@ -59,24 +89,30 @@ export default function HomePage() {
         <HeroSection />
       </div>
 
+      <LeftSidebar />
+
       {/* ===== Works Archive Section ===== */}
       <section id="works" className="bg-background">
         <div className="mx-auto max-w-[1180px] px-4 pb-20 pt-10 md:pt-12 lg:pt-14">
           {/* Section Header */}
-          <div className="mb-8 flex items-center">
-            <span className="mr-3 h-2.5 w-2.5 rounded-full bg-gold" />
-            <h2 className="font-serif text-xl font-bold tracking-tight text-foreground md:text-2xl">
-              最新作品
-            </h2>
-            <span className="mx-5 h-px flex-1 bg-border" />
+          <div className="mb-6 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-6 w-1 rounded-full bg-gold" />
+              <h2 className="font-serif text-xl font-bold tracking-tight text-foreground md:text-2xl">
+                最新作品
+              </h2>
+            </div>
             <Link
               href="/works/top"
-              className="hidden flex-shrink-0 items-center gap-1 text-sm text-muted transition-colors hover:text-gold sm:flex"
+              className="group inline-flex items-center gap-1.5 rounded-lg border border-gold/20 px-3 py-1.5 text-xs font-medium text-gold transition-all duration-300 hover:border-gold/50 hover:bg-gold/5 hover:shadow-[0_0_12px_rgba(215,170,69,0.08)] sm:flex"
             >
               查看全部
-              <span className="text-base leading-none">→</span>
+              <span className="inline-block text-sm leading-none transition-transform duration-300 group-hover:translate-x-0.5">→</span>
             </Link>
           </div>
+
+          {/* Card block */}
+          <div className="rounded-xl border border-border bg-card p-4 md:p-6">
 
           {/* Toolbar */}
           <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
@@ -86,24 +122,100 @@ export default function HomePage() {
               placeholder="搜索作品、创作者或关键词..."
             />
             <div className="flex items-center gap-2 md:gap-3">
-              {/* Category — visual only */}
-              <select
-                className="input-field rounded-lg border border-border bg-card px-3 py-2.5 text-xs text-foreground md:text-sm"
-                disabled
-              >
-                <option>全部分类</option>
-              </select>
-              {/* Sort */}
-              <select
-                value={sort}
-                onChange={(e) =>
-                  setSort(e.target.value as "latest" | "popular")
-                }
-                className="input-field rounded-lg border border-border bg-card px-3 py-2.5 text-xs text-foreground md:text-sm"
-              >
-                <option value="latest">最新发布</option>
-                <option value="popular">最多喜欢</option>
-              </select>
+              {/* Category dropdown */}
+              <div className="relative" ref={categoryRef}>
+                <button
+                  onClick={() => setShowCategory((p) => !p)}
+                  className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2.5 text-xs text-foreground/70 transition-all duration-200 hover:border-gold/40 hover:shadow-[0_0_12px_rgba(215,170,69,0.08)] focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/20 md:text-sm"
+                >
+                  <span>{category || "全部分类"}</span>
+                  <svg
+                    className={`h-3.5 w-3.5 text-muted transition-transform duration-200 ${showCategory ? "rotate-180" : ""}`}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </button>
+                {showCategory && (
+                  <div className="absolute right-0 top-full z-50 mt-1.5 w-36 overflow-hidden rounded-lg border border-border bg-card shadow-xl">
+                    <button
+                      onClick={() => { setCategory(""); setShowCategory(false); }}
+                      className={`w-full px-3 py-2.5 text-left text-xs transition-colors md:text-sm ${
+                        !category
+                          ? "text-gold"
+                          : "text-foreground hover:bg-gold/5"
+                      }`}
+                    >
+                      全部分类
+                    </button>
+                    <button
+                      onClick={() => { setCategory("AI作品"); setShowCategory(false); }}
+                      className={`w-full px-3 py-2.5 text-left text-xs transition-colors md:text-sm ${
+                        category === "AI作品"
+                          ? "text-gold"
+                          : "text-foreground hover:bg-gold/5"
+                      }`}
+                    >
+                      AI作品
+                    </button>
+                    <button
+                      onClick={() => { setCategory("IP作品"); setShowCategory(false); }}
+                      className={`w-full px-3 py-2.5 text-left text-xs transition-colors md:text-sm ${
+                        category === "IP作品"
+                          ? "text-gold"
+                          : "text-foreground hover:bg-gold/5"
+                      }`}
+                    >
+                      IP作品
+                    </button>
+                  </div>
+                )}
+              </div>
+              {/* Sort — custom dropdown */}
+              <div className="relative" ref={sortRef}>
+                <button
+                  onClick={() => setShowSort((p) => !p)}
+                  className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2.5 text-xs text-foreground transition-all duration-200 hover:border-gold/40 hover:shadow-[0_0_12px_rgba(215,170,69,0.08)] focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/20 md:text-sm"
+                >
+                  <span>{sort === "latest" ? "最新发布" : "最多喜欢"}</span>
+                  <svg
+                    className={`h-3.5 w-3.5 text-muted transition-transform duration-200 ${showSort ? "rotate-180" : ""}`}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </button>
+                {showSort && (
+                  <div className="absolute right-0 top-full z-50 mt-1.5 w-36 overflow-hidden rounded-lg border border-border bg-card shadow-xl">
+                    <button
+                      onClick={() => { setSort("latest"); setShowSort(false); }}
+                      className={`w-full px-3 py-2.5 text-left text-xs transition-colors md:text-sm ${
+                        sort === "latest"
+                          ? "text-gold"
+                          : "text-foreground hover:bg-gold/5"
+                      }`}
+                    >
+                      最新发布
+                    </button>
+                    <button
+                      onClick={() => { setSort("popular"); setShowSort(false); }}
+                      className={`w-full px-3 py-2.5 text-left text-xs transition-colors md:text-sm ${
+                        sort === "popular"
+                          ? "text-gold"
+                          : "text-foreground hover:bg-gold/5"
+                      }`}
+                    >
+                      最多喜欢
+                    </button>
+                  </div>
+                )}
+              </div>
               {/* View toggle */}
               <div className="flex rounded-lg border border-border">
                 <button
@@ -133,6 +245,7 @@ export default function HomePage() {
           </div>
 
           {/* Works Grid / List */}
+          <div className="min-h-[500px]">
           {loading ? (
             <div className="flex justify-center py-20">
               <LoadingSpinner />
@@ -184,6 +297,26 @@ export default function HomePage() {
               )}
             </>
           )}
+          </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Community Feed Section ===== */}
+      <section id="community" className="bg-background">
+        <div className="mx-auto max-w-[1180px] px-4 pb-24 pt-10 md:pt-12 lg:pt-14">
+          {/* Section Header */}
+          <div className="mb-6 flex items-center gap-3">
+            <div className="h-6 w-1 rounded-full bg-gold" />
+            <h2 className="font-serif text-xl font-bold tracking-tight text-foreground md:text-2xl">
+              社群动态
+            </h2>
+          </div>
+
+          {/* Card block */}
+          <div className="rounded-xl border border-border bg-card p-4 md:p-6">
+            <FeedList />
+          </div>
         </div>
       </section>
     </>

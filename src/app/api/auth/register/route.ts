@@ -15,7 +15,31 @@ export async function POST(request: Request) {
       );
     }
 
-    const { email, password, name } = parsed.data;
+    const { email, password, name, code } = parsed.data;
+
+    // Verify code
+    const record = await prisma.verificationCode.findFirst({
+      where: {
+        email,
+        code,
+        used: false,
+        expiresAt: { gte: new Date() },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (!record) {
+      return NextResponse.json(
+        { error: "验证码无效或已过期，请重新获取" },
+        { status: 400 }
+      );
+    }
+
+    // Mark code as used
+    await prisma.verificationCode.update({
+      where: { id: record.id },
+      data: { used: true },
+    });
 
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) {

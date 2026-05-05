@@ -74,9 +74,20 @@ export function WorkCard({
 
         {/* Info */}
         <div className="mt-3 space-y-1">
-          <h3 className="truncate font-serif text-base font-semibold text-foreground transition-colors group-hover:text-gold">
-            {work.title}
-          </h3>
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="truncate font-serif text-base font-semibold text-foreground transition-colors group-hover:text-gold">
+              {work.title}
+            </h3>
+            {work.category && (
+              <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-wider ${
+                work.category === "AI作品"
+                  ? "bg-blue-500/10 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
+                  : "bg-purple-500/10 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400"
+              }`}>
+                {work.category}
+              </span>
+            )}
+          </div>
           <p className="line-clamp-2 text-xs leading-relaxed text-muted">
             {work.description || "—"}
           </p>

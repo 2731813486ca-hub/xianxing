@@ -57,9 +57,20 @@ export function ProfileHeader({ profile, isOwner, onUpdate }: ProfileHeaderProps
 
       {/* Info */}
       <div className="flex-1">
-        <h1 className="font-serif text-2xl font-bold text-foreground">
-          {profile.name}
-        </h1>
+        <div className="flex items-center gap-3">
+          <h1 className="font-serif text-2xl font-bold text-foreground">
+            {profile.name}
+          </h1>
+          {profile.memberStatus === "approved" ? (
+            <span className="rounded-full bg-green-500/10 px-2.5 py-0.5 text-[11px] font-semibold tracking-wider text-green-600 dark:bg-green-900/20 dark:text-green-500">
+              正式成员
+            </span>
+          ) : (
+            <span className="rounded-full bg-muted/10 px-2.5 py-0.5 text-[11px] font-semibold tracking-wider text-muted">
+              普通用户
+            </span>
+          )}
+        </div>
 
         {/* Bio — with inline editing for owner */}
         <div className="group mt-1 flex items-start gap-2">

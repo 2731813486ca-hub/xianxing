@@ -3,7 +3,8 @@ import { z } from "zod";
 export const registerSchema = z.object({
   email: z.string().email("请输入有效的邮箱地址"),
   password: z.string().min(6, "密码至少6个字符"),
-  name: z.string().min(1, "请输入昵称").max(30, "昵称最多30个字符"),
+  name: z.string().min(1, "请输入昵称").max(10, "昵称最多10个字符"),
+  code: z.string().length(6, "验证码为6位数字"),
 });
 
 export const loginSchema = z.object({
@@ -15,6 +16,7 @@ export const workSchema = z.object({
   title: z.string().min(1, "请输入作品标题").max(100, "标题最多100个字符"),
   description: z.string().max(1000, "描述最多1000个字符").default(""),
   productUrl: z.string().max(500, "链接最多500个字符").default(""),
+  category: z.enum(["AI作品", "IP作品", ""]).default(""),
   imageUrls: z
     .array(z.string())
     .min(1, "至少需要一张图片")
@@ -22,7 +24,7 @@ export const workSchema = z.object({
 });
 
 export const profileSchema = z.object({
-  name: z.string().min(1, "请输入昵称").max(30, "昵称最多30个字符"),
+  name: z.string().min(1, "请输入昵称").max(10, "昵称最多10个字符"),
   bio: z.string().max(200, "个人简介最多200个字符").default(""),
   avatarUrl: z.string().max(500, "头像链接最多500个字符").default(""),
   wechatName: z.string().max(50, "微信昵称最多50个字符").default(""),

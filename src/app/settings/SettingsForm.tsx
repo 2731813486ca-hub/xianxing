@@ -117,7 +117,7 @@ export function SettingsForm() {
             <button
               type="button"
               onClick={() => setAvatarUrl("")}
-              className="text-xs text-muted transition-colors hover:text-red-400"
+              className="text-xs text-muted transition-colors hover:text-red-500 dark:hover:text-red-400"
             >
               清除头像
             </button>
@@ -150,6 +150,26 @@ export function SettingsForm() {
         <p className="mb-3 text-xs font-semibold tracking-wider text-foreground/60 uppercase">
           群身份
         </p>
+        {user.memberStatus && user.memberStatus !== "unfilled" && (
+          <div className="mb-3 flex items-center gap-2">
+            <span className="text-[11px] text-muted">状态：</span>
+            {user.memberStatus === "approved" && (
+              <span className="rounded-full bg-green-500/10 px-2 py-0.5 text-[11px] font-medium text-green-600 dark:bg-green-900/20 dark:text-green-500">
+                已审核通过
+              </span>
+            )}
+            {user.memberStatus === "pending" && (
+              <span className="rounded-full bg-gold/10 px-2 py-0.5 text-[11px] font-medium text-gold">
+                等待审核
+              </span>
+            )}
+            {user.memberStatus === "rejected" && (
+              <span className="rounded-full bg-red-500/10 px-2 py-0.5 text-[11px] font-medium text-red-600 dark:bg-red-900/20 dark:text-red-400">
+                审核未通过
+              </span>
+            )}
+          </div>
+        )}
         <Input
           label="微信昵称"
           placeholder="输入微信昵称"
@@ -164,6 +184,16 @@ export function SettingsForm() {
             onChange={(e) => setForm({ ...form, wechatAccount: e.target.value })}
           />
         </div>
+        {user.memberStatus === "unfilled" && (
+          <p className="mt-2 text-[11px] text-muted">
+            填写群身份并保存后，将提交管理员审核。审核通过后方可发布作品。
+          </p>
+        )}
+        {user.memberStatus === "rejected" && (
+          <p className="mt-2 text-[11px] text-muted">
+            请修改群身份信息后重新提交审核。
+          </p>
+        )}
       </div>
 
       <Button type="submit" loading={loading}>

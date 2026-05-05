@@ -40,6 +40,9 @@
 @utility text-foreground {
   color: var(--color-foreground);
 }
+@utility text-foreground\/70 {
+  color: color-mix(in oklab, var(--color-foreground) 70%, transparent);
+}
 @utility text-muted {
   color: var(--color-muted);
 }
@@ -63,6 +66,8 @@
   * {
     scrollbar-width: thin;
     scrollbar-color: var(--color-border) transparent;
+    /* Smooth theme switching (brief enough to not fight hover states) */
+    transition: background-color 0.15s ease;
   }
 
   body {

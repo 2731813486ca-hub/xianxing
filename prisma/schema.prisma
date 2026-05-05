@@ -17,6 +17,7 @@ model User {
   wechatAccount String @default("")
   role           String  @default("user")
   isForestAdmin  Boolean @default(false)
+  memberStatus   String  @default("unfilled")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -31,6 +32,7 @@ model Work {
   title           String
   description     String   @default("")
   productUrl      String   @default("")
+  category        String   @default("")
   isVisible       Boolean  @default(true)
   isPinned        Boolean  @default(false)
   popularityScore Int      @default(0)
@@ -90,4 +92,17 @@ model Comment {
   work   Work @relation(fields: [workId], references: [id], onDelete: Cascade)
 
   @@index([workId, createdAt])
+}
+
+model VerificationCode {
+  id        String   @id @default(cuid())
+  email     String
+  code      String
+  ip        String
+  used      Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email, code])
+  @@index([ip, createdAt])
 }

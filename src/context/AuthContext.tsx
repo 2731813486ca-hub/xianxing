@@ -17,7 +17,8 @@ interface AuthContextType {
   register: (
     email: string,
     password: string,
-    name: string
+    name: string,
+    code: string
   ) => Promise<string | null>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
@@ -75,13 +76,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async (
       email: string,
       password: string,
-      name: string
+      name: string,
+      code: string
     ): Promise<string | null> => {
       try {
         const res = await fetch("/api/auth/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password, name }),
+          body: JSON.stringify({ email, password, name, code }),
         });
         const data = await res.json();
         if (!res.ok) return data.error || "注册失败";

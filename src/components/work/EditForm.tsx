@@ -7,12 +7,18 @@ import { Input } from "@/components/ui/Input";
 import { ImageUploader } from "./ImageUploader";
 import { toast } from "@/components/ui/Toaster";
 
+const CATEGORIES = [
+  { value: "AI作品", label: "AI 作品" },
+  { value: "IP作品", label: "IP 作品" },
+];
+
 interface EditFormProps {
   work: {
     id: string;
     title: string;
     description: string;
     productUrl: string;
+    category?: string;
     images: { url: string; alt: string }[];
   };
 }
@@ -24,6 +30,7 @@ export function EditForm({ work }: EditFormProps) {
     title: work.title,
     description: work.description,
     productUrl: work.productUrl,
+    category: work.category || "",
   });
   const [images, setImages] = useState<string[]>(
     work.images.map((i) => i.url)
@@ -74,6 +81,28 @@ export function EditForm({ work }: EditFormProps) {
         onChange={(e) => setForm({ ...form, title: e.target.value })}
         required
       />
+      {/* Category selector */}
+      <div>
+        <label className="mb-1.5 block text-sm font-medium text-foreground">
+          作品类目
+        </label>
+        <div className="flex gap-2">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat.value}
+              type="button"
+              onClick={() => setForm({ ...form, category: cat.value })}
+              className={`flex-1 rounded-lg border px-4 py-2.5 text-sm font-medium tracking-wider transition-all duration-200 ${
+                form.category === cat.value
+                  ? "border-gold bg-gold/10 text-gold"
+                  : "border-border text-muted hover:border-foreground/20 hover:text-foreground/70"
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+      </div>
       <div>
         <label className="mb-1.5 block text-sm font-medium text-foreground">
           作品描述

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { FiSearch, FiX } from "react-icons/fi";
 
 interface SearchBarProps {
@@ -15,6 +15,11 @@ export function SearchBar({
   placeholder = "搜索作品...",
 }: SearchBarProps) {
   const [local, setLocal] = useState(value);
+  const [expanded, setExpanded] = useState(false);
+  const [hasValue, setHasValue] = useState(!!value);
+  const [isFocused, setIsFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const debouncedOnChange = useCallback(
     debounce((val: string) => onChange(val), 300),
@@ -27,25 +32,77 @@ export function SearchBar({
 
   useEffect(() => {
     setLocal(value);
+    setHasValue(!!value);
   }, [value]);
 
+  // Close on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setExpanded(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleClear = () => {
+    setLocal("");
+    setHasValue(false);
+    inputRef.current?.focus();
+  };
+
   return (
-    <div className="relative w-full max-w-md">
-      <FiSearch
-        size={18}
-        className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted"
-      />
+    <div
+      ref={containerRef}
+      onMouseEnter={() => setExpanded(true)}
+      onMouseLeave={() => {
+        if (!isFocused && !local) setExpanded(false);
+      }}
+      className={`group relative flex items-center transition-all duration-500 ease-out ${
+        expanded || hasValue
+          ? "w-full md:w-[280px] lg:w-[340px]"
+          : "w-9 md:w-9"
+      }`}
+    >
+      {/* Input */}
       <input
+        ref={inputRef}
         type="text"
         value={local}
-        onChange={(e) => setLocal(e.target.value)}
+        onChange={(e) => {
+          setLocal(e.target.value);
+          setHasValue(!!e.target.value);
+        }}
+        onFocus={() => { setExpanded(true); setIsFocused(true); }}
+        onBlur={() => setIsFocused(false)}
         placeholder={placeholder}
-        className="input-field w-full rounded-xl border py-3 pl-10 pr-10 text-sm"
+        className={`input-field w-full rounded-xl border py-2.5 pl-9 pr-9 text-sm transition-all duration-500 ${
+          expanded || hasValue
+            ? "opacity-100"
+            : "opacity-0 pointer-events-none"
+        }`}
       />
+
+      {/* Search icon — always visible */}
+      <FiSearch
+        size={17}
+        className={`absolute left-2.5 top-1/2 -translate-y-1/2 transition-all duration-300 ${
+          expanded || hasValue
+            ? "text-gold"
+            : "text-muted hover:text-foreground cursor-pointer"
+        }`}
+        onClick={() => {
+          setExpanded(true);
+          setTimeout(() => inputRef.current?.focus(), 100);
+        }}
+      />
+
+      {/* Clear button */}
       {local && (
         <button
-          onClick={() => setLocal("")}
-          className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted transition-colors hover:text-foreground"
+          onClick={handleClear}
+          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted transition-colors hover:text-foreground"
           aria-label="清除"
         >
           <FiX size={16} />

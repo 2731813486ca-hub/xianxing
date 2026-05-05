@@ -6,7 +6,7 @@ import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { FiHeart, FiBookmark, FiAward } from "react-icons/fi";
 import type { WorkListItem } from "@/types";
 
-const medals = ["text-yellow-400", "text-gray-300", "text-amber-600"];
+const medals = ["text-yellow-500 dark:text-yellow-400", "text-gray-400 dark:text-gray-300", "text-amber-600 dark:text-amber-500"];
 
 export default function TopWorksPage() {
   const [works, setWorks] = useState<WorkListItem[]>([]);

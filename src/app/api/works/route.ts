@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = request.nextUrl;
     const query = searchParams.get("search") || "";
+    const category = searchParams.get("category") || "";
     const sort = searchParams.get("sort") || "latest";
     const page = Math.max(1, parseInt(searchParams.get("page") || "1"));
     const limit = Math.min(
@@ -20,7 +21,7 @@ export async function GET(request: NextRequest) {
         ? { popularityScore: "desc" as const }
         : { createdAt: "desc" as const };
 
-    const where = {
+    const where: Record<string, unknown> = {
       isVisible: true,
       ...(query
         ? {
@@ -30,6 +31,7 @@ export async function GET(request: NextRequest) {
             ],
           }
         : {}),
+      ...(category ? { category } : {}),
     };
 
     const [items, total] = await Promise.all([
@@ -72,6 +74,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "请先登录" }, { status: 401 });
     }
 
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { memberStatus: true },
+    });
+    if (!user || user.memberStatus !== "approved") {
+      return NextResponse.json(
+        { error: "请先在设置中填写群身份，等待管理员审核通过后才能发布作品" },
+        { status: 403 }
+      );
+    }
+
     const body = await request.json();
     const parsed = workSchema.safeParse(body);
     if (!parsed.success) {
@@ -81,11 +94,11 @@ export async function POST(request: Request) {
       );
     }
 
-    const { title, description, productUrl, imageUrls } = parsed.data;
+    const { title, description, productUrl, category, imageUrls } = parsed.data;
 
     // Create work and images separately to avoid Neon HTTP transaction issues
     const work = await prisma.work.create({
-      data: { title, description, productUrl, authorId: userId },
+      data: { title, description, productUrl, category, authorId: userId },
     });
 
     for (let i = 0; i < imageUrls.length; i++) {

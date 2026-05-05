@@ -75,7 +75,7 @@ export async function getSessionUser() {
   if (!userId) return null;
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { id: true, email: true, name: true, role: true, bio: true, avatarUrl: true, wechatName: true, wechatAccount: true },
+    select: { id: true, email: true, name: true, role: true, memberStatus: true, bio: true, avatarUrl: true, wechatName: true, wechatAccount: true },
   });
   return user;
 }

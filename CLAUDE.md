@@ -102,7 +102,18 @@ Vercel 环境变量 BOM 问题已修复。关键经验：
 
 `middleware.ts` 保护 `/upload`、`/settings`、`/profile/me`，并将已登录用户从 `/login`、`/register` 重定向。
 
-## 团队约定 / 踩坑记录
+## 关键经验
+
+### 主题系统 (2026-05-05 全面升级)
+
+- **深色/浅色模式已全面支持**：所有组件均通过 `dark:` 变体适配双主题
+- **Color tokens**：CSS 变量 (--color-background, --color-foreground, --color-card 等) 在 `:root` 和 `.dark` 中定义
+- **全局 transition**：`* { transition: background-color 0.15s ease; }` 确保主题切换时平滑过渡
+- **免闪白**：layout.tsx 内联 `<script>` 在 hydrate 前读取 localStorage 设置 `.dark` 类
+- **颜色规范**：
+  - 状态色（红/绿/蓝/紫）统一使用 `*-500/10 text-*600 dark:bg-*900/20 dark:text-*400` 模式
+  - 叠加层按钮使用 `bg-white/70 text-foreground dark:bg-black/60 dark:text-white/90`
+  - Toast 通知使用 `bg-*-50/90 text-*700 dark:bg-*-900/80 dark:text-*-200`
 
 1. **Prisma 7 必须带 adapter**：没有 adapter 的 `new PrismaClient()` 会报错
 2. **Edge Runtime 不能 import Prisma**：middleware 使用 `auth-edge.ts`（仅 jose）而不是 `auth.ts`
