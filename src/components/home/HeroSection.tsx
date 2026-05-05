@@ -266,7 +266,29 @@ function LightHero({
 }: HeroContentProps) {
   return (
     <section className="relative min-h-[60vh] overflow-hidden bg-[#f2ede4] lg:min-h-[70vh]">
-      {/* ===== Small brand emblem — left watermark, very faint ===== */}
+      {/* ===== Background texture: subtle gold grid ===== */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(rgba(215,170,69,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(215,170,69,0.04) 1px, transparent 1px)",
+          backgroundSize: "80px 80px",
+          backgroundColor: "#f2ede4",
+        }}
+      />
+
+      {/* ===== Noise / grain texture ===== */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.012] mix-blend-multiply"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+          backgroundRepeat: "repeat",
+          backgroundSize: "512px 512px",
+        }}
+      />
+
+      {/* ===== Brand emblem — left watermark ===== */}
       <div
         className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 hidden lg:block select-none"
         style={{
@@ -285,23 +307,38 @@ function LightHero({
             WebkitMaskImage: "url(/logo-brand.png)",
             WebkitMaskSize: "contain",
             WebkitMaskRepeat: "no-repeat",
-            backgroundColor: "rgba(215,170,69,0.06)",
+            backgroundColor: "rgba(215,170,69,0.07)",
           }}
         />
       </div>
 
-      {/* ===== Decorative arcs — very subtle ===== */}
+      {/* ===== Decorative arcs — warm brown on light ===== */}
       <svg
-        className="pointer-events-none absolute right-0 top-0 h-full w-[60%] max-w-[700px] opacity-[0.05]"
+        className="pointer-events-none absolute right-0 top-0 h-full w-[60%] max-w-[700px] opacity-[0.06]"
         viewBox="0 0 700 700"
         fill="none"
         preserveAspectRatio="xMaxYMin meet"
       >
         <path d="M 680 50 C 680 420, 480 670, 50 670" stroke="#8B7D6B" strokeWidth="0.4" />
         <path d="M 620 100 C 620 380, 420 580, 100 580" stroke="#8B7D6B" strokeWidth="0.25" />
-        <circle cx="520" cy="240" r="1.5" fill="#8B7D6B" fillOpacity="0.2" />
-        <circle cx="380" cy="420" r="1" fill="#8B7D6B" fillOpacity="0.15" />
+        <path d="M 680 300 C 680 520, 520 620, 300 620" stroke="#8B7D6B" strokeWidth="0.2" />
+        <circle cx="520" cy="240" r="1.8" fill="#8B7D6B" fillOpacity="0.2" />
+        <circle cx="380" cy="420" r="1.2" fill="#8B7D6B" fillOpacity="0.15" />
+        <circle cx="480" cy="480" r="0.8" fill="#8B7D6B" fillOpacity="0.12" />
       </svg>
+
+      {/* ===== Vertical divider — right of center ===== */}
+      <div className="pointer-events-none absolute right-[240px] top-[15%] z-0 hidden h-[70%] w-px bg-gradient-to-b from-transparent via-gold/8 to-transparent lg:block" />
+
+      {/* ===== Subtle "X" watermark — bottom right ===== */}
+      <div className="pointer-events-none absolute bottom-0 right-[8%] select-none">
+        <span className="font-serif text-[min(40vw,320px)] font-bold tracking-tighter text-[#8B7D6B]/[0.025]">X</span>
+      </div>
+
+      {/* ===== Decorative frame — right side, very faint ===== */}
+      <div className="pointer-events-none absolute bottom-[10%] right-[1.5%] h-44 w-[220px] border border-gold/8 rounded-sm" />
+      <div className="pointer-events-none absolute bottom-[7%] right-[0.5%] h-px w-10 bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
+      <div className="pointer-events-none absolute bottom-[5%] right-[0.2%] h-6 w-px bg-gradient-to-b from-gold/15 to-transparent" />
 
       {/* ===== Subtle bottom line ===== */}
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
@@ -344,7 +381,7 @@ function LightHero({
 
           {/* Slogan carousel */}
           <p
-            className="mt-4 max-w-md text-xs leading-relaxed tracking-wider text-black/40 transition-opacity duration-500 md:mt-5 md:text-sm"
+            className="mt-4 max-w-md text-xs leading-relaxed tracking-wider text-black/45 transition-opacity duration-500 md:mt-5 md:text-sm"
             style={{ opacity: sloganVisible ? 1 : 0 }}
           >
             {slogans[sloganIndex]}
