@@ -11,6 +11,7 @@ export function Navbar() {
   const pathname = usePathname();
   const { user, loading, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const isHome = pathname === "/";
@@ -49,7 +50,9 @@ export function Navbar() {
     <nav
       className={`fixed top-0 left-0 z-50 w-full transition-all duration-500 ${
         isTransparent
-          ? "bg-transparent"
+          ? isDark
+            ? "bg-transparent"
+            : "bg-white/15 backdrop-blur-md"
           : "bg-background backdrop-blur-lg after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-gold/10"
       }`}
     >
@@ -61,21 +64,29 @@ export function Navbar() {
               src="/logo-brand.png"
               alt="先行"
               className={`h-full w-full object-cover scale-[1.8] transition-all duration-500 ${
-                isTransparent ? "mix-blend-screen" : ""
+                isTransparent && isDark ? "mix-blend-screen" : ""
               }`}
             />
           </div>
           <div className="flex flex-col">
             <span
               className={`text-sm font-bold leading-snug tracking-[0.12em] transition-colors duration-500 md:text-base ${
-                isTransparent ? "text-white/90" : "text-foreground"
+                isTransparent
+                  ? isDark
+                    ? "text-white/90"
+                    : "text-[#1a1a1a]/85"
+                  : "text-foreground"
               }`}
             >
               先行
             </span>
             <span
               className={`text-[7px] leading-none tracking-[0.35em] transition-colors duration-500 md:text-[8px] ${
-                isTransparent ? "text-white/30" : "text-muted"
+                isTransparent
+                  ? isDark
+                    ? "text-white/30"
+                    : "text-[#1a1a1a]/40"
+                  : "text-muted"
               }`}
             >
               XIANXING
@@ -90,12 +101,15 @@ export function Navbar() {
             loading={loading}
             logout={logout}
             isTransparent={isTransparent}
+            isDark={isDark}
           />
           <button
             onClick={toggleTheme}
             className={`flex items-center gap-1 text-[11px] tracking-wider transition-colors ${
               isTransparent
-                ? "text-white/70 hover:text-gold"
+                ? isDark
+                  ? "text-white/70 hover:text-gold"
+                  : "text-[#1a1a1a]/60 hover:text-gold"
                 : "text-foreground/70 hover:text-gold"
             }`}
             aria-label={theme === "dark" ? "亮色模式" : "暗色模式"}
@@ -108,7 +122,11 @@ export function Navbar() {
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className={`flex md:hidden ${
-            isTransparent ? "text-white/70" : "text-foreground"
+            isTransparent
+              ? isDark
+                ? "text-white/70"
+                : "text-[#1a1a1a]/70"
+              : "text-foreground"
           }`}
           aria-label="菜单"
         >
@@ -144,11 +162,13 @@ function NavLinks({
   loading,
   logout,
   isTransparent,
+  isDark,
 }: {
   user: any;
   loading: boolean;
   logout: () => void;
   isTransparent: boolean;
+  isDark: boolean;
 }) {
   const pathname = usePathname();
   const [showDiscover, setShowDiscover] = useState(false);
@@ -169,7 +189,9 @@ function NavLinks({
       active
         ? "text-gold after:w-full"
         : isTransparent
-          ? "text-white/70 hover:text-gold after:w-0 hover:after:w-full"
+          ? isDark
+            ? "text-white/70 hover:text-gold after:w-0 hover:after:w-full"
+            : "text-[#1a1a1a]/60 hover:text-gold after:w-0 hover:after:w-full"
           : "text-foreground/70 hover:text-gold after:w-0 hover:after:w-full"
     }`;
 
@@ -184,31 +206,57 @@ function NavLinks({
         </button>
         {showDiscover && (
           <div className={`absolute left-0 top-full z-50 mt-2 w-40 overflow-hidden rounded-lg border shadow-xl ${
-            isTransparent ? "border-white/10 bg-[#12120f]" : "border-border bg-card"
+            isTransparent
+              ? isDark
+                ? "border-white/10 bg-[#12120f]"
+                : "border-gold/10 bg-white/90 backdrop-blur-md"
+              : "border-border bg-card"
           }`}>
             <Link
               href="/"
               onClick={() => setShowDiscover(false)}
               className={`flex items-center gap-2.5 px-4 py-2.5 text-left text-xs transition-colors md:text-sm ${
                 isTransparent
-                  ? "text-white/70 hover:bg-white/[0.04] hover:text-gold"
+                  ? isDark
+                    ? "text-white/70 hover:bg-white/[0.04] hover:text-gold"
+                    : "text-[#1a1a1a]/70 hover:bg-gold/10 hover:text-gold"
                   : "text-foreground/70 hover:bg-gold/5 hover:text-gold"
               }`}
             >
-              <FiGrid size={13} className={isTransparent ? "text-white/30" : "text-muted"} />
+              <FiGrid size={13} className={
+                isTransparent
+                  ? isDark
+                    ? "text-white/30"
+                    : "text-[#1a1a1a]/30"
+                  : "text-muted"
+              } />
               <span>最新作品</span>
             </Link>
-            <div className={`mx-3 h-px ${isTransparent ? "bg-white/[0.06]" : "bg-border"}`} />
+            <div className={`mx-3 h-px ${
+              isTransparent
+                ? isDark
+                  ? "bg-white/[0.06]"
+                  : "bg-gold/10"
+                : "bg-border"
+            }`} />
             <Link
               href="/"
               onClick={() => setShowDiscover(false)}
               className={`flex items-center gap-2.5 px-4 py-2.5 text-left text-xs transition-colors md:text-sm ${
                 isTransparent
-                  ? "text-white/70 hover:bg-white/[0.04] hover:text-gold"
+                  ? isDark
+                    ? "text-white/70 hover:bg-white/[0.04] hover:text-gold"
+                    : "text-[#1a1a1a]/70 hover:bg-gold/10 hover:text-gold"
                   : "text-foreground/70 hover:bg-gold/5 hover:text-gold"
               }`}
             >
-              <FiActivity size={13} className={isTransparent ? "text-white/30" : "text-muted"} />
+              <FiActivity size={13} className={
+                isTransparent
+                  ? isDark
+                    ? "text-white/30"
+                    : "text-[#1a1a1a]/30"
+                  : "text-muted"
+              } />
               <span>社群动态</span>
             </Link>
           </div>
@@ -235,7 +283,9 @@ function NavLinks({
             onClick={logout}
             className={`flex items-center gap-1 text-[11px] tracking-wider transition-colors ${
               isTransparent
-                ? "text-white/70 hover:text-gold"
+                ? isDark
+                  ? "text-white/70 hover:text-gold"
+                  : "text-[#1a1a1a]/60 hover:text-gold"
                 : "text-foreground/70 hover:text-gold"
             }`}
           >

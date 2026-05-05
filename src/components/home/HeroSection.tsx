@@ -266,12 +266,6 @@ function LightHero({
 }: HeroContentProps) {
   return (
     <section className="relative min-h-[60vh] overflow-hidden bg-[#f2ede4] lg:min-h-[70vh]">
-      {/* ===== Warm ambient tone panel — right side ===== */}
-      <div className="pointer-events-none absolute right-0 top-0 h-full w-[45%] max-w-[560px] bg-[#e8e0d4]" />
-
-      {/* ===== Single subtle horizontal rule at mid-height ===== */}
-      <div className="pointer-events-none absolute left-0 right-0 top-1/2 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
-
       {/* ===== Small brand emblem — left watermark, very faint ===== */}
       <div
         className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 hidden lg:block select-none"
@@ -296,25 +290,20 @@ function LightHero({
         />
       </div>
 
-      {/* ===== Decorative: thin vertical accent line on the warm panel ===== */}
-      <div className="pointer-events-none absolute right-[280px] top-[20%] z-0 hidden h-[60%] w-px bg-gradient-to-b from-transparent via-gold/15 to-transparent lg:block" />
-
-      {/* ===== Decorative arcs — much lighter touch for light mode ===== */}
+      {/* ===== Decorative arcs — very subtle ===== */}
       <svg
-        className="pointer-events-none absolute right-0 top-0 h-full w-[60%] max-w-[700px] opacity-[0.06]"
+        className="pointer-events-none absolute right-0 top-0 h-full w-[60%] max-w-[700px] opacity-[0.05]"
         viewBox="0 0 700 700"
         fill="none"
         preserveAspectRatio="xMaxYMin meet"
       >
         <path d="M 680 50 C 680 420, 480 670, 50 670" stroke="#8B7D6B" strokeWidth="0.4" />
         <path d="M 620 100 C 620 380, 420 580, 100 580" stroke="#8B7D6B" strokeWidth="0.25" />
-        <path d="M 680 300 C 680 520, 520 620, 300 620" stroke="#8B7D6B" strokeWidth="0.2" />
         <circle cx="520" cy="240" r="1.5" fill="#8B7D6B" fillOpacity="0.2" />
         <circle cx="380" cy="420" r="1" fill="#8B7D6B" fillOpacity="0.15" />
-        <circle cx="480" cy="480" r="0.8" fill="#8B7D6B" fillOpacity="0.12" />
       </svg>
 
-      {/* ===== Subtle bottom shadow line ===== */}
+      {/* ===== Subtle bottom line ===== */}
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
 
       {/* ===== Main content ===== */}
@@ -337,7 +326,7 @@ function LightHero({
         </div>
 
         {/* ——— Center: brand ——— */}
-        <div className="flex flex-1 flex-col justify-center pt-14 md:pr-8 lg:pt-10">
+        <div className="flex flex-1 flex-col justify-center pt-14 lg:pt-10">
           {/* Eyebrow */}
           <p className="mb-3 font-serif text-[10px] tracking-[0.45em] text-gold md:mb-4 md:text-xs">
             INDEPENDENT WORKS ARCHIVE
@@ -363,7 +352,6 @@ function LightHero({
 
           {/* CTAs */}
           <div className="mt-6 flex flex-wrap gap-3 md:mt-7">
-            {/* Browse — solid gold */}
             <button
               onClick={onBrowse}
               className="group inline-flex items-center gap-2 rounded-lg bg-gold px-5 py-2.5 text-xs font-semibold tracking-wider text-[#1a1a1a] transition-all duration-300 hover:bg-gold-light md:px-6 md:py-3 md:text-sm"
@@ -371,8 +359,6 @@ function LightHero({
               全部作品
               <FiArrowUpRight className="inline-block text-sm leading-none transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 md:text-base" />
             </button>
-
-            {/* Upload — outlined */}
             <Link
               href="/upload"
               className="group inline-flex items-center gap-2 rounded-lg border border-[#1a1a1a]/25 px-5 py-2.5 text-xs font-semibold tracking-wider text-[#1a1a1a] transition-all duration-300 hover:border-[#1a1a1a]/50 hover:bg-white/40 md:px-6 md:py-3 md:text-sm"
@@ -383,25 +369,22 @@ function LightHero({
           </div>
         </div>
 
-        {/* ——— Right: stat card integrated into warm panel ——— */}
-        <div className="hidden w-[260px] flex-shrink-0 flex-col justify-center pb-12 lg:flex">
-          <div className="rounded-sm border border-gold/10 bg-white/50 px-5 py-6 backdrop-blur-sm">
-            {/* Motto */}
-            <p className="text-sm font-medium tracking-wider text-[#1a1a1a]/70">独立思考</p>
-            <p className="mt-0.5 text-sm font-medium tracking-wider text-[#1a1a1a]/70">创造未来</p>
+        {/* ——— Right: inline stats, no card, no split ——— */}
+        <div className="hidden w-[200px] flex-shrink-0 flex-col justify-center pb-12 lg:flex">
+          <p className="text-sm font-medium tracking-wider text-[#1a1a1a]/60">独立思考</p>
+          <p className="mt-0.5 text-sm font-medium tracking-wider text-[#1a1a1a]/60">创造未来</p>
 
-            {/* Stats */}
-            <div className="my-4 h-px bg-gradient-to-r from-gold/20 via-gold/10 to-transparent" />
-            <div className="grid grid-cols-3 gap-3">
-              <LightStatItem value={stats ? formatNumber(stats.totalWorks) : "—"} label="作品总数" />
-              <LightStatItem value={stats ? formatNumber(stats.totalUsers) : "—"} label="创作者" />
-              <LightStatItem value={stats ? formatNumber(totalLikesFavorites) : "—"} label="点赞收藏" />
-            </div>
+          <div className="my-4 h-px bg-gradient-to-r from-gold/20 via-gold/10 to-transparent" />
 
-            <p className="mt-4 text-center font-serif text-[8px] tracking-[0.35em] text-black/20">
-              CURATE · DISCOVER · INSPIRE
-            </p>
+          <div className="grid grid-cols-3 gap-4">
+            <LightStatItem value={stats ? formatNumber(stats.totalWorks) : "—"} label="作品总数" />
+            <LightStatItem value={stats ? formatNumber(stats.totalUsers) : "—"} label="创作者" />
+            <LightStatItem value={stats ? formatNumber(totalLikesFavorites) : "—"} label="点赞收藏" />
           </div>
+
+          <p className="mt-4 text-center font-serif text-[8px] tracking-[0.35em] text-black/20">
+            CURATE · DISCOVER · INSPIRE
+          </p>
         </div>
       </div>
     </section>
