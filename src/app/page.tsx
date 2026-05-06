@@ -98,7 +98,7 @@ export default function HomePage() {
               </h2>
             </div>
             <Link
-              href="/works/top"
+              href="/works/all"
               className="group inline-flex items-center gap-1.5 rounded-lg border border-gold/20 px-3 py-1.5 text-xs font-medium text-gold transition-all duration-300 hover:border-gold/50 hover:bg-gold/5 hover:shadow-[0_0_12px_rgba(215,170,69,0.08)] sm:flex"
             >
               查看全部

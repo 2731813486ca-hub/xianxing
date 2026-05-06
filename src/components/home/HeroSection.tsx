@@ -67,7 +67,7 @@ export function HeroSection() {
       totalLikesFavorites={totalLikesFavorites}
       sloganIndex={sloganIndex}
       sloganVisible={visible}
-      onBrowse={() => router.push("/works/top")}
+      onBrowse={() => router.push("/works/all")}
     />
   ) : (
     <LightHero
@@ -75,7 +75,7 @@ export function HeroSection() {
       totalLikesFavorites={totalLikesFavorites}
       sloganIndex={sloganIndex}
       sloganVisible={visible}
-      onBrowse={() => router.push("/works/top")}
+      onBrowse={() => router.push("/works/all")}
     />
   );
 }
