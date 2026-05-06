@@ -9,6 +9,7 @@ import { WorkCard } from "@/components/work/WorkCard";
 import { SUPER_ADMIN_EMAIL } from "@/lib/constants";
 import Link from "next/link";
 import { FiShield, FiEdit2, FiTrash2, FiEye, FiEyeOff } from "react-icons/fi";
+import { BackButton } from "@/components/ui/BackButton";
 
 interface ProfileData {
   id: string;
@@ -117,6 +118,7 @@ export default function UserProfilePage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
+      <BackButton />
       <ProfileHeader
         profile={profile}
         isOwner={!!user && user.id === profile.id}

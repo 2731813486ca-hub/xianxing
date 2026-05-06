@@ -6,6 +6,7 @@ import { EditForm } from "@/components/work/EditForm";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
+import { BackButton } from "@/components/ui/BackButton";
 
 interface WorkData {
   id: string;
@@ -53,6 +54,7 @@ export function EditWorkClient() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
+      <BackButton />
       <div className="mb-8">
         <div className="flex flex-col gap-1">
           <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground">

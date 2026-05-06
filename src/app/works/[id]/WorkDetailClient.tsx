@@ -12,6 +12,7 @@ import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { FiEdit2, FiExternalLink, FiUser } from "react-icons/fi";
 import type { WorkDetail, CommentItem } from "@/types";
+import { BackButton } from "@/components/ui/BackButton";
 
 export function WorkDetailClient() {
   const { id } = useParams<{ id: string }>();
@@ -60,6 +61,7 @@ export function WorkDetailClient() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
+      <BackButton />
       <ImageGallery images={work.images} />
 
       <div className="mt-6">

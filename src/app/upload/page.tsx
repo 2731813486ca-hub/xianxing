@@ -1,10 +1,14 @@
+"use client";
+
 import { AuthGuard } from "@/components/auth/AuthGuard";
 import { UploadForm } from "@/components/work/UploadForm";
+import { BackButton } from "@/components/ui/BackButton";
 
 export default function UploadPage() {
   return (
     <AuthGuard>
       <div className="mx-auto max-w-2xl px-4 py-8">
+        <BackButton />
         <div className="mb-8 border-b border-border pb-6">
           <div className="flex flex-col gap-1">
             <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground">
