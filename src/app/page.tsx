@@ -256,6 +256,15 @@ export default function HomePage() {
             />
           ) : (
             <>
+              {/* Featured work — breaks the grid uniformity */}
+              {viewMode === "grid" && works.length > 0 && (
+                <ScrollReveal>
+                  <div className="mb-8">
+                    <WorkCard work={works[0]} viewMode="grid" featured />
+                  </div>
+                </ScrollReveal>
+              )}
+
               <div
                 className={`grid gap-6 ${
                   viewMode === "grid"
@@ -263,7 +272,7 @@ export default function HomePage() {
                     : "grid-cols-1"
                 }`}
               >
-                {works.map((work, i) => (
+                {works.slice(viewMode === "grid" ? 1 : 0).map((work, i) => (
                   <ScrollReveal
                     key={work.id}
                     delay={
