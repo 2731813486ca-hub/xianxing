@@ -91,7 +91,7 @@ export default function HomePage() {
       <div className="hero-fade-bottom" />
 
       {/* ===== Works Archive Section ===== */}
-      <section id="works" className="theme-paper bg-background">
+      <section id="works" className="bg-background">
         <div className="mx-auto max-w-[1180px] px-4 pb-20 pt-10 md:pt-12 lg:pt-14">
           {/* Section Header */}
           <ScrollReveal>
@@ -113,7 +113,7 @@ export default function HomePage() {
           </ScrollReveal>
 
           {/* Card block */}
-          <div className="rounded-xl border border-border bg-card p-4 md:p-6">
+          <div className="dot-grid rounded-xl border border-border bg-card p-4 md:p-6">
 
           {/* Toolbar */}
           <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
@@ -310,8 +310,15 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Gold divider between sections */}
+      <div className="bg-background">
+        <div className="mx-auto max-w-[1180px] px-4">
+          <div className="gradient-divider" />
+        </div>
+      </div>
+
       {/* ===== Community Feed Section ===== */}
-      <section id="community" className="theme-paper bg-background-raised">
+      <section id="community" className="bg-background-raised">
         <div className="mx-auto max-w-[1180px] px-4 pb-24 pt-10 md:pt-12 lg:pt-14">
           {/* Section Header */}
           <ScrollReveal>
