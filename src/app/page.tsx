@@ -91,7 +91,7 @@ export default function HomePage() {
       <div className="hero-fade-bottom" />
 
       {/* ===== Works Archive Section ===== */}
-      <section id="works" className="bg-background">
+      <section id="works" className="theme-paper bg-background">
         <div className="mx-auto max-w-[1180px] px-4 pb-20 pt-10 md:pt-12 lg:pt-14">
           {/* Section Header */}
           <ScrollReveal>
@@ -311,7 +311,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== Community Feed Section ===== */}
-      <section id="community" className="bg-background-raised">
+      <section id="community" className="theme-paper bg-background-raised">
         <div className="mx-auto max-w-[1180px] px-4 pb-24 pt-10 md:pt-12 lg:pt-14">
           {/* Section Header */}
           <ScrollReveal>

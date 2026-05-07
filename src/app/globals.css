@@ -110,9 +110,21 @@
     position: relative;
     height: 96px;
     margin-top: -96px;
-    background: linear-gradient(to bottom, transparent, var(--color-background-deep));
+    background: linear-gradient(to bottom, transparent, #f7f4ed);
     pointer-events: none;
     z-index: 5;
+  }
+
+  /* Warm paper scope — overrides dark variables for content sections */
+  .theme-paper {
+    --color-background: #f7f4ed;
+    --color-background-raised: #efe9df;
+    --color-card: #ffffff;
+    --color-card-hover: #faf7f2;
+    --color-foreground: #1c1b17;
+    --color-muted: #7a736b;
+    --color-border: #e5e0d5;
+    --color-border-light: #d9d3c7;
   }
 
   .card-hover {
