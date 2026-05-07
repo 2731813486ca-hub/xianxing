@@ -88,7 +88,7 @@ export default function HomePage() {
       <HeroSection />
 
       {/* ===== Works Archive Section ===== */}
-      <section id="works" className="section-texture bg-background">
+      <section id="works" className="section-texture bg-background-raised">
         <div className="mx-auto max-w-[1180px] px-4 pb-20 pt-10 md:pt-12 lg:pt-14">
           {/* Section Header */}
           <ScrollReveal>
@@ -308,7 +308,7 @@ export default function HomePage() {
       </section>
 
       {/* Gold divider between sections */}
-      <div className="bg-background">
+      <div className="bg-background-raised">
         <div className="mx-auto max-w-[1180px] px-4">
           <div className="gradient-divider" />
         </div>
