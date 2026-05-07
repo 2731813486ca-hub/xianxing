@@ -110,7 +110,7 @@ function DarkHero({
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(rgba(215,170,69,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(215,170,69,0.06) 1px, transparent 1px)",
+              "linear-gradient(rgba(215,170,69,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(215,170,69,0.07) 1px, transparent 1px)",
             backgroundSize: "80px 80px",
             backgroundColor: "#0e0c08",
           }}
