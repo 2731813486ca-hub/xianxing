@@ -20,6 +20,7 @@ import {
 
 export default function HomePage() {
   const [works, setWorks] = useState<WorkListItem[]>([]);
+  const [featuredWorks, setFeaturedWorks] = useState<WorkListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<"latest" | "popular">("latest");
@@ -31,6 +32,16 @@ export default function HomePage() {
   const [category, setCategory] = useState("");
   const [showCategory, setShowCategory] = useState(false);
   const categoryRef = useRef<HTMLDivElement>(null);
+
+  // Fetch top 2 popular works for featured section
+  useEffect(() => {
+    fetch("/api/works/popular")
+      .then((res) => res.json())
+      .then((data: { items: WorkListItem[] }) => {
+        setFeaturedWorks(data.items.slice(0, 2));
+      })
+      .catch(() => {});
+  }, []);
 
   const fetchWorks = useCallback(async () => {
     setLoading(true);
@@ -256,11 +267,13 @@ export default function HomePage() {
             />
           ) : (
             <>
-              {/* Featured work — breaks the grid uniformity */}
-              {viewMode === "grid" && works.length > 0 && (
+              {/* Featured works — 2 popular works above the grid */}
+              {viewMode === "grid" && featuredWorks.length === 2 && (
                 <ScrollReveal>
-                  <div className="mb-8">
-                    <WorkCard work={works[0]} viewMode="grid" featured />
+                  <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    {featuredWorks.map((work, i) => (
+                      <WorkCard key={work.id} work={work} viewMode="grid" featured rank={i + 1} />
+                    ))}
                   </div>
                 </ScrollReveal>
               )}
@@ -272,7 +285,7 @@ export default function HomePage() {
                     : "grid-cols-1"
                 }`}
               >
-                {works.slice(viewMode === "grid" ? 1 : 0).map((work, i) => (
+                {works.map((work, i) => (
                   <ScrollReveal
                     key={work.id}
                     delay={

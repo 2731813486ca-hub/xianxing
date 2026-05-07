@@ -8,10 +8,12 @@ export function WorkCard({
   work,
   viewMode = "grid",
   featured = false,
+  rank,
 }: {
   work: WorkListItem;
   viewMode?: "grid" | "list";
   featured?: boolean;
+  rank?: number;
 }) {
   const imageUrl = work.images[0]?.url || "";
 
@@ -19,47 +21,49 @@ export function WorkCard({
     return (
       <Link href={`/works/${work.id}`}>
         <article className="group cursor-pointer overflow-hidden rounded-xl border border-gold/15 bg-card transition-all duration-300 hover:border-gold/30 hover:shadow-[0_4px_24px_rgba(215,170,69,0.08)]">
-          <div className="grid grid-cols-1 md:grid-cols-5">
-            {/* Image — wider ratio */}
-            <div className="relative aspect-[16/10] overflow-hidden md:col-span-2 md:aspect-auto">
-              {imageUrl ? (
-                <img
-                  src={imageUrl}
-                  alt={work.title}
-                  className="h-full w-full object-cover transition-all duration-700 group-hover:scale-105"
-                />
-              ) : (
-                <div className="flex h-full min-h-[180px] items-center justify-center bg-card-hover text-sm text-muted">
-                  暂无图片
-                </div>
-              )}
-            </div>
-            {/* Content */}
-            <div className="flex flex-col justify-center p-5 md:col-span-3 md:p-6">
-              {work.category && (
-                <span className={`mb-2 inline-flex w-fit rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-wider ${
-                  work.category === "AI作品"
-                    ? "bg-blue-900/20 text-blue-400"
-                    : "bg-purple-900/20 text-purple-400"
-                }`}>
-                  {work.category}
-                </span>
-              )}
-              <h3 className="font-serif text-lg font-bold text-foreground transition-colors group-hover:text-gold md:text-xl lg:text-2xl">
-                {work.title}
-              </h3>
-              <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted">
-                {work.description || "—"}
-              </p>
-              <div className="mt-4 flex items-center gap-5 text-xs text-muted">
-                <span className="font-medium text-foreground/80">{work.author.name}</span>
-                <span className="flex items-center gap-1.5">
-                  <FiHeart size={13} /> {work._count.likes}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <FiBookmark size={13} /> {work._count.favorites}
-                </span>
+          <div className="relative aspect-[16/10] overflow-hidden">
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt={work.title}
+                className="h-full w-full object-cover transition-all duration-700 group-hover:scale-105"
+              />
+            ) : (
+              <div className="flex h-full min-h-[160px] items-center justify-center bg-card-hover text-sm text-muted">
+                暂无图片
               </div>
+            )}
+            {/* Rank badge */}
+            {rank != null && (
+              <div className="absolute left-3 top-3 flex h-7 w-7 items-center justify-center rounded-full bg-gold/20 text-xs font-bold text-gold backdrop-blur-sm">
+                {rank}
+              </div>
+            )}
+          </div>
+          <div className="p-4 md:p-5">
+            {work.category && (
+              <span className={`mb-2 inline-flex w-fit rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-wider ${
+                work.category === "AI作品"
+                  ? "bg-blue-900/20 text-blue-400"
+                  : "bg-purple-900/20 text-purple-400"
+              }`}>
+                {work.category}
+              </span>
+            )}
+            <h3 className="font-serif text-base font-bold text-foreground transition-colors group-hover:text-gold md:text-lg">
+              {work.title}
+            </h3>
+            <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-muted">
+              {work.description || "—"}
+            </p>
+            <div className="mt-3 flex items-center gap-4 text-xs text-muted">
+              <span className="font-medium text-foreground/80">{work.author.name}</span>
+              <span className="flex items-center gap-1">
+                <FiHeart size={11} /> {work._count.likes}
+              </span>
+              <span className="flex items-center gap-1">
+                <FiBookmark size={11} /> {work._count.favorites}
+              </span>
             </div>
           </div>
         </article>
