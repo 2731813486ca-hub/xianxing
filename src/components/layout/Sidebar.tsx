@@ -43,44 +43,28 @@ export function Sidebar() {
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
-  const navLink = (href: string, icon: React.ReactNode, label: string) => {
-    const active =
-      href === "/" ? pathname === "/" : pathname.startsWith(href);
-    return (
-      <Link
-        href={href}
-        className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-xs tracking-wider transition-all duration-200 ${
-          active
-            ? "bg-gold/10 text-gold font-semibold"
-            : "text-white/45 hover:bg-white/[0.04] hover:text-white/75"
-        }`}
-      >
-        <span className="flex items-center justify-center">{icon}</span>
-        {label}
-      </Link>
-    );
-  };
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-  const bottomLink = (
-    href: string,
-    icon: React.ReactNode,
-    label: string,
-  ) => {
-    const active = pathname.startsWith(href);
-    return (
-      <Link
-        href={href}
-        className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-xs tracking-wider transition-all duration-200 ${
-          active
-            ? "bg-gold/10 text-gold font-semibold"
-            : "text-white/45 hover:bg-white/[0.04] hover:text-white/75"
-        }`}
-      >
-        <span className="flex items-center justify-center">{icon}</span>
-        {label}
-      </Link>
-    );
-  };
+  const navLink = (href: string, icon: React.ReactNode, label: string) => (
+    <Link
+      href={href}
+      className={`nav-item${isActive(href) ? " active" : ""}`}
+    >
+      {icon}
+      {label}
+    </Link>
+  );
+
+  const bottomLink = (href: string, icon: React.ReactNode, label: string) => (
+    <Link
+      href={href}
+      className={`nav-item${isActive(href) ? " active" : ""}`}
+    >
+      {icon}
+      {label}
+    </Link>
+  );
 
   const navContent = (
     <div className="flex h-full flex-col bg-[#0e0c08]">
@@ -107,31 +91,31 @@ export function Sidebar() {
       <div className="mx-5 h-px bg-gradient-to-r from-gold/20 via-gold/10 to-transparent" />
 
       {/* Nav items */}
-      <nav className="flex-1 space-y-1 px-3 py-5">
-        {navLink("/", <FiGrid size={15} />, "发现")}
-        {navLink("/works/top", <FiTrendingUp size={15} />, "热门")}
-        {navLink("/forest-zone", <FiBookmark size={15} />, "树林专区")}
-        {!loading && user && navLink("/upload", <FiUpload size={15} />, "上传")}
+      <nav className="flex-1 space-y-0.5 px-3 py-5">
+        {navLink("/", <FiGrid size={17} />, "发现")}
+        {navLink("/works/top", <FiTrendingUp size={17} />, "热门")}
+        {navLink("/forest-zone", <FiBookmark size={17} />, "树林专区")}
+        {!loading && user && navLink("/upload", <FiUpload size={17} />, "上传")}
       </nav>
 
       {/* Bottom divider */}
       <div className="mx-5 h-px bg-gradient-to-r from-transparent via-gold/10 to-gold/20" />
 
       {/* Bottom section */}
-      <div className="space-y-1 px-3 py-4">
+      <div className="space-y-0.5 px-3 py-4">
         {!loading && user ? (
           <>
-            {bottomLink("/profile", <FiUser size={15} />, user.name)}
+            {bottomLink("/profile", <FiUser size={17} />, user.name)}
             <button
               onClick={logout}
-              className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-xs tracking-wider transition-all duration-200 text-white/45 hover:bg-white/[0.04] hover:text-white/75"
+              className="nav-item w-full"
             >
-              <span className="flex items-center justify-center"><FiLogOut size={15} /></span>
+              <FiLogOut size={17} />
               退出
             </button>
           </>
         ) : !loading ? (
-          bottomLink("/login", <FiUser size={15} />, "登录")
+          bottomLink("/login", <FiUser size={17} />, "登录")
         ) : null}
       </div>
     </div>
