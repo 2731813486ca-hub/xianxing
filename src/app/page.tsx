@@ -87,9 +87,6 @@ export default function HomePage() {
     <>
       <HeroSection />
 
-      {/* Hero → Content transition */}
-      <div className="hero-fade-bottom" />
-
       {/* ===== Works Archive Section ===== */}
       <section id="works" className="section-texture bg-background">
         <div className="mx-auto max-w-[1180px] px-4 pb-20 pt-10 md:pt-12 lg:pt-14">
