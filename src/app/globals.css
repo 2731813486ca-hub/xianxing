@@ -10,17 +10,25 @@
 }
 
 :root {
-  --color-background: #0a0a0a;
+  --color-background-deep: #0a0a08;
+  --color-background: #0d0d0b;
+  --color-background-raised: #121210;
   --color-foreground: #f5f5f5;
-  --color-card: #141414;
-  --color-card-hover: #1a1a1a;
+  --color-card: #161614;
+  --color-card-hover: #1c1c1a;
   --color-muted: #a3a3a3;
-  --color-border: #2a2a2a;
-  --color-border-light: #3a3a3a;
+  --color-border: #232321;
+  --color-border-light: #2e2e2c;
 }
 
+@utility bg-background-deep {
+  background-color: var(--color-background-deep);
+}
 @utility bg-background {
   background-color: var(--color-background);
+}
+@utility bg-background-raised {
+  background-color: var(--color-background-raised);
 }
 @utility bg-background\/80 {
   background-color: color-mix(in oklab, var(--color-background) 80%, transparent);
@@ -58,7 +66,7 @@
   }
 
   body {
-    background: var(--color-background);
+    background: var(--color-background-deep);
     color: var(--color-foreground);
     font-family: var(--font-sans);
   }
@@ -96,6 +104,15 @@
 
   .gold-glow {
     box-shadow: 0 0 20px rgba(212, 168, 67, 0.15);
+  }
+
+  .hero-fade-bottom {
+    position: relative;
+    height: 96px;
+    margin-top: -96px;
+    background: linear-gradient(to bottom, transparent, var(--color-background-deep));
+    pointer-events: none;
+    z-index: 5;
   }
 
   .card-hover {

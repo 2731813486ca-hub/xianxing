@@ -166,6 +166,9 @@ function DarkHero({
           <circle cx="300" cy="360" r="0.8" fill="#D7AA45" fillOpacity="0.15" />
           <circle cx="480" cy="480" r="1" fill="#D7AA45" fillOpacity="0.2" />
         </svg>
+        {/* Bottom fade — transitions hero into content */}
+        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-[#0a0a08] pointer-events-none" />
+
         {/* Giant X watermark */}
         <div className="absolute bottom-0 right-[8%] select-none">
           <span className="font-serif text-[min(45vw,380px)] font-bold tracking-tighter text-white/[0.025]">X</span>

@@ -16,7 +16,7 @@ export function WorkCard({
   if (viewMode === "list") {
     return (
       <Link href={`/works/${work.id}`}>
-        <article className="flex items-center gap-5 rounded-xl border border-border bg-card p-4 transition-all hover:border-gold/40 hover:shadow-sm">
+        <article className="flex items-center gap-5 rounded-xl bg-card p-4 shadow-sm transition-all hover:shadow-md">
           <div className="h-20 w-28 flex-shrink-0 overflow-hidden rounded-lg bg-card-hover md:h-24 md:w-36">
             {imageUrl ? (
               <img
@@ -56,7 +56,7 @@ export function WorkCard({
     <Link href={`/works/${work.id}`}>
       <article className="group cursor-pointer">
         {/* Image — 16:10 ratio */}
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-card-hover shadow-sm">
+        <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-card-hover shadow-sm">
           {imageUrl ? (
             <img
               src={imageUrl}
