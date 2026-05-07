@@ -39,9 +39,9 @@ export function Toaster() {
             key={t.id}
             className={`animate-slide-up rounded-lg border px-4 py-3 text-sm shadow-lg backdrop-blur-md ${
               t.type === "success"
-                ? "border-emerald-600 bg-emerald-50/90 text-emerald-800 dark:border-emerald-700 dark:bg-emerald-900/80 dark:text-emerald-200"
+                ? "border-emerald-700 bg-emerald-900/80 text-emerald-200"
                 : t.type === "error"
-                ? "border-red-500 bg-red-50/90 text-red-700 dark:border-red-700 dark:bg-red-900/80 dark:text-red-200"
+                ? "border-red-700 bg-red-900/80 text-red-200"
                 : "border-border bg-card/80 text-foreground"
             }`}
           >

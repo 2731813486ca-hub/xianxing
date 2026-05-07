@@ -364,7 +364,7 @@ export default function AdminUsersPage() {
                             : operatingId === u.id
                               ? "text-muted/50 animate-pulse"
                               : u.role === "admin"
-                              ? "text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300"
+                              ? "text-red-400 hover:text-red-300"
                                 : "text-gold hover:text-gold-light"
                         }`}
                       >
@@ -465,7 +465,7 @@ export default function AdminUsersPage() {
                             <button
                               onClick={() => handleReview(u.id, "approved")}
                               disabled={reviewingId === u.id}
-                              className="flex items-center gap-1 rounded-lg bg-green-500/10 px-3 py-1.5 text-xs font-semibold tracking-wider text-green-600 transition-colors hover:bg-green-500/20 dark:bg-green-900/20 dark:text-green-500 dark:hover:bg-green-900/30 disabled:opacity-50"
+                              className="flex items-center gap-1 rounded-lg bg-green-900/20 px-3 py-1.5 text-xs font-semibold tracking-wider text-green-500 transition-colors hover:bg-green-900/30 disabled:opacity-50"
                             >
                               <FiCheck size={13} />
                               通过
@@ -473,7 +473,7 @@ export default function AdminUsersPage() {
                             <button
                               onClick={() => handleReview(u.id, "rejected")}
                               disabled={reviewingId === u.id}
-                              className="flex items-center gap-1 rounded-lg bg-red-500/10 px-3 py-1.5 text-xs font-semibold tracking-wider text-red-600 transition-colors hover:bg-red-500/20 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30 disabled:opacity-50"
+                              className="flex items-center gap-1 rounded-lg bg-red-900/20 px-3 py-1.5 text-xs font-semibold tracking-wider text-red-400 transition-colors hover:bg-red-900/30 disabled:opacity-50"
                             >
                               <FiX size={13} />
                               拒绝

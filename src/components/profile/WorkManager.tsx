@@ -103,7 +103,7 @@ export function WorkManager({ works }: { works: ManagedWork[] }) {
             </Link>
             <button
               onClick={() => deleteWork(work.id)}
-              className="rounded-lg p-2 text-muted transition-colors hover:text-red-500 dark:hover:text-red-400"
+              className="rounded-lg p-2 text-muted transition-colors hover:text-red-400"
               title="删除"
             >
               <FiTrash2 size={16} />

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { HeroSection } from "@/components/home/HeroSection";
 import { FeedList } from "@/components/home/FeedList";
+import { ScrollReveal } from "@/components/ScrollReveal";
 import { WorkCard } from "@/components/work/WorkCard";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -90,21 +91,23 @@ export default function HomePage() {
       <section id="works" className="bg-background">
         <div className="mx-auto max-w-[1180px] px-4 pb-20 pt-10 md:pt-12 lg:pt-14">
           {/* Section Header */}
-          <div className="mb-6 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="h-6 w-1 rounded-full bg-gold" />
-              <h2 className="font-serif text-xl font-bold tracking-tight text-foreground md:text-2xl">
-                最新作品
-              </h2>
+          <ScrollReveal>
+            <div className="mb-6 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="h-6 w-1 rounded-full bg-gold" />
+                <h2 className="font-serif text-xl font-bold tracking-tight text-foreground md:text-2xl">
+                  最新作品
+                </h2>
+              </div>
+              <Link
+                href="/works/all"
+                className="group inline-flex items-center gap-1.5 rounded-lg border border-gold/20 px-3 py-1.5 text-xs font-medium text-gold transition-all duration-300 hover:border-gold/50 hover:bg-gold/5 hover:shadow-[0_0_12px_rgba(215,170,69,0.08)] sm:flex"
+              >
+                查看全部
+                <span className="inline-block text-sm leading-none transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+              </Link>
             </div>
-            <Link
-              href="/works/all"
-              className="group inline-flex items-center gap-1.5 rounded-lg border border-gold/20 px-3 py-1.5 text-xs font-medium text-gold transition-all duration-300 hover:border-gold/50 hover:bg-gold/5 hover:shadow-[0_0_12px_rgba(215,170,69,0.08)] sm:flex"
-            >
-              查看全部
-              <span className="inline-block text-sm leading-none transition-transform duration-300 group-hover:translate-x-0.5">→</span>
-            </Link>
-          </div>
+          </ScrollReveal>
 
           {/* Card block */}
           <div className="rounded-xl border border-border bg-card p-4 md:p-6">
@@ -260,8 +263,15 @@ export default function HomePage() {
                     : "grid-cols-1"
                 }`}
               >
-                {works.map((work) => (
-                  <WorkCard key={work.id} work={work} viewMode={viewMode} />
+                {works.map((work, i) => (
+                  <ScrollReveal
+                    key={work.id}
+                    delay={
+                      viewMode === "grid" ? (i % 4) * 70 : (i % 1) * 70
+                    }
+                  >
+                    <WorkCard work={work} viewMode={viewMode} />
+                  </ScrollReveal>
                 ))}
               </div>
 
@@ -301,17 +311,21 @@ export default function HomePage() {
       <section id="community" className="bg-background">
         <div className="mx-auto max-w-[1180px] px-4 pb-24 pt-10 md:pt-12 lg:pt-14">
           {/* Section Header */}
-          <div className="mb-6 flex items-center gap-3">
-            <div className="h-6 w-1 rounded-full bg-gold" />
-            <h2 className="font-serif text-xl font-bold tracking-tight text-foreground md:text-2xl">
-              社群动态
-            </h2>
-          </div>
+          <ScrollReveal>
+            <div className="mb-6 flex items-center gap-3">
+              <div className="h-6 w-1 rounded-full bg-gold" />
+              <h2 className="font-serif text-xl font-bold tracking-tight text-foreground md:text-2xl">
+                社群动态
+              </h2>
+            </div>
+          </ScrollReveal>
 
           {/* Card block */}
-          <div className="rounded-xl border border-border bg-card p-4 md:p-6">
-            <FeedList />
-          </div>
+          <ScrollReveal delay={100}>
+            <div className="rounded-xl border border-border bg-card p-4 md:p-6">
+              <FeedList />
+            </div>
+          </ScrollReveal>
         </div>
       </section>
     </>

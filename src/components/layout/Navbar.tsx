@@ -3,15 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { useTheme } from "@/context/ThemeContext";
-import { FiGrid, FiTrendingUp, FiUpload, FiUser, FiLogOut, FiMenu, FiX, FiSun, FiMoon, FiBookmark, FiActivity } from "react-icons/fi";
+import { FiGrid, FiTrendingUp, FiUpload, FiUser, FiLogOut, FiMenu, FiX, FiBookmark, FiActivity } from "react-icons/fi";
 import { useState, useEffect, useRef } from "react";
+import { useFirstVisit } from "@/hooks/useFirstVisit";
 
 export function Navbar() {
   const pathname = usePathname();
   const { user, loading, logout } = useAuth();
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === "dark";
+  const isFirstVisit = useFirstVisit();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const isHome = pathname === "/";
@@ -50,11 +49,9 @@ export function Navbar() {
     <nav
       className={`fixed top-0 left-0 z-50 w-full transition-all duration-500 ${
         isTransparent
-          ? isDark
-            ? "bg-transparent"
-            : "bg-white/15 backdrop-blur-md"
+          ? "bg-transparent"
           : "bg-background backdrop-blur-lg after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-gold/10"
-      }`}
+      }${isFirstVisit === true && isHome ? " navbar-entrance" : ""}`}
     >
       <div className="mx-auto flex h-14 items-center justify-between px-4 md:h-16 md:px-6 lg:max-w-[1180px] lg:px-0">
         {/* Brand */}
@@ -64,29 +61,21 @@ export function Navbar() {
               src="/logo-brand.png"
               alt="先行"
               className={`h-full w-full object-cover scale-[1.8] transition-all duration-500 ${
-                isTransparent && isDark ? "mix-blend-screen" : ""
+                isTransparent ? "mix-blend-screen" : ""
               }`}
             />
           </div>
           <div className="flex flex-col">
             <span
               className={`text-sm font-bold leading-snug tracking-[0.12em] transition-colors duration-500 md:text-base ${
-                isTransparent
-                  ? isDark
-                    ? "text-white/90"
-                    : "text-[#1a1a1a]/85"
-                  : "text-foreground"
+                isTransparent ? "text-white/90" : "text-foreground"
               }`}
             >
               先行
             </span>
             <span
               className={`text-[7px] leading-none tracking-[0.35em] transition-colors duration-500 md:text-[8px] ${
-                isTransparent
-                  ? isDark
-                    ? "text-white/30"
-                    : "text-[#1a1a1a]/40"
-                  : "text-muted"
+                isTransparent ? "text-white/30" : "text-muted"
               }`}
             >
               XIANXING
@@ -101,32 +90,14 @@ export function Navbar() {
             loading={loading}
             logout={logout}
             isTransparent={isTransparent}
-            isDark={isDark}
           />
-          <button
-            onClick={toggleTheme}
-            className={`flex items-center gap-1 text-[11px] tracking-wider transition-colors ${
-              isTransparent
-                ? isDark
-                  ? "text-white/70 hover:text-gold"
-                  : "text-[#1a1a1a]/60 hover:text-gold"
-                : "text-foreground/70 hover:text-gold"
-            }`}
-            aria-label={theme === "dark" ? "亮色模式" : "暗色模式"}
-          >
-            {theme === "dark" ? <FiSun size={14} /> : <FiMoon size={14} />}
-          </button>
         </div>
 
         {/* Mobile Hamburger */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className={`flex md:hidden ${
-            isTransparent
-              ? isDark
-                ? "text-white/70"
-                : "text-[#1a1a1a]/70"
-              : "text-foreground"
+            isTransparent ? "text-white/70" : "text-foreground"
           }`}
           aria-label="菜单"
         >
@@ -139,15 +110,6 @@ export function Navbar() {
         <div className="border-t border-gold/10 bg-background/80 backdrop-blur-xl px-4 py-6 md:hidden">
           <div className="mx-auto flex max-w-[200px] flex-col items-center gap-2">
             <MobileNavLinks user={user} loading={loading} logout={logout} />
-            <div className="mt-2 w-full border-t border-border/30 pt-3 text-center">
-              <button
-                onClick={toggleTheme}
-                className="inline-flex items-center gap-2 text-xs text-foreground/60 transition-colors hover:text-gold"
-              >
-                {theme === "dark" ? <FiSun size={15} /> : <FiMoon size={15} />}
-                {theme === "dark" ? "亮色模式" : "暗色模式"}
-              </button>
-            </div>
           </div>
         </div>
       )}
@@ -162,13 +124,11 @@ function NavLinks({
   loading,
   logout,
   isTransparent,
-  isDark,
 }: {
   user: any;
   loading: boolean;
   logout: () => void;
   isTransparent: boolean;
-  isDark: boolean;
 }) {
   const pathname = usePathname();
   const [showDiscover, setShowDiscover] = useState(false);
@@ -189,9 +149,7 @@ function NavLinks({
       active
         ? "text-gold after:w-full"
         : isTransparent
-          ? isDark
-            ? "text-white/70 hover:text-gold after:w-0 hover:after:w-full"
-            : "text-[#1a1a1a]/60 hover:text-gold after:w-0 hover:after:w-full"
+          ? "text-white/70 hover:text-gold after:w-0 hover:after:w-full"
           : "text-foreground/70 hover:text-gold after:w-0 hover:after:w-full"
     }`;
 
@@ -207,9 +165,7 @@ function NavLinks({
         {showDiscover && (
           <div className={`absolute left-0 top-full z-50 mt-2 w-40 overflow-hidden rounded-lg border shadow-xl ${
             isTransparent
-              ? isDark
-                ? "border-white/10 bg-[#12120f]"
-                : "border-gold/10 bg-white/90 backdrop-blur-md"
+              ? "border-white/10 bg-[#12120f]"
               : "border-border bg-card"
           }`}>
             <Link
@@ -217,45 +173,29 @@ function NavLinks({
               onClick={() => setShowDiscover(false)}
               className={`flex items-center gap-2.5 px-4 py-2.5 text-left text-xs transition-colors md:text-sm ${
                 isTransparent
-                  ? isDark
-                    ? "text-white/70 hover:bg-white/[0.04] hover:text-gold"
-                    : "text-[#1a1a1a]/70 hover:bg-gold/10 hover:text-gold"
+                  ? "text-white/70 hover:bg-white/[0.04] hover:text-gold"
                   : "text-foreground/70 hover:bg-gold/5 hover:text-gold"
               }`}
             >
               <FiGrid size={13} className={
-                isTransparent
-                  ? isDark
-                    ? "text-white/30"
-                    : "text-[#1a1a1a]/30"
-                  : "text-muted"
+                isTransparent ? "text-white/30" : "text-muted"
               } />
               <span>最新作品</span>
             </Link>
             <div className={`mx-3 h-px ${
-              isTransparent
-                ? isDark
-                  ? "bg-white/[0.06]"
-                  : "bg-gold/10"
-                : "bg-border"
+              isTransparent ? "bg-white/[0.06]" : "bg-border"
             }`} />
             <Link
               href="/"
               onClick={() => setShowDiscover(false)}
               className={`flex items-center gap-2.5 px-4 py-2.5 text-left text-xs transition-colors md:text-sm ${
                 isTransparent
-                  ? isDark
-                    ? "text-white/70 hover:bg-white/[0.04] hover:text-gold"
-                    : "text-[#1a1a1a]/70 hover:bg-gold/10 hover:text-gold"
+                  ? "text-white/70 hover:bg-white/[0.04] hover:text-gold"
                   : "text-foreground/70 hover:bg-gold/5 hover:text-gold"
               }`}
             >
               <FiActivity size={13} className={
-                isTransparent
-                  ? isDark
-                    ? "text-white/30"
-                    : "text-[#1a1a1a]/30"
-                  : "text-muted"
+                isTransparent ? "text-white/30" : "text-muted"
               } />
               <span>社群动态</span>
             </Link>
@@ -283,9 +223,7 @@ function NavLinks({
             onClick={logout}
             className={`flex items-center gap-1 text-[11px] tracking-wider transition-colors ${
               isTransparent
-                ? isDark
-                  ? "text-white/70 hover:text-gold"
-                  : "text-[#1a1a1a]/60 hover:text-gold"
+                ? "text-white/70 hover:text-gold"
                 : "text-foreground/70 hover:text-gold"
             }`}
           >

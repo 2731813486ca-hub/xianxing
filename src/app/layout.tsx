@@ -44,15 +44,7 @@ export default function RootLayout({
     <html
       lang="zh-CN"
       className={`${inter.variable} ${playfair.variable} ${cinzel.variable} ${notoSansSC.variable} h-full antialiased transition-colors`}
-      suppressHydrationWarning
     >
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="light")document.documentElement.classList.remove("dark");else document.documentElement.classList.add("dark")}catch(e){}})();`,
-          }}
-        />
-      </head>
       <body className="flex min-h-full bg-background text-foreground transition-colors">
         <ThemeProvider>
           <AuthProvider>

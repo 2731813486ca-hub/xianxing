@@ -3,15 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { useTheme } from "@/context/ThemeContext";
 import {
   FiGrid,
   FiTrendingUp,
   FiUpload,
   FiUser,
   FiLogOut,
-  FiSun,
-  FiMoon,
   FiBookmark,
   FiX,
   FiMenu,
@@ -21,8 +18,6 @@ import { useState, useEffect } from "react";
 export function Sidebar() {
   const pathname = usePathname();
   const { user, loading, logout } = useAuth();
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === "dark";
   const [mobileOpen, setMobileOpen] = useState(false);
 
   // Close on route change / Escape
@@ -57,9 +52,7 @@ export function Sidebar() {
         className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-xs tracking-wider transition-all duration-200 ${
           active
             ? "bg-gold/10 text-gold font-semibold"
-            : isDark
-              ? "text-white/45 hover:bg-white/[0.04] hover:text-white/75"
-              : "text-black/45 hover:bg-black/[0.04] hover:text-black/70"
+            : "text-white/45 hover:bg-white/[0.04] hover:text-white/75"
         }`}
       >
         <span className="flex items-center justify-center">{icon}</span>
@@ -67,27 +60,6 @@ export function Sidebar() {
       </Link>
     );
   };
-
-  const bottomBtn = (
-    onClick: () => void,
-    icon: React.ReactNode,
-    label: string,
-    isActive?: boolean,
-  ) => (
-    <button
-      onClick={onClick}
-      className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-xs tracking-wider transition-all duration-200 ${
-        isActive
-          ? "bg-gold/10 text-gold font-semibold"
-          : isDark
-            ? "text-white/45 hover:bg-white/[0.04] hover:text-white/75"
-            : "text-black/45 hover:bg-black/[0.04] hover:text-black/70"
-      }`}
-    >
-      <span className="flex items-center justify-center">{icon}</span>
-      {label}
-    </button>
-  );
 
   const bottomLink = (
     href: string,
@@ -101,9 +73,7 @@ export function Sidebar() {
         className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-xs tracking-wider transition-all duration-200 ${
           active
             ? "bg-gold/10 text-gold font-semibold"
-            : isDark
-              ? "text-white/45 hover:bg-white/[0.04] hover:text-white/75"
-              : "text-black/45 hover:bg-black/[0.04] hover:text-black/70"
+            : "text-white/45 hover:bg-white/[0.04] hover:text-white/75"
         }`}
       >
         <span className="flex items-center justify-center">{icon}</span>
@@ -113,7 +83,7 @@ export function Sidebar() {
   };
 
   const navContent = (
-    <div className={`flex h-full flex-col ${isDark ? "bg-[#0e0c08]" : "bg-[#f5f0e8]/95 backdrop-blur-lg"}`}>
+    <div className="flex h-full flex-col bg-[#0e0c08]">
       {/* Brand */}
       <Link href="/" className="flex items-center gap-3 px-5 pt-6 pb-4">
         <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-sm">
@@ -124,18 +94,10 @@ export function Sidebar() {
           />
         </div>
         <div className="flex flex-col">
-          <span
-            className={`text-sm font-bold leading-snug tracking-[0.12em] ${
-              isDark ? "text-white/90" : "text-[#1a1a1a]/85"
-            }`}
-          >
+          <span className="text-sm font-bold leading-snug tracking-[0.12em] text-white/90">
             先行
           </span>
-          <span
-            className={`text-[7px] leading-none tracking-[0.35em] ${
-              isDark ? "text-white/30" : "text-[#1a1a1a]/40"
-            }`}
-          >
+          <span className="text-[7px] leading-none tracking-[0.35em] text-white/30">
             XIANXING
           </span>
         </div>
@@ -157,12 +119,16 @@ export function Sidebar() {
 
       {/* Bottom section */}
       <div className="space-y-1 px-3 py-4">
-        {bottomBtn(toggleTheme, isDark ? <FiMoon size={15} /> : <FiSun size={15} />, isDark ? "暗色模式" : "亮色模式")}
-
         {!loading && user ? (
           <>
             {bottomLink("/profile", <FiUser size={15} />, user.name)}
-            {bottomBtn(logout, <FiLogOut size={15} />, "退出")}
+            <button
+              onClick={logout}
+              className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-xs tracking-wider transition-all duration-200 text-white/45 hover:bg-white/[0.04] hover:text-white/75"
+            >
+              <span className="flex items-center justify-center"><FiLogOut size={15} /></span>
+              退出
+            </button>
           </>
         ) : !loading ? (
           bottomLink("/login", <FiUser size={15} />, "登录")
@@ -174,26 +140,14 @@ export function Sidebar() {
   return (
     <>
       {/* ===== Desktop sidebar ===== */}
-      <aside
-        className={`fixed left-0 top-0 z-40 hidden h-full w-56 flex-col border-r md:flex ${
-          isDark
-            ? "border-white/[0.06] bg-[#0e0c08]"
-            : "border-gold/[0.10] bg-[#f5f0e8]/95"
-        }`}
-      >
+      <aside className="fixed left-0 top-0 z-40 hidden h-full w-56 flex-col border-r border-white/[0.06] bg-[#0e0c08] md:flex">
         {navContent}
       </aside>
 
       {/* ===== Mobile: top bar + drawer ===== */}
       <div className="md:hidden">
         {/* Top bar */}
-        <div
-          className={`fixed left-0 right-0 top-0 z-40 flex h-14 items-center justify-between px-4 ${
-            isDark
-              ? "bg-[#0e0c08] text-white/90"
-              : "bg-[#f5f0e8]/95 text-[#1a1a1a]/85 backdrop-blur-lg"
-          }`}
-        >
+        <div className="fixed left-0 right-0 top-0 z-40 flex h-14 items-center justify-between bg-[#0e0c08] px-4 text-white/90">
           <Link href="/" className="flex items-center gap-2">
             <div className="h-8 w-8 overflow-hidden rounded-sm">
               <img
@@ -222,15 +176,11 @@ export function Sidebar() {
               onClick={() => setMobileOpen(false)}
             />
             {/* Drawer panel */}
-            <div
-              className={`absolute left-0 top-0 h-full w-64 shadow-2xl ${
-                isDark ? "bg-[#0e0c08]" : "bg-[#f5f0e8]"
-              }`}
-            >
+            <div className="absolute left-0 top-0 h-full w-64 bg-[#0e0c08] shadow-2xl">
               <div className="flex justify-end px-4 pt-4">
                 <button
                   onClick={() => setMobileOpen(false)}
-                  className={isDark ? "text-white/70" : "text-[#1a1a1a]/70"}
+                  className="text-white/70"
                   aria-label="关闭菜单"
                 >
                   <FiX size={22} />

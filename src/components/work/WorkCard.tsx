@@ -81,8 +81,8 @@ export function WorkCard({
             {work.category && (
               <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-wider ${
                 work.category === "AI作品"
-                  ? "bg-blue-500/10 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
-                  : "bg-purple-500/10 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400"
+                  ? "bg-blue-900/20 text-blue-400"
+                  : "bg-purple-900/20 text-purple-400"
               }`}>
                 {work.category}
               </span>

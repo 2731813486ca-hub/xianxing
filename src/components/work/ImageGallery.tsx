@@ -27,14 +27,14 @@ export function ImageGallery({ images }: { images: GalleryImage[] }) {
         <>
           <button
             onClick={() => setCurrent((i) => (i === 0 ? images.length - 1 : i - 1))}
-            className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-white/70 p-2 text-foreground backdrop-blur-sm transition-colors hover:bg-white/90 dark:bg-black/50 dark:text-white dark:hover:bg-black/70"
+            className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white backdrop-blur-sm transition-colors hover:bg-black/70"
             aria-label="上一张"
           >
             <FiChevronLeft size={20} />
           </button>
           <button
             onClick={() => setCurrent((i) => (i === images.length - 1 ? 0 : i + 1))}
-            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-white/70 p-2 text-foreground backdrop-blur-sm transition-colors hover:bg-white/90 dark:bg-black/50 dark:text-white dark:hover:bg-black/70"
+            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white backdrop-blur-sm transition-colors hover:bg-black/70"
             aria-label="下一张"
           >
             <FiChevronRight size={20} />
@@ -45,7 +45,7 @@ export function ImageGallery({ images }: { images: GalleryImage[] }) {
                 key={i}
                 onClick={() => setCurrent(i)}
                 className={`h-2 w-2 rounded-full transition-all ${
-                  i === current ? "bg-gold w-4" : "bg-black/30 hover:bg-black/50 dark:bg-white/40 dark:hover:bg-white/60"
+                  i === current ? "bg-gold w-4" : "bg-white/40 hover:bg-white/60"
                 }`}
                 aria-label={`第 ${i + 1} 张图片`}
               />

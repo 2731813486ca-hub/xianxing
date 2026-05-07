@@ -117,7 +117,7 @@ export function SettingsForm() {
             <button
               type="button"
               onClick={() => setAvatarUrl("")}
-              className="text-xs text-muted transition-colors hover:text-red-500 dark:hover:text-red-400"
+              className="text-xs text-muted transition-colors hover:text-red-400"
             >
               清除头像
             </button>
@@ -154,7 +154,7 @@ export function SettingsForm() {
           <div className="mb-3 flex items-center gap-2">
             <span className="text-[11px] text-muted">状态：</span>
             {user.memberStatus === "approved" && (
-              <span className="rounded-full bg-green-500/10 px-2 py-0.5 text-[11px] font-medium text-green-600 dark:bg-green-900/20 dark:text-green-500">
+              <span className="rounded-full bg-green-900/20 px-2 py-0.5 text-[11px] font-medium text-green-500">
                 已审核通过
               </span>
             )}
@@ -164,7 +164,7 @@ export function SettingsForm() {
               </span>
             )}
             {user.memberStatus === "rejected" && (
-              <span className="rounded-full bg-red-500/10 px-2 py-0.5 text-[11px] font-medium text-red-600 dark:bg-red-900/20 dark:text-red-400">
+              <span className="rounded-full bg-red-900/20 px-2 py-0.5 text-[11px] font-medium text-red-400">
                 审核未通过
               </span>
             )}

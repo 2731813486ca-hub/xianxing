@@ -62,7 +62,7 @@ export function ProfileHeader({ profile, isOwner, onUpdate }: ProfileHeaderProps
             {profile.name}
           </h1>
           {profile.memberStatus === "approved" ? (
-            <span className="rounded-full bg-green-500/10 px-2.5 py-0.5 text-[11px] font-semibold tracking-wider text-green-600 dark:bg-green-900/20 dark:text-green-500">
+            <span className="rounded-full bg-green-900/20 px-2.5 py-0.5 text-[11px] font-semibold tracking-wider text-green-500">
               正式成员
             </span>
           ) : (
