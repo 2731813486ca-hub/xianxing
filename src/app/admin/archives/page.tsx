@@ -16,8 +16,6 @@ import {
   FiEdit2,
   FiTrash2,
   FiFileText,
-  FiEye,
-  FiEyeOff,
   FiX,
 } from "react-icons/fi";
 
@@ -201,17 +199,27 @@ export default function AdminArchivesPage() {
         </div>
       </ScrollReveal>
 
-      {/* Form Modal */}
+      {/* Form Modal — restructured: max-h card with internal scroll */}
       {showForm && (
-        <div className="fixed inset-0 z-50 overflow-y-auto" onClick={() => { setShowForm(false); resetForm(); }}>
-          <div className="flex min-h-full items-start justify-center p-4 sm:py-8">
-            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
-            <div className="relative w-full max-w-2xl rounded-xl border border-border bg-card p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-              <h2 className="mb-6 font-serif text-xl font-bold text-foreground">
-                {editing ? "编辑档案" : "新建档案"}
-              </h2>
+        <>
+          {/* Separate backdrop so it never interferes with card layout */}
+          <div className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm" onClick={() => { setShowForm(false); resetForm(); }} />
 
-              <div className="space-y-5">
+          {/* Centered modal container — pointer-events-none so backdrop catches outside clicks */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none sm:p-6">
+            <div
+              className="pointer-events-auto flex w-full max-w-2xl flex-col rounded-xl border border-border bg-card shadow-2xl max-h-[90vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Fixed header */}
+              <div className="shrink-0 px-6 pt-6 pb-2">
+                <h2 className="font-serif text-xl font-bold text-foreground">
+                  {editing ? "编辑档案" : "新建档案"}
+                </h2>
+              </div>
+
+              {/* Scrollable body */}
+              <div className="overflow-y-auto space-y-5 px-6 py-4">
                 <Input label="标题 *" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="观点标题" />
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-foreground">摘要</label>
@@ -349,7 +357,8 @@ export default function AdminArchivesPage() {
                 </div>
               </div>
 
-              <div className="mt-6 flex items-center gap-3">
+              {/* Fixed footer */}
+              <div className="shrink-0 flex items-center gap-3 border-t border-border px-6 py-4">
                 <Button onClick={handleSave} loading={saving}>{editing ? "保存修改" : "创建档案"}</Button>
                 <button onClick={() => { setShowForm(false); resetForm(); }} className="text-sm text-muted hover:text-foreground transition-colors">
                   取消
@@ -357,7 +366,7 @@ export default function AdminArchivesPage() {
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
 
       {/* Archive List */}
