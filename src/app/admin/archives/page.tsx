@@ -204,7 +204,7 @@ export default function AdminArchivesPage() {
       {/* Form Modal */}
       {showForm && (
         <div className="fixed inset-0 z-50 overflow-y-auto" onClick={() => { setShowForm(false); resetForm(); }}>
-          <div className="flex min-h-full items-center justify-center p-4 sm:p-6">
+          <div className="flex min-h-full items-start justify-center p-4 sm:py-8">
             <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
             <div className="relative w-full max-w-2xl rounded-xl border border-border bg-card p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
               <h2 className="mb-6 font-serif text-xl font-bold text-foreground">
