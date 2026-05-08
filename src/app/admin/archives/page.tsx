@@ -208,7 +208,7 @@ export default function AdminArchivesPage() {
           {/* Centered modal container — pointer-events-none so backdrop catches outside clicks */}
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none sm:p-6">
             <div
-              className="pointer-events-auto flex w-full max-w-2xl flex-col rounded-xl border border-border bg-card shadow-2xl max-h-[90vh]"
+              className="pointer-events-auto flex w-full max-w-2xl flex-col rounded-xl border border-border bg-card shadow-2xl max-h-[90vh] overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Fixed header */}
@@ -219,7 +219,7 @@ export default function AdminArchivesPage() {
               </div>
 
               {/* Scrollable body */}
-              <div className="overflow-y-auto space-y-5 px-6 py-4">
+              <div className="overflow-y-auto space-y-5 px-6 py-4 flex-1 min-h-0">
                 <Input label="标题 *" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="观点标题" />
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-foreground">摘要</label>
