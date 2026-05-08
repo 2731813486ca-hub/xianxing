@@ -50,7 +50,7 @@ export function Navbar() {
       className={`fixed top-0 left-0 z-50 w-full transition-all duration-500 ${
         isTransparent
           ? "bg-transparent"
-          : "bg-background backdrop-blur-lg after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-gold/10"
+          : "nav-blur"
       }${isFirstVisit === true && isHome ? " navbar-entrance" : ""}`}
     >
       <div className="mx-auto flex h-14 items-center justify-between px-4 md:h-16 md:px-6 lg:max-w-[1180px] lg:px-0">

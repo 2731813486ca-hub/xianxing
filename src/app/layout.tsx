@@ -7,6 +7,9 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { Toaster } from "@/components/ui/Toaster";
 import { PageTitle } from "@/components/PageTitle";
 import { PageTransition } from "@/components/PageTransition";
+import { ScrollProgress } from "@/components/ScrollProgress";
+import { AmbientGlow } from "@/components/AmbientGlow";
+import { SiteEntrance } from "@/components/SiteEntrance";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -48,6 +51,9 @@ export default function RootLayout({
       <body className="flex min-h-screen bg-background text-foreground transition-colors">
         <ThemeProvider>
           <AuthProvider>
+            <ScrollProgress />
+            <AmbientGlow />
+            <SiteEntrance />
             <PageTitle />
             <Sidebar />
             <main className="flex-1 pt-14 md:ml-56 md:pt-0">
