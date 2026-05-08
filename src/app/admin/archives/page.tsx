@@ -199,27 +199,22 @@ export default function AdminArchivesPage() {
         </div>
       </ScrollReveal>
 
-      {/* Form Modal — single container, no pointer-events tricks */}
+      {/* Form Modal — simple: outer div handles backdrop + scroll + everything */}
       {showForm && (
-        <div className="fixed inset-0 z-50">
-          {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => { setShowForm(false); resetForm(); }} />
-
-          {/* Modal card — centered */}
-          <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-6">
+        <div
+          className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm"
+          onClick={() => { setShowForm(false); resetForm(); }}
+        >
+          <div className="flex min-h-full items-start justify-center p-4 sm:py-10">
             <div
-              className="flex w-full max-w-2xl flex-col rounded-xl border border-border bg-card shadow-2xl max-h-[90vh] overflow-hidden"
+              className="w-full max-w-2xl rounded-xl border border-border bg-card p-6 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Fixed header */}
-              <div className="shrink-0 px-6 pt-6 pb-2">
-                <h2 className="font-serif text-xl font-bold text-foreground">
-                  {editing ? "编辑档案" : "新建档案"}
-                </h2>
-              </div>
+              <h2 className="mb-6 font-serif text-xl font-bold text-foreground">
+                {editing ? "编辑档案" : "新建档案"}
+              </h2>
 
-              {/* Scrollable body */}
-              <div className="overflow-y-auto space-y-5 px-6 py-4 flex-1 min-h-0">
+              <div className="space-y-5">
                 <Input label="标题 *" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="观点标题" />
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-foreground">摘要</label>
@@ -357,8 +352,7 @@ export default function AdminArchivesPage() {
                 </div>
               </div>
 
-              {/* Fixed footer */}
-              <div className="shrink-0 flex items-center gap-3 border-t border-border px-6 py-4">
+              <div className="mt-6 flex items-center gap-3">
                 <Button onClick={handleSave} loading={saving}>{editing ? "保存修改" : "创建档案"}</Button>
                 <button onClick={() => { setShowForm(false); resetForm(); }} className="text-sm text-muted hover:text-foreground transition-colors">
                   取消
