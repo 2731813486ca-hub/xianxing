@@ -171,7 +171,7 @@ export function Sidebar() {
       {/* ===== Mobile: top bar + drawer ===== */}
       <div className="md:hidden">
         {/* Top bar */}
-        <div className="fixed left-0 right-0 top-0 z-40 flex h-14 items-center justify-between bg-[#0e0c08] px-4 text-white/90">
+        <div className="fixed left-0 right-0 top-0 z-40 flex h-14 items-center justify-between nav-blur px-4 text-white/90">
           <Link href="/" className="flex items-center gap-2">
             <div className="h-8 w-8 overflow-hidden rounded-sm">
               <img
