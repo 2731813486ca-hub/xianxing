@@ -267,8 +267,8 @@ export default function HomePage() {
             />
           ) : (
             <>
-              {/* Featured works — 2 popular works above the grid */}
-              {viewMode === "grid" && featuredWorks.length === 2 && (
+              {/* Featured works — only when not searching */}
+              {viewMode === "grid" && featuredWorks.length === 2 && !search && (
                 <ScrollReveal>
                   <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
                     {featuredWorks.map((work, i) => (

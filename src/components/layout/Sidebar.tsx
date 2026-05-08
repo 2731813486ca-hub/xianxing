@@ -10,15 +10,36 @@ import {
   FiUser,
   FiLogOut,
   FiBookmark,
+  FiShield,
+  FiFileText,
   FiX,
   FiMenu,
 } from "react-icons/fi";
 import { useState, useEffect } from "react";
+import { SUPER_ADMIN_EMAIL } from "@/lib/constants";
 
 export function Sidebar() {
   const pathname = usePathname();
   const { user, loading, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [pendingCount, setPendingCount] = useState(0);
+
+  // Poll pending admin count
+  useEffect(() => {
+    if (!user || user.email !== SUPER_ADMIN_EMAIL) return;
+    const fetchCount = async () => {
+      try {
+        const res = await fetch("/api/admin/pending-count");
+        if (res.ok) {
+          const data = await res.json();
+          setPendingCount(data.total);
+        }
+      } catch { /* ignore */ }
+    };
+    fetchCount();
+    const interval = setInterval(fetchCount, 30000); // poll every 30s
+    return () => clearInterval(interval);
+  }, [user]);
 
   // Close on route change / Escape
   useEffect(() => {
@@ -96,6 +117,25 @@ export function Sidebar() {
         {navLink("/works/top", <FiTrendingUp size={17} />, "热门")}
         {navLink("/forest-zone", <FiBookmark size={17} />, "树林专区")}
         {!loading && user && navLink("/upload", <FiUpload size={17} />, "上传")}
+        {!loading && user?.email === SUPER_ADMIN_EMAIL && (
+          <>
+            <Link href="/admin/users" className={`nav-item${isActive("/admin/users") ? " active" : ""}`}>
+              <FiShield size={17} />
+              <span className="flex items-center gap-2">
+                管理后台
+                {pendingCount > 0 && (
+                  <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-600 px-1.5 text-[10px] font-bold leading-none text-white shadow-[0_0_8px_rgba(220,38,38,0.4)]">
+                    {pendingCount > 99 ? "99+" : pendingCount}
+                  </span>
+                )}
+              </span>
+            </Link>
+            <Link href="/admin/archives" className={`nav-item${isActive("/admin/archives") ? " active" : ""}`}>
+              <FiFileText size={17} />
+              档案管理
+            </Link>
+          </>
+        )}
       </nav>
 
       {/* Bottom divider */}
@@ -105,7 +145,7 @@ export function Sidebar() {
       <div className="space-y-0.5 px-3 py-4">
         {!loading && user ? (
           <>
-            {bottomLink("/profile", <FiUser size={17} />, user.name)}
+            {bottomLink("/profile/me", <FiUser size={17} />, user.name)}
             <button
               onClick={logout}
               className="nav-item w-full"

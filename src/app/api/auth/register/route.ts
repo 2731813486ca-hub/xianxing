@@ -15,31 +15,29 @@ export async function POST(request: Request) {
       );
     }
 
-    const { email, password, name, code } = parsed.data;
+    const { email, password, name } = parsed.data;
 
-    // Verify code
-    const record = await prisma.verificationCode.findFirst({
+    // Extract client IP
+    const forwarded = request.headers.get("x-forwarded-for");
+    const realIp = request.headers.get("x-real-ip");
+    const ip = forwarded?.split(",")[0]?.trim() || realIp || "unknown";
+
+    // IP rate limit: max 1 successful registration per IP per day
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const ipCount = await prisma.user.count({
       where: {
-        email,
-        code,
-        used: false,
-        expiresAt: { gte: new Date() },
+        ip,
+        createdAt: { gte: today },
       },
-      orderBy: { createdAt: "desc" },
     });
 
-    if (!record) {
+    if (ipCount >= 1) {
       return NextResponse.json(
-        { error: "验证码无效或已过期，请重新获取" },
-        { status: 400 }
+        { error: "该IP今日注册次数已达上限" },
+        { status: 429 }
       );
     }
-
-    // Mark code as used
-    await prisma.verificationCode.update({
-      where: { id: record.id },
-      data: { used: true },
-    });
 
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) {
@@ -49,7 +47,7 @@ export async function POST(request: Request) {
     const role = ADMIN_EMAILS.includes(email) ? "admin" : "user";
     const hashed = await hashPassword(password);
     const user = await prisma.user.create({
-      data: { email, password: hashed, name, role },
+      data: { email, password: hashed, name, role, ip },
     });
 
     await setSessionCookie(user.id);

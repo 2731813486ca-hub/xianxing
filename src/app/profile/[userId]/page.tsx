@@ -43,6 +43,15 @@ export default function UserProfilePage() {
   const [works, setWorks] = useState<WorkItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [pendingCount, setPendingCount] = useState(0);
+
+  useEffect(() => {
+    if (!user || user.email !== SUPER_ADMIN_EMAIL) return;
+    fetch("/api/admin/pending-count")
+      .then((r) => r.json())
+      .then((data) => setPendingCount(data.total))
+      .catch(() => {});
+  }, [user]);
 
   const fetchWorks = useCallback(() => {
     fetch(`/api/users/${userId}/works`)
@@ -132,6 +141,11 @@ export default function UserProfilePage() {
           >
             <FiShield size={14} />
             管理后台
+            {pendingCount > 0 && (
+              <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-600 px-1.5 text-[10px] font-bold leading-none text-white shadow-[0_0_8px_rgba(220,38,38,0.4)]">
+                {pendingCount > 99 ? "99+" : pendingCount}
+              </span>
+            )}
           </Link>
         </div>
       )}

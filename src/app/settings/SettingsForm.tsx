@@ -170,11 +170,17 @@ export function SettingsForm() {
             )}
           </div>
         )}
+        {(user.memberStatus === "pending" || user.memberStatus === "approved") && (
+          <p className="mb-3 text-[11px] text-gold/80">
+            群身份已锁定，如需修改请联系管理员。
+          </p>
+        )}
         <Input
           label="微信昵称"
           placeholder="输入微信昵称"
           value={form.wechatName}
           onChange={(e) => setForm({ ...form, wechatName: e.target.value })}
+          disabled={user.memberStatus === "pending" || user.memberStatus === "approved"}
         />
         <div className="mt-3">
           <Input
@@ -182,6 +188,7 @@ export function SettingsForm() {
             placeholder="输入微信号"
             value={form.wechatAccount}
             onChange={(e) => setForm({ ...form, wechatAccount: e.target.value })}
+            disabled={user.memberStatus === "pending" || user.memberStatus === "approved"}
           />
         </div>
         {user.memberStatus === "unfilled" && (

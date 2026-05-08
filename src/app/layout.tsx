@@ -43,9 +43,9 @@ export default function RootLayout({
   return (
     <html
       lang="zh-CN"
-      className={`${inter.variable} ${playfair.variable} ${cinzel.variable} ${notoSansSC.variable} h-full antialiased transition-colors`}
+      className={`${inter.variable} ${playfair.variable} ${cinzel.variable} ${notoSansSC.variable} antialiased transition-colors`}
     >
-      <body className="flex min-h-full bg-background text-foreground transition-colors">
+      <body className="flex min-h-screen bg-background text-foreground transition-colors">
         <ThemeProvider>
           <AuthProvider>
             <PageTitle />

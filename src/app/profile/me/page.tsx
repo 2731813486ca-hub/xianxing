@@ -10,11 +10,15 @@ export default function ProfileMePage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && user) {
-      router.replace(`/profile/${user.id}`);
+    if (!loading) {
+      if (user) {
+        router.replace(`/profile/${user.id}`);
+      } else {
+        router.replace("/login?redirect=/profile/me");
+      }
     }
   }, [user, loading, router]);
 
   if (loading) return <LoadingSpinner />;
-  return null;
+  return <LoadingSpinner />;
 }

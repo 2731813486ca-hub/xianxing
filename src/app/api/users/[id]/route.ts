@@ -55,22 +55,33 @@ export async function PUT(
       );
     }
 
-    // Determine memberStatus: if wechat fields filled and currently unfilled, submit for review
+    // Get current memberStatus to control identity editing
     const currentUser = await prisma.user.findUnique({
       where: { id },
       select: { memberStatus: true },
     });
 
-    let memberStatus = undefined;
+    const currentStatus = currentUser?.memberStatus || "unfilled";
     const { wechatName, wechatAccount } = parsed.data;
-    if (
-      currentUser?.memberStatus === "unfilled" &&
-      (wechatName || wechatAccount)
-    ) {
+
+    // Locked statuses (pending / approved): cannot edit wechat fields
+    const isLocked = currentStatus === "pending" || currentStatus === "approved";
+
+    let memberStatus: string | undefined = undefined;
+    const updateData: Record<string, unknown> = { ...parsed.data };
+
+    if (isLocked) {
+      // Strip wechat fields — they cannot be changed once submitted
+      delete updateData.wechatName;
+      delete updateData.wechatAccount;
+    } else if (currentStatus === "rejected" && (wechatName || wechatAccount)) {
+      // Re-submit after rejection
+      memberStatus = "pending";
+    } else if (currentStatus === "unfilled" && (wechatName || wechatAccount)) {
+      // First submission
       memberStatus = "pending";
     }
 
-    const updateData: Record<string, unknown> = { ...parsed.data };
     if (memberStatus) {
       updateData.memberStatus = memberStatus;
     }

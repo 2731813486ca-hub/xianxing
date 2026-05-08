@@ -18,6 +18,7 @@ model User {
   role           String  @default("user")
   isForestAdmin  Boolean @default(false)
   memberStatus   String  @default("unfilled")
+  ip        String   @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -25,6 +26,8 @@ model User {
   likes     Like[]
   favorites Favorite[]
   comments  Comment[]
+
+  @@index([ip, createdAt])
 }
 
 model Work {
@@ -94,15 +97,25 @@ model Comment {
   @@index([workId, createdAt])
 }
 
-model VerificationCode {
-  id        String   @id @default(cuid())
-  email     String
-  code      String
-  ip        String
-  used      Boolean  @default(false)
-  expiresAt DateTime
-  createdAt DateTime @default(now())
+model Archive {
+  id               String   @id @default(cuid())
+  title            String
+  summary          String   @default("")
+  abstract         String   @default("")
+  points           String[] @default([])
+  keywords         String[] @default([])
+  sourceName       String   @default("")
+  sourceUrl        String   @default("")
+  sourceDate       String   @default("")
+  attachmentFileId String   @default("")
+  attachmentUrl    String   @default("")
+  attachmentType   String   @default("")
+  originalFileName String   @default("")
+  rawText          String   @default("")
+  status           String   @default("published")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
-  @@index([email, code])
-  @@index([ip, createdAt])
+  @@index([status, createdAt])
+  @@index([createdAt])
 }

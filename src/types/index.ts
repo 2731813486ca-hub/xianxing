@@ -75,3 +75,28 @@ export interface PaginatedResponse<T> {
   page: number;
   totalPages: number;
 }
+
+export interface ArchiveItem {
+  id: string;
+  title: string;
+  summary: string;
+  abstract: string;
+  points: string[];
+  keywords: string[];
+  sourceName: string;
+  sourceUrl: string;
+  sourceDate: string;
+  attachmentFileId: string;
+  attachmentUrl: string;
+  attachmentType: string;
+  originalFileName: string;
+  rawText: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ArchiveDetail extends ArchiveItem {
+  _count?: { favorites: number };
+  userFavorited?: boolean;
+}

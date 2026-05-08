@@ -4,7 +4,6 @@ export const registerSchema = z.object({
   email: z.string().email("请输入有效的邮箱地址"),
   password: z.string().min(6, "密码至少6个字符"),
   name: z.string().min(1, "请输入昵称").max(10, "昵称最多10个字符"),
-  code: z.string().length(6, "验证码为6位数字"),
 });
 
 export const loginSchema = z.object({
@@ -35,8 +34,25 @@ export const commentSchema = z.object({
   content: z.string().min(1, "请输入评论内容").max(500, "评论最多500个字符"),
 });
 
+export const archiveSchema = z.object({
+  title: z.string().min(1, "请输入标题").max(200, "标题最多200个字符"),
+  summary: z.string().max(500, "摘要最多500个字符").default(""),
+  abstract: z.string().max(5000, "正文最多5000个字符").default(""),
+  points: z.array(z.string()).max(20, "最多20个要点").default([]),
+  keywords: z.array(z.string()).max(20, "最多20个关键词").default([]),
+  sourceName: z.string().max(100, "来源名称最多100个字符").default(""),
+  sourceUrl: z.string().max(500, "来源链接最多500个字符").default(""),
+  sourceDate: z.string().max(20, "来源日期格式错误").default(""),
+  attachmentUrl: z.string().max(500, "附件链接最多500个字符").default(""),
+  attachmentType: z.enum(["", "pdf", "word"]).default(""),
+  originalFileName: z.string().max(200, "文件名最多200个字符").default(""),
+  rawText: z.string().max(50000, "原文最多50000个字符").default(""),
+  status: z.enum(["draft", "published", "hidden"]).default("published"),
+});
+
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type WorkInput = z.infer<typeof workSchema>;
 export type ProfileInput = z.infer<typeof profileSchema>;
 export type CommentInput = z.infer<typeof commentSchema>;
+export type ArchiveInput = z.infer<typeof archiveSchema>;

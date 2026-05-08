@@ -55,6 +55,12 @@ export function SearchBar({
   return (
     <div
       ref={containerRef}
+      onClick={() => {
+        if (!expanded && !hasValue) {
+          setExpanded(true);
+          setTimeout(() => inputRef.current?.focus(), 100);
+        }
+      }}
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => {
         if (!isFocused && !local) setExpanded(false);
@@ -62,7 +68,7 @@ export function SearchBar({
       className={`group relative flex items-center transition-all duration-500 ease-out ${
         expanded || hasValue
           ? "w-full md:w-[280px] lg:w-[340px]"
-          : "w-9 md:w-9"
+          : "w-16 cursor-pointer"
       }`}
     >
       {/* Input */}
