@@ -199,16 +199,16 @@ export default function AdminArchivesPage() {
         </div>
       </ScrollReveal>
 
-      {/* Form Modal — restructured: max-h card with internal scroll */}
+      {/* Form Modal — single container, no pointer-events tricks */}
       {showForm && (
-        <>
-          {/* Separate backdrop so it never interferes with card layout */}
-          <div className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm" onClick={() => { setShowForm(false); resetForm(); }} />
+        <div className="fixed inset-0 z-50">
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => { setShowForm(false); resetForm(); }} />
 
-          {/* Centered modal container — pointer-events-none so backdrop catches outside clicks */}
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none sm:p-6">
+          {/* Modal card — centered */}
+          <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-6">
             <div
-              className="pointer-events-auto flex w-full max-w-2xl flex-col rounded-xl border border-border bg-card shadow-2xl max-h-[90vh] overflow-hidden"
+              className="flex w-full max-w-2xl flex-col rounded-xl border border-border bg-card shadow-2xl max-h-[90vh] overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Fixed header */}
@@ -366,7 +366,7 @@ export default function AdminArchivesPage() {
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
 
       {/* Archive List */}
